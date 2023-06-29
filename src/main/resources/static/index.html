@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-    <h1>Welcom! WanderHub!</h1>
-    <h2>Welcom! WanderHub!</h2>
+<h1>Welcom! WanderHub!!</h1>
+<h2>Welcom! WanderHub!!</h2>
+<a href="/oauth2/authorization/google">Google로 로그인!!</a>
+<a th:href="@{https://kauth.kakao.com/oauth/authorize(client_id=${client_id}, redirect_uri=${redirect_uri},response_type=code)}">kakao로 로그인</a>
+<a href="/oauth2/authorization/kakao">카카오 로그인ㅇㅇ</a>
 </body>
 </html>

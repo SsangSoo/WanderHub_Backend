@@ -1,11 +1,15 @@
-package wanderhub.server.global.uils;
+package wanderhub.server.global.utils;
 
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
 
+@Component
 public class CustomBeanUtils<T> {
 
     public T copyNonNullProoerties(T source, T destination) { // source 원래 DB에 저장되있던 정보, destination이 Controller로부터 받아온 정보
@@ -27,6 +31,7 @@ public class CustomBeanUtils<T> {
                 dest.setPropertyValue(property.getName(), sourceProperty);      // dest객체의 해당필드에 src로부터 얻어온 property값을 할당한다.
             }
         }
+
         return destination;
     }
 }

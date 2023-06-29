@@ -1,0 +1,64 @@
+spring:
+  h2:
+    console:
+      enabled: true           # 콘솔 활성화 여부
+      path: /h2               # 콘솔을 사용할 수 있는 경로
+  datasource:
+    url: jdbc:h2:~/whlocal     # 데이터베이스의 JDBC URL
+    username: sa
+  jpa:
+    hibernate:                # jpa의 구현체로 hibernate 사용
+      ddl-auto: create        # DDL 모드.
+    show-sql: true            # SQL문 logging 활성화 여부.
+    properties:               # JPA 공급자에 설정할 추가 기본 속성입니다.
+      hibernate:              # jpa 내부의 Hibernate의 추가적인 속성 설정
+        format_sql: true      # 로그 및 콘솔에서 SQL을 예쁘게 인쇄합니다. (기본값 false)
+  sql:
+    init:
+      data-locations: classpath*:db/h2/data.sql # 데이터베이스에 적용할 데이터(DML) 스크립트의 위치입니다.
+  security:
+    oauth2:
+      client:
+        registration: # OAuth2 클라이언트 정보 등록.  # https://docs.spring.io/spring-security/reference/servlet/oauth2/client/core.html#oauth2Client-client-registration 확인 가능
+          google:
+            clientId: ${G_CLIENT_ID}         # 구글 클라이언트 ID
+            clientSecret: ${G_CLIENT_SECRET} # 구글 시크릿 키
+            scope:
+              - email
+              - profile
+            redirect-uri: "http://localhost:8080/login/oauth2/code/google"
+          kakao: # 카카오는 스프링이 지원하는 서비스가 아니기 때문에, 보다 자세한 정보로 설정해줘야 한다. # https://docs.spring.io/spring-security/reference/servlet/oauth2/login/core.html 여기서 확인 가능
+            clientId: ${K_CLIENT_ID}          # 카카오 클라이언트 ID
+            client-secret: ${K_CLIENT_SECRET}   # 카카오 시크릿 키
+            redirect-uri: "http://localhost:8080/login/oauth2/code/kakao" # 카카오에서 설정한 Redirect-uri # 인가 서버가 Backend 애플리케이션 쪽으로 인가코드를 전송할 Redirect URI
+            authorization-grant-type: authorization_code  # 권한부여의 타입을 인가코드로 설정
+            client-authentication-method: client_secret_post            # 제공자와 클라이언트를 인증하는 데 사용되는 방법 : HTTP Post방식 (ID와 시크릿을 POST 요청의 본문에 사용)
+            client-name: Kakao                            # 클라이언트에 사용되는 설명 이름
+            scope: # 클라이언트가 요청하는 범위
+              - account_email                               # 이메일
+              - profile_nickname                            # 닉네임
+        provider: # OAuth 공급자 세부 정보.
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize  # 권한 부여 서버에 대한 권한 부여 endPoint URI
+            token-uri: https://kauth.kakao.com/oauth/token              # 권한 부여 서버의 토큰 endPoint URI # 카카오에서 토큰 갱신
+            user-info-uri: https://kapi.kakao.com/v2/user/me            # 인증된 사용자의 정보에 접근하는데 사용되는 user정보 endPoint URI # 카카오에서 사용자 정보 가져오기
+            user-name-attribute: id                                     # 인증된 사용자의 이름 또는 식별자를 참조하는 유저정보 응답에 반환된 속성의 이름 # 카카오에서 회원번호를 반환
+
+logging:
+  level:
+    org:
+      springframework:
+        orm:
+          jpa: DEBUG
+
+admin:
+  email: ${ADMIN_EMAIL}
+
+
+jwt:
+  key:
+    secret: ${JWT_SECRET_KEY}
+  access-token-expiration-minutes: 30
+  refresh-token-expiration-minutes: 1440
+
+type: local

@@ -4,7 +4,7 @@ version: 0.0
 os: linux
 files:
   - source:  /
-    destination: /home/ubuntu/wanderHub-back  # 배포가 진행 되는 디렉터리
+    destination: /home/ubuntu/backwhserver  # 배포가 진행 되는 디렉터리 / 깃허브 레포의 zip파일이 압축해제 되는 곳 /여기서 빌드 진행됨.
     overwrite: yes
 
 permissions:
@@ -18,3 +18,4 @@ hooks:
     - location: scripts/deploy.sh     # /scripts/deploy.sh 가 실행됨 :: '.sh'는 쉘 스크립트 확장자
       timeout: 60
       runas: ubuntu
+      overwrite: yes

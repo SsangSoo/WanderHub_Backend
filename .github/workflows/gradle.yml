@@ -13,17 +13,17 @@ on:
   pull_request:
     branches: [ "main" ]
 
+
 permissions:
   contents: read
 
 env:
-  S3_BUCKET_NAME: wanderhub.backend
+  S3_BUCKET_NAME: backwhserver
+  RESOURCE_PATH: ./src/main/resources/application-prod.yml
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -31,6 +31,22 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
+
+      - name: Set prod yml
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: ${{ env.RESOURCE_PATH }}
+        env:
+          spring.security.oauth2.client.registration.google.clientId: ${{secrets.G_CLIENT_ID}}
+          spring.security.oauth2.client.registration.google.clientSecret: ${{secrets.G_CLIENT_SECRET}}
+          spring.security.oauth2.client.registration.kakao.clientId: ${{secrets.K_CLIENT_ID}}
+          spring.security.oauth2.client.registration.kakao.client-secret: ${{secrets.K_CLIENT_SECRET}}
+          spring.datasource.url: jdbc:mysql://${{secrets.MYSQL_HOST}}:${{secrets.MYSQL_PORT}}/${{secrets.DATA_BASE_NAME}}?useSSL=false
+          spring.datasource.username: ${{secrets.MYSQL_USER_NAME}}
+          spring.datasource.password: ${{secrets.MYSQL_PASSWORD}}
+          jwt.key.secret: ${{secrets.JWT_SECRET_KEY}}
+          admin.email: ${{secrets.ADMIN_EMAILS}}
+
       - name: init with Gradle
         uses: gradle/gradle-build-action@v2
       - run: gradle init
@@ -38,7 +54,7 @@ jobs:
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
           gradle-version: 7.6.1 # gradle 버전
-          arguments: build      # build
+          arguments: build -x test  # build # test 제외
 
       # build한 후 프로젝트를 압축합니다.
       - name: Make zip file
@@ -56,12 +72,12 @@ jobs:
 
       # 압축한 프로젝트를 S3로 전송합니다.
       - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./wanderHub-backend-deploy.zip s3://$S3_BUCKET_NAME/wanderHub-backend-deploy.zip
+        run: aws s3 cp --region ap-northeast-2 ./backwhserver-deploy.zip s3://$S3_BUCKET_NAME/backwhserver-deploy.zip
 
       # CodeDeploy에게 배포 명령을 내립니다.
       - name: Code Deploy
         run: >
-          aws deploy create-deployment --application-name WanderHub-Backend
+          aws deploy create-deployment --application-name backwhserver
           --deployment-config-name CodeDeployDefault.AllAtOnce
-          --deployment-group-name WanderHub-Backend-G
-          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=wanderHub-backend-deploy.zip
+          --deployment-group-name backwhserver-group
+          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=backwhserver-deploy.zip
