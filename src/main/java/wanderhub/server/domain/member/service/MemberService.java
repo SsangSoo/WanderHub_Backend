@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wanderhub.server.auth.utils.CustomAuthorityUtils;
+import wanderhub.server.domain.accompany_member.entity.AccompanyMember;
 import wanderhub.server.domain.member.entity.Member;
 import wanderhub.server.domain.member.entity.MemberStatus;
 import wanderhub.server.domain.member.repository.MemberRepository;
@@ -11,6 +12,7 @@ import wanderhub.server.global.exception.CustomLogicException;
 import wanderhub.server.global.exception.ExceptionCode;
 import wanderhub.server.global.utils.CustomBeanUtils;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -71,7 +73,6 @@ public class MemberService {
 
     // 멤버조회
     public Member getMember(String email) {
-        verificationMemberByEmail(email);
         return findMember(email);// 멤버있는지 확인
     }
 
@@ -126,4 +127,7 @@ public class MemberService {
     }
 
 
+    public List<AccompanyMember> queryMember(String email) {
+        return memberRepository.accompanyMemberByEquMemberId(findMember(email));
+    }
 }

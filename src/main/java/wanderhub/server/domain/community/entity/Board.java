@@ -47,7 +47,7 @@ public class Board extends Auditable {
 //////
 
 
-    @ManyToOne        // EAGER 기본값 N+1이 보고싶다..
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     @Setter
     private Member member;

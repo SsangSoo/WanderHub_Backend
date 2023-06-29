@@ -69,10 +69,10 @@ public class AccompanyMemberService {
                 return;
             }
         }
-
         //들어가있던 사람 아니면 예외처리
         throw new CustomLogicException(ExceptionCode.ACCOMPANY_JOIN_NOT_A_MEMBER);
     }
+
 
 
 }

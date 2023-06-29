@@ -63,12 +63,12 @@ public class MemberDto {
         private String local;
         private MemberStatus memberStatus;
         private boolean newbie;
-        @Setter   // 동행 완료시
-        private List<AccompanyMemberResponseDto> accompanyMembers;
-        @Setter
-        private List<BoardDto.Response> boardList;
-        @Setter
-        private List<BoCommentDto.Response> boCommentList;
+//        @Setter  // 내가 참여한 동행
+//        private List<AccompanyMemberResponseDto> accompanyMembers;
+//        @Setter
+//        private List<BoardDto.Response> boardList;
+//        @Setter
+//        private List<BoCommentDto.Response> boCommentList;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
     }

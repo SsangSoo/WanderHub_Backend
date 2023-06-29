@@ -1,4 +1,4 @@
-package wanderhub.server.auth.config;
+package wanderhub.server.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

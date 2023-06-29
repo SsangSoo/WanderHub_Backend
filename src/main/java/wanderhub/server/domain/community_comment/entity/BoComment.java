@@ -26,12 +26,12 @@ public class BoComment extends Auditable {
     @Setter
     private String nickName;
 
-    @ManyToOne   // EAGER 기본값
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     @Setter
     private Member member;
 
-    @ManyToOne  // EAGER 기본값
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BOARD_ID")
     @Setter
     private Board board;

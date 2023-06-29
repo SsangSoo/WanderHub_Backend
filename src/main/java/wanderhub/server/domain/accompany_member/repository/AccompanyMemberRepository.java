@@ -1,6 +1,7 @@
 package wanderhub.server.domain.accompany_member.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import wanderhub.server.domain.accompany.entity.Accompany;
 import wanderhub.server.domain.accompany_member.entity.AccompanyMember;

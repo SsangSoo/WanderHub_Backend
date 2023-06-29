@@ -69,15 +69,15 @@ public interface MemberMapper {
                     .createdAt(member.getCreatedAt())
                     .modifiedAt(member.getModifiedAt())
                     .build();
-            if (member.getBoardList() != null) {
-                response.setBoardList(boardMapper.boardsToBoardDtoResponseList(member.getBoardList()));
-            }
-            if (member.getBoCommentList() != null) {
-                response.setBoCommentList(boardCommentMapper.boCommentsToBoCommentDtoResponseList(member.getBoCommentList()));
-            }
-            if (member.getAccompanyMembers() != null) {
-                response.setAccompanyMembers(accompanyMemberMapper.accompanyMemberToAccompanyMemberDtoResponseList(member.getAccompanyMembers()));
-            }
+//            if (member.getBoardList() != null) {
+//                response.setBoardList(boardMapper.boardsToBoardDtoResponseList(member.getBoardList()));
+//            }
+//            if (member.getBoCommentList() != null) {
+//                response.setBoCommentList(boardCommentMapper.boCommentsToBoCommentDtoResponseList(member.getBoCommentList()));
+//            }
+//            if (member.getAccompanyMembers() != null) {
+//                response.setAccompanyMembers(accompanyMemberMapper.accompanyMemberToAccompanyMemberDtoResponseList(member.getAccompanyMembers()));
+//            }
             return response;
 
 

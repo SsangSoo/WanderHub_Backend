@@ -14,8 +14,8 @@ public class AccompanyMemberResponseDto {
     private Long id;
     private Long accompanyId;
     private Long memberId;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
+    private LocalDateTime createdAt;    // Entity에 extends 안 해서 null로 나옴.
+    private LocalDateTime modifiedAt;   // Entity에 extends 안 해서 null로 나옴.
 
 
 }

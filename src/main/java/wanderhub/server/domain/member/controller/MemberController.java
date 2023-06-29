@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import wanderhub.server.domain.accompany_member.entity.AccompanyMember;
+import wanderhub.server.domain.accompany_member.mapper.AccompanyMemberMapper;
 import wanderhub.server.domain.member.dto.MemberDto;
 import wanderhub.server.domain.member.entity.Member;
 import wanderhub.server.domain.member.mapper.MemberMapper;
@@ -12,6 +14,7 @@ import wanderhub.server.global.response.MessageResponseDto;
 import wanderhub.server.global.response.SingleResponse;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/members")
@@ -20,10 +23,12 @@ public class MemberController {
 
     private final MemberService memberService;
     private final MemberMapper mapper;
+    private final AccompanyMemberMapper accompanyMemberMapper;
 
-    public MemberController(MemberService memberService, MemberMapper mapper) {
+    public MemberController(MemberService memberService, MemberMapper mapper, AccompanyMemberMapper accompanyMemberMapper) {
         this.memberService = memberService;
         this.mapper = mapper;
+        this.accompanyMemberMapper = accompanyMemberMapper;
     }
 
     // 회원 정보 수정
@@ -36,6 +41,10 @@ public class MemberController {
     }
 
     // 멤버조회
+    // 내가 작성한 게시글
+    // 내가 작성한 댓글
+    // 내가 작성한 동행
+    // 내가 참여한 동행
     @GetMapping
     public ResponseEntity getMember(Principal principal) {
         Member member = memberService.getMember(principal.getName());
@@ -51,4 +60,11 @@ public class MemberController {
     }
 
     // logOut
+
+    // 임시
+//    @GetMapping("/query")
+//    public ResponseEntity queryMember(Principal principal) {
+//        List<AccompanyMember> accompanyMembers = memberService.queryMember(principal.getName());
+//        return new ResponseEntity(new SingleResponse<>(accompanyMemberMapper.accompanyMemberToAccompanyMemberDtoResponseList(accompanyMembers)), HttpStatus.OK);
+//    }
 }

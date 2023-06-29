@@ -48,7 +48,7 @@ public class Member extends Auditable {
     private Local local;
 
     @Setter
-    @ElementCollection(fetch = FetchType.EAGER) // N + 1 일부터 마주치기 위해서 EAGER // 권한은 값이 하나 이상일 수 있기에 사용.
+    @ElementCollection
     private List<String> roles = new ArrayList<>();
 
     @Setter
