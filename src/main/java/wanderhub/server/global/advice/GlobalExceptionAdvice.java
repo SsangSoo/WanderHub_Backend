@@ -10,7 +10,6 @@ import wanderhub.server.global.response.ErrorResponse;
 @RestControllerAdvice
 public class GlobalExceptionAdvice {
 
-
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleCustomException(CustomLogicException e) {
         return new ResponseEntity<>(ErrorResponse.of(e), HttpStatus.valueOf(e.getExceptionCode().getStatus()));

@@ -68,7 +68,6 @@ public class JwtVerificationFilter extends OncePerRequestFilter { // request당 
 
     // Authentication 객체를 SecurityContext에 저장하기 위한 메서드
     // 이 메서드가 있기 때문에, 컨트롤러의 매개변수로 Principal을 받을 수 있나..?
-    @SuppressWarnings("unchecked")
     private void setAuthenticationToContext(Map<String, Object> claims) {
         String username = (String) claims.get("username");  // JWT에서 파싱한 Claims에서 'username'을 얻는다.
         List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List) claims.get("roles"));  // JWT의 Claims에서 얻은 권한 정보를 기반으로 권한리스트를 얻는다.

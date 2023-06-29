@@ -121,21 +121,10 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
                    .toUri();
        }
 
-//        return UriComponentsBuilder
-//                .newInstance()
-//                .scheme("http")
-//                .host("localhost")
-//                .port(3000)    // 확인하기.
-//                .path("/ouath/redirect")
-//                .queryParams(queryParams)
-//                .build()
-//                .toUri();
-//    }
-
 //       return UriComponentsBuilder
 //               .newInstance()
 //               .scheme("https")
-//               .host("backwander.kro.kr")
+//               .host("whback.kro.kr")
 //               .port(443)
 //               .path("/receive-token")
 //               .queryParams(queryParams)
