@@ -33,11 +33,9 @@ public class Accompany extends Auditable {
     @Column(name="NICKNAME", nullable=false, length = 50)
     private String nickname;
 
-    @Column(name="LOCAL", nullable=false, length = 16)
-    private String accompanyLocal;
 //    @Enumerated(value = EnumType.STRING)
-//    @Column(name="LOCAL")
-//    private Local accompanyLocal;
+    @Column(name="LOCAL", length = 16)
+    private String accompanyLocal;
 
     @Setter
     @Column(name="ACCOMPANY_DATE", nullable=false)

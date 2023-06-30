@@ -32,13 +32,6 @@ public class BoCommentController {
                                                @PathVariable("community-id")Long communityId,
                                                @Validated @RequestBody BoCommentDto.WriteDto post) {
         BoComment boComment = mapper.boCommentWriteDtoToBoComment(post);    // Dto로부터 엔티티를 만들고,
-        log.info("communityId = {}", communityId);
-        log.info("communityId = {}", communityId);
-        log.info("post = {}", post.getContent());
-        log.info("post = {}", post.getContent());
-        log.info("post = {}", post.getContent());
-        log.info("principal = {}", principal.getName());
-        log.info("principal = {}", principal.getName());
         BoComment createdComment = boCommentService.createComment(communityId, boComment, principal.getName()); // 서비스계층에서 엔티티를 만든 후,
         BoCommentDto.Response response = mapper.boCommentToBoCommentDtoResponse(createdComment);    // resposne 객체로 만들어서
         return new ResponseEntity(new SingleResponse<>(response), HttpStatus.CREATED);      // 응답

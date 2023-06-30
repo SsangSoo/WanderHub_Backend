@@ -20,21 +20,21 @@ public class Board extends Auditable {
     @Column(name = "BOARD_ID")
     private Long boardId;
 
-    @Column(name = "NICKNAME", length = 50)
+    @Column(name = "NICKNAME", length = 50, nullable = false)
     @Setter
     private String nickName;    // 작성자
 
-    @Column(name = "TITLE", length = 100)
+    @Column(name = "TITLE", length = 100, nullable = false)
     @Setter
     private String title;
 
     @Lob
-    @Column(name = "CONTENT")
+    @Column(name = "CONTENT", nullable = false)
     @Setter
     private String content;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "LOCAL")
+    @Column(name = "LOCAL", length = 16)
     @Setter
     private Local local;
 
