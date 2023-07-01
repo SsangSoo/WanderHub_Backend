@@ -1,9 +1,6 @@
 package wanderhub.server.domain.member.mapper;
 
 import org.mapstruct.Mapper;
-import wanderhub.server.domain.accompany_member.dto.AccompanyMemberResponseDto;
-import wanderhub.server.domain.accompany_member.mapper.AccompanyMemberMapper;
-import wanderhub.server.domain.accompany_member.mapper.AccompanyMemberMapperImpl;
 import wanderhub.server.domain.community.mapper.BoardMapper;
 import wanderhub.server.domain.community.mapper.BoardMapperImpl;
 import wanderhub.server.domain.community_comment.mapper.BoardCommentMapper;
@@ -17,9 +14,8 @@ public interface MemberMapper {
 
     BoardMapper boardMapper = new BoardMapperImpl();
     BoardCommentMapper boardCommentMapper = new BoardCommentMapperImpl();
-    AccompanyMemberMapper accompanyMemberMapper = new AccompanyMemberMapperImpl();
 
-    default Member memberDtoPatchToMember(MemberDto.Patch memberDtoPatch) {
+    default Member memberPatchDtoToMemberEntity(MemberDto.Patch memberDtoPatch) {
         if (memberDtoPatch == null) {
             return null;
         } else {
@@ -34,7 +30,7 @@ public interface MemberMapper {
     }
 
     // 멤버 수정시 나오는 응답들.
-    default MemberDto.Response memberToMemberResponse(Member member) {
+    default MemberDto.Response memberEntityToMemberResponseDto(Member member) {
         if (member == null) {
             return null;
         } else {
@@ -54,7 +50,7 @@ public interface MemberMapper {
 
 
     // 멤버 단일조회 마이페이지용
-    default MemberDto.GetResponse getMemberToMemberResponse(Member member) {
+    default MemberDto.GetResponse getMemberEntityToMemberResponseDto(Member member) {
         if (member == null) {
             return null;
         } else {
@@ -74,9 +70,6 @@ public interface MemberMapper {
 //            }
 //            if (member.getBoCommentList() != null) {
 //                response.setBoCommentList(boardCommentMapper.boCommentsToBoCommentDtoResponseList(member.getBoCommentList()));
-//            }
-//            if (member.getAccompanyMembers() != null) {
-//                response.setAccompanyMembers(accompanyMemberMapper.accompanyMemberToAccompanyMemberDtoResponseList(member.getAccompanyMembers()));
 //            }
             return response;
 

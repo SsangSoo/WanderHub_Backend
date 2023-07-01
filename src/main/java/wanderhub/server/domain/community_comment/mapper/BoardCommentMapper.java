@@ -9,9 +9,9 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface BoardCommentMapper {
 
-    BoComment boCommentWriteDtoToBoComment(BoCommentDto.WriteDto writeDto);
+    BoComment boCommentPostAndPatchDtoToBoCommentEntity(BoCommentDto.PostAndPatch postDto);
 
-    default BoCommentDto.Response boCommentToBoCommentDtoResponse(BoComment boComment) {
+    default BoCommentDto.Response boCommentEntityToBoCommentResponseDto(BoComment boComment) {
         if(boComment==null) {
             return null;
         } else {
@@ -26,6 +26,6 @@ public interface BoardCommentMapper {
         }
     }
 
-    List<BoCommentDto.Response> boCommentsToBoCommentDtoResponseList(List<BoComment> boComments);   // 댓글들을 리스트로 담아서 응답객체로 주기 위해.
+    List<BoCommentDto.Response> boCommentEntityListToBoCommentResponseDtoList(List<BoComment> boComments);   // 댓글들을 리스트로 담아서 응답객체로 주기 위해.
 }
 

@@ -15,7 +15,7 @@ public interface BoardMapper {
 
     BoardCommentMapper boCommentMapper = new BoardCommentMapperImpl();
 
-    default Board boardPostDtoToBoard(BoardDto.Post post) {
+    default Board boardPostDtoToBoardEntity(BoardDto.Post post) {
         if(post==null) {
             return null;
         } else {
@@ -27,7 +27,7 @@ public interface BoardMapper {
         }
     }
 
-    default Board boardPatchDtoToBoard(BoardDto.Patch patch) {
+    default Board boardPatchDtoToBoardEntity(BoardDto.Patch patch) {
         if(patch==null) {
             return null;
         } else {
@@ -39,7 +39,7 @@ public interface BoardMapper {
         }
     }
 
-    default BoardDto.Response boardToBoardResponseDto(Board board) {
+    default BoardDto.Response boardEntityToBoardResponseDto(Board board) {
         if(board == null) {
             return null;
         } else {
@@ -54,19 +54,19 @@ public interface BoardMapper {
                     .modifiedAt(board.getModifiedAt())
                     .build();
             if(board.getBoComments()!=null) {       // 댓글들 스트림 사용해서 Response로 변환 후 list에 담음
-                response.setBoComments(boCommentMapper.boCommentsToBoCommentDtoResponseList(board.getBoComments()));
+                response.setBoComments(boCommentMapper.boCommentEntityListToBoCommentResponseDtoList(board.getBoComments()));
             }
             return response;
         }
     }
 
-    default List<BoardDto.Response> boardsToBoardDtoResponseList(List<Board> boardList) {
+    default List<BoardDto.Response> boardEntityListToBoardResponseDtoList(List<Board> boardList) {
         if(boardList == null) {
             return null;
         } else {
             List<BoardDto.Response> list = new ArrayList<BoardDto.Response>(boardList.size());
             for(Board board : boardList) {
-                BoardDto.Response response = boardToBoardResponseDto(board);
+                BoardDto.Response response = boardEntityToBoardResponseDto(board);
                 response.setBoComments(null);
                 list.add(response);
             }

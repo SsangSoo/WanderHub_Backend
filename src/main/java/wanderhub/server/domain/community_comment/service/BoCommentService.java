@@ -32,19 +32,19 @@ public class BoCommentService {
     }
 
     // 게시판 댓글 작성
-    public BoComment createComment(Long boardId, BoComment boComment, String email) { // 게시판 Id, 매퍼로부터 생성된 BoComment, 사용자 이메일
+    public BoComment createComment(Long boardId, BoComment createdBoCommentFromPostDto, String email) { // 게시판 Id, 매퍼로부터 생성된 BoComment, 사용자 이메일
         // 이메일을 통해서 사용자의 닉네임이 있는지 없는지 확인한다. // 즉, 사용자 검증을 해준다.
         Member findMember = memberService.findMember(email);
         memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
         // 보드가 존재하는지 확인 후 setter를 통해서 넣어준다.
-        boComment.setBoard(boardService.verificationBoard(boardId));    // Board 확인
-        boComment.setNickName(findMember.getNickName());
-        boComment.setMember(findMember);
-        return boCommentRepository.save(boComment);
+        createdBoCommentFromPostDto.setBoard(boardService.verificationBoard(boardId));    // Board 확인
+        createdBoCommentFromPostDto.setNickName(findMember.getNickName());
+        createdBoCommentFromPostDto.setMember(findMember);
+        return boCommentRepository.save(createdBoCommentFromPostDto);
     }
 
     // 게시판 댓글 수정
-    public BoComment updateComment(Long boardId, Long boCommentId, BoComment boComment, String email) { // 게시판 Id, 댓글 Id, 매퍼로부터 생성된 BoComment, 사용자 이메일
+    public BoComment updateComment(Long boardId, Long boCommentId, BoComment patchBoCommentFromPatchDto, String email) { // 게시판 Id, 댓글 Id, 매퍼로부터 생성된 BoComment, 사용자 이메일
         // 이메일을 통해서 사용자의 닉네임이 있는지 없는지 확인한다. // 즉, 사용자 검증을 해준다.
         Member findMember = memberService.findMember(email);
         memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
@@ -52,7 +52,7 @@ public class BoCommentService {
         // 댓글 확인
         BoComment findBoComment = verificationBoComment(boCommentId);   // Id로 댓글을 조회한다.
         verficationBoCommentWriter(findBoComment, findMember);          // 댓글과 멤버로 작성자 검증 통과시 수정 가능
-        return customBeanUtils.copyNonNullProoerties(boComment, findBoComment); // 매퍼로부터 받은 댓글 수정정보 -> 이미 있던 댓글
+        return customBeanUtils.copyNonNullProoerties(patchBoCommentFromPatchDto, findBoComment); // 매퍼로부터 받은 댓글 수정정보 -> 이미 있던 댓글
     }
 
     // 게시판 댓글 삭제

@@ -35,22 +35,20 @@ public class BoardController {
     // 게시판 작성
     @PostMapping
     public ResponseEntity boardPost(Principal principal, @Validated @RequestBody BoardDto.Post post) {
-        // mapper로 Entity
-        Board postBoard = boardMapper.boardPostDtoToBoard(post);
+        Board createBoardFromPostDto = boardMapper.boardPostDtoToBoardEntity(post);     // Dto로부터 생성된 객체
         String email = principal.getName();
-        Board createdBoard = boardService.createBoard(postBoard, email);
-        BoardDto.Response response = boardMapper.boardToBoardResponseDto(createdBoard);
+        Board createdBoard = boardService.createBoard(createBoardFromPostDto, email);   // 서비스계층에서 Entity 생성
+        BoardDto.Response response = boardMapper.boardEntityToBoardResponseDto(createdBoard);   // Response로
         return new ResponseEntity(new SingleResponse<>(response), HttpStatus.CREATED);
     }
 
     // 게시판 수정
     @PatchMapping("/{board-id}")
     public ResponseEntity boardPatch(@PathVariable("board-id")Long boardId, Principal principal, @Validated @RequestBody BoardDto.Patch patch) {
-        // mapper로 Entity화
-        Board patchBoard = boardMapper.boardPatchDtoToBoard(patch);
-        String email = principal.getName();
-        Board updatedBoard = boardService.updateBoard(boardId, patchBoard, email);
-        return ResponseEntity.ok(boardMapper.boardToBoardResponseDto(updatedBoard));
+        Board patchBoardFromPatchDto = boardMapper.boardPatchDtoToBoardEntity(patch);           // Dto로부터 생성된 객체
+        String email = principal.getName();                                                     // email을 찾는다.
+        Board updatedBoard = boardService.updateBoard(boardId, patchBoardFromPatchDto, email);  // response로
+        return ResponseEntity.ok(boardMapper.boardEntityToBoardResponseDto(updatedBoard));
     }
 
     // 게시판 삭제
@@ -63,8 +61,8 @@ public class BoardController {
     // 게시판 단일 조회
     @GetMapping("/{board-id}")
     public ResponseEntity getBoard(@PathVariable("board-id")Long boardId) {
-        Board board = boardService.getBoard(boardId);
-        BoardDto.Response response = boardMapper.boardToBoardResponseDto(board);
+        Board getBoardEntity = boardService.getBoard(boardId);
+        BoardDto.Response response = boardMapper.boardEntityToBoardResponseDto(getBoardEntity);
         return new ResponseEntity(new SingleResponse<>(response), HttpStatus.OK);
     }
 
@@ -72,10 +70,10 @@ public class BoardController {
     //  게시판 전체 조회
     @GetMapping
     public ResponseEntity getBoards(@PageableDefault Pageable pageable){
-        Page<Board> boards = boardService.findBorrows(pageable);
+        Page<Board> boardEntityListPage = boardService.findBorrows(pageable);
         return  new ResponseEntity<>(
-                new PageResponseDto<>(boardMapper.boardsToBoardDtoResponseList(boards.getContent()),
-                        new PageInfo(boards.getPageable(), boards.getTotalElements())), HttpStatus.OK);
+                new PageResponseDto<>(boardMapper.boardEntityListToBoardResponseDtoList(boardEntityListPage.getContent()),
+                        new PageInfo(boardEntityListPage.getPageable(), boardEntityListPage.getTotalElements())), HttpStatus.OK);
     }
 
 }

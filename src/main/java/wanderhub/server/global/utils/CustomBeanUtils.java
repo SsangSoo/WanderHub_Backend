@@ -12,7 +12,7 @@ import java.util.Collection;
 @Component
 public class CustomBeanUtils<T> {
 
-    public T copyNonNullProoerties(T source, T destination) { // source 원래 DB에 저장되있던 정보, destination이 Controller로부터 받아온 정보
+    public T copyNonNullProoerties(T source, T destination) { // source정보가 destination으로 업데이트된다.
         // 예외가 발생하는 조건
         // source와 destination이 하나라도 null이거나 / 클래스 타입이 다르면 예외
         if(source == null || destination == null || source.getClass() != destination.getClass()) {

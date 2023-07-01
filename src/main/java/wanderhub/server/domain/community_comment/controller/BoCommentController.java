@@ -18,11 +18,11 @@ import java.security.Principal;
 @RequestMapping("/v1/community/comment")
 public class BoCommentController {
 
-    private final BoardCommentMapper mapper;
+    private final BoardCommentMapper boardCommentMapper;
     private final BoCommentService boCommentService;
 
-    public BoCommentController(BoardCommentMapper mapper, BoCommentService boCommentService) {
-        this.mapper = mapper;
+    public BoCommentController(BoardCommentMapper boardCommentMapper, BoCommentService boCommentService) {
+        this.boardCommentMapper = boardCommentMapper;
         this.boCommentService = boCommentService;
     }
 
@@ -30,10 +30,10 @@ public class BoCommentController {
     @PostMapping("/{community-id}")
     public ResponseEntity postCommunityComment(Principal principal,
                                                @PathVariable("community-id")Long communityId,
-                                               @Validated @RequestBody BoCommentDto.WriteDto post) {
-        BoComment boComment = mapper.boCommentWriteDtoToBoComment(post);    // Dto로부터 엔티티를 만들고,
-        BoComment createdComment = boCommentService.createComment(communityId, boComment, principal.getName()); // 서비스계층에서 엔티티를 만든 후,
-        BoCommentDto.Response response = mapper.boCommentToBoCommentDtoResponse(createdComment);    // resposne 객체로 만들어서
+                                               @Validated @RequestBody BoCommentDto.PostAndPatch post) {
+        BoComment createdBoCommentFromPostDto = boardCommentMapper.boCommentPostAndPatchDtoToBoCommentEntity(post);    // postDto로부터 생성된 객체
+        BoComment createdBoComment = boCommentService.createComment(communityId, createdBoCommentFromPostDto, principal.getName()); // 서비스계층에서 엔티티로 생성
+        BoCommentDto.Response response = boardCommentMapper.boCommentEntityToBoCommentResponseDto(createdBoComment);    // resposne로
         return new ResponseEntity(new SingleResponse<>(response), HttpStatus.CREATED);      // 응답
     }
 
@@ -41,11 +41,11 @@ public class BoCommentController {
     @PatchMapping("/{community-id}/{comment-id}")
     public ResponseEntity patchCommunityComment(@PathVariable("community-id")Long communityId,
                                                 @PathVariable("comment-id")Long commentId,
-                                                @Validated @RequestBody BoCommentDto.WriteDto patch,
+                                                @Validated @RequestBody BoCommentDto.PostAndPatch patch,
                                                 Principal principal) {
-        BoComment boComment = mapper.boCommentWriteDtoToBoComment(patch);   // Dto로부터 엔티티를 만들고,
-        BoComment updatedComment = boCommentService.updateComment(communityId, commentId, boComment, principal.getName()); // 서비스 계층에서 엔티티를 update해준 후,
-        BoCommentDto.Response response = mapper.boCommentToBoCommentDtoResponse(updatedComment);    // response 객체로 만들어서
+        BoComment patchBoCommentFromPatchDto = boardCommentMapper.boCommentPostAndPatchDtoToBoCommentEntity(patch);   // patchDto로부터 생성된 객체
+        BoComment updatedComment = boCommentService.updateComment(communityId, commentId, patchBoCommentFromPatchDto, principal.getName()); // 서비스 계층에서 엔티티를 update
+        BoCommentDto.Response response = boardCommentMapper.boCommentEntityToBoCommentResponseDto(updatedComment);    // response로
         return ResponseEntity.ok(new SingleResponse<>(response));           // 응답
     }
 

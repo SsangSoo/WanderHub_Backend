@@ -16,7 +16,7 @@ public class BoCommentDto {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class WriteDto {
+    public static class PostAndPatch {
         @NotBlank
         @Lob
         private String content;
