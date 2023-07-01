@@ -47,7 +47,8 @@ public class Accompany extends Auditable {
     @Column(name="TITLE", nullable=false, length = 100)
     private String accompanyTitle;
 
-    @Column(name="CONTENT", nullable=false, length = 500)
+    @Lob
+    @Column(name="CONTENT", nullable=false)
     private String accompanyContent;
 
     @Setter
