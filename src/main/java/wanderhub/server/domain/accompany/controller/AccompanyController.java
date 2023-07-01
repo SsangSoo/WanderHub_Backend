@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import wanderhub.server.domain.accompany.dto.AccompanyDto;
-import wanderhub.server.domain.accompany.dto.AccompanyResponseDto;
 import wanderhub.server.domain.accompany.entity.Accompany;
 import wanderhub.server.domain.accompany.mapper.AccompanyMapper;
 import wanderhub.server.domain.accompany.service.AccompanyService;
@@ -30,14 +29,15 @@ public class AccompanyController {
     private final AccompanyService accompanyService;
     private final AccompanyMemberService accompanyMemberService;
     private final MemberService memberService;
+    private final AccompanyMapper mapper;
 
     //생성
     @PostMapping
-    public ResponseEntity create(Principal principal, @Validated @RequestBody AccompanyDto accompanyDto) {
-        Accompany entityReq = AccompanyMapper.INSTANCE.toEntity(accompanyDto); //requestDto -> entity
-        entityReq.setAccompanyDate(LocalDate.parse(accompanyDto.getAccompanyDate())); //accompanyDate 형변환 (String->LocalDate)
+    public ResponseEntity create(Principal principal, @Validated @RequestBody AccompanyDto.Post postDto) {
+        Accompany entityReq = mapper.accompanyPostDtoToAccompanyEntity(postDto);
+        entityReq.setAccompanyDate(LocalDate.parse(postDto.getAccompanyDate())); //accompanyDate 형변환 (String->LocalDate)
         Accompany entityResp = accompanyService.createAccompany(entityReq, principal.getName()); //생성
-        AccompanyResponseDto dto = AccompanyMapper.INSTANCE.toDto(entityResp); //entity -> responseDto
+        AccompanyDto.Response dto = mapper.accompanyEntityToAccompanyResponseDto(entityResp);
         //AccompanyMember에 인원수 1명(만든 사람) 추가
         accompanyMemberService.createAccompanyMember(entityResp.getId(), memberService.findByEmail(principal.getName()).get().getId());
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
@@ -45,49 +45,49 @@ public class AccompanyController {
 
     //전체 조회 (경로 임시)
     @GetMapping
-    public ResponseEntity<List<AccompanyResponseDto>> findAll(@PageableDefault(sort = "id") Pageable pageable) {
+    public ResponseEntity findAll(@PageableDefault(sort = "id") Pageable pageable) {
         Page<Accompany> entityPage = accompanyService.findAll(pageable);
         List<Accompany> entityList = entityPage.getContent();
-        List<AccompanyResponseDto> dtoList = AccompanyMapper.INSTANCE.toDtoList(entityList);
+        List<AccompanyDto.Response> dtoList = mapper.accompanyListToAccompanyResponseDtoList(entityList);
 
         return ResponseEntity.ok(dtoList);
     }
 
     //accompanyId로 조회
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<AccompanyResponseDto>> findById(@PathVariable Long id) {
+    public ResponseEntity findById(@PathVariable Long id) {
         Accompany entity = accompanyService.findById(id).get();
-        AccompanyResponseDto dto = AccompanyMapper.INSTANCE.toDto(entity);
+        AccompanyDto.Response dto = mapper.accompanyEntityToAccompanyResponseDto(entity);
 
         return ResponseEntity.ok(Optional.of(dto));
     }
 
     //지역 별 조회
     @GetMapping("/bylocal")
-    public ResponseEntity<List<AccompanyResponseDto>> findByLocal(@RequestParam(value = "accompanyLocal") String local,
+    public ResponseEntity findByLocal(@RequestParam(value = "accompanyLocal") String local,
                                                                   @PageableDefault(sort = "id") Pageable pageable) {
-        List<Accompany> ent = accompanyService.findByLocal(local, pageable).getContent();
-        List<AccompanyResponseDto> dtoList = AccompanyMapper.INSTANCE.toDtoList(ent);
+        List<Accompany> accompanyList = accompanyService.findByLocal(local, pageable).getContent();
+        List<AccompanyDto.Response> responseDtoList = mapper.accompanyListToAccompanyResponseDtoList(accompanyList);
 
-        return ResponseEntity.ok(dtoList);
+        return ResponseEntity.ok(responseDtoList);
     }
 
     //일
     @GetMapping("/bydate")
-    public ResponseEntity<List<AccompanyResponseDto>> findByDate(@RequestParam(value = "accompanyDate") String date,
+    public ResponseEntity findByDate(@RequestParam(value = "accompanyDate") String date,
                                                                  @PageableDefault(sort = "id") Pageable pageable) {
-        List<Accompany> entityList = accompanyService.findByDate(date, pageable).getContent();
-        List<AccompanyResponseDto> dtoList = AccompanyMapper.INSTANCE.toDtoList(entityList);
-        return ResponseEntity.ok(dtoList);
+        List<Accompany> accompanyList = accompanyService.findByDate(date, pageable).getContent();
+        List<AccompanyDto.Response> responseDtoList = mapper.accompanyListToAccompanyResponseDtoList(accompanyList);
+        return ResponseEntity.ok(responseDtoList);
     }
 
     @GetMapping("/bylocalanddate")
-    public ResponseEntity<List<AccompanyResponseDto>> findByLocalAndDate(@RequestParam(value = "accompanyLocal") String local,
+    public ResponseEntity findByLocalAndDate(@RequestParam(value = "accompanyLocal") String local,
                                                                          @RequestParam(value = "accompanyDate") String date,
                                                                          @PageableDefault(sort = "id") Pageable pageable) {
-        List<Accompany> entityList = accompanyService.findByLocalAndDate(local, date, pageable).getContent();
-        List<AccompanyResponseDto> dtoList = AccompanyMapper.INSTANCE.toDtoList(entityList);
-        return ResponseEntity.ok(dtoList);
+        List<Accompany> accompanyList = accompanyService.findByLocalAndDate(local, date, pageable).getContent();
+        List<AccompanyDto.Response> responseDtoList = mapper.accompanyListToAccompanyResponseDtoList(accompanyList);
+        return ResponseEntity.ok(responseDtoList);
     }
 
     @DeleteMapping("/{id}")

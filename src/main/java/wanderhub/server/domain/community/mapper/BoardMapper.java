@@ -9,12 +9,10 @@ import wanderhub.server.global.utils.Local;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import wanderhub.server.global.utils.Local;
 
 @Mapper(componentModel = "spring")
 public interface BoardMapper {
-  
+
     BoardCommentMapper boCommentMapper = new BoardCommentMapperImpl();
 
     default Board boardPostDtoToBoard(BoardDto.Post post) {

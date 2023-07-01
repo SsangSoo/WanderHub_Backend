@@ -1,19 +1,10 @@
 package wanderhub.server.domain.member.dto;
 
 import lombok.*;
-import wanderhub.server.domain.accompany.dto.AccompanyDto;
-import wanderhub.server.domain.accompany.dto.AccompanyResponseDto;
-import wanderhub.server.domain.accompany_member.dto.AccompanyMemberResponseDto;
-import wanderhub.server.domain.accompany_member.entity.AccompanyMember;
-import wanderhub.server.domain.community.dto.BoardDto;
-import wanderhub.server.domain.community.entity.Board;
-import wanderhub.server.domain.community_comment.dto.BoCommentDto;
-import wanderhub.server.domain.community_comment.entity.BoComment;
 import wanderhub.server.domain.member.entity.MemberStatus;
 
 import javax.persistence.Lob;
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class MemberDto {
 

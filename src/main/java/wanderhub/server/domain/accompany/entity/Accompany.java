@@ -52,7 +52,7 @@ public class Accompany extends Auditable {
     private String accompanyContent;
 
     @Setter
-    @Column(name="STATUS", nullable=false, columnDefinition = "boolean default true")
+    @Column(name="STATUS", nullable=false)
     private boolean openStatus;
 
     @Column(name = "COORD_X")

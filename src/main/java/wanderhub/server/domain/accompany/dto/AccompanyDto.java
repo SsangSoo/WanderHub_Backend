@@ -7,12 +7,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
-@Builder
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class AccompanyDto {
 
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class Post {
         private String accompanyLocal;
         //    @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -28,7 +29,11 @@ public class AccompanyDto {
 
     }
 
-    public static class ResponseDto {
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Response {
         private Long id;
         private String nickname;
         private String accompanyLocal;
