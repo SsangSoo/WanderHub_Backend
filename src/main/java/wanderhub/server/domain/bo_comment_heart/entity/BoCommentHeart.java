@@ -1,6 +1,7 @@
 package wanderhub.server.domain.bo_comment_heart.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import wanderhub.server.domain.bo_comment.entity.BoComment;
@@ -27,4 +28,9 @@ public class BoCommentHeart extends Auditable {
     @JoinColumn(name = "BOCOMMENT_ID")
     private BoComment boComment;
 
+    @Builder
+    public BoCommentHeart(Member member, BoComment boComment) {
+        this.member = member;
+        this.boComment = boComment;
+    }
 }

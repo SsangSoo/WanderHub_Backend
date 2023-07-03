@@ -19,10 +19,10 @@ public class BoardHeartService {
         this.boardHeartRepository = boardHeartRepository;
     }
 
-    public void createBoardHeart(Member findMember, Board findBoard) {
+    public void createBoardHeart(Member member, Board board) {
         BoardHeart createdBoard = BoardHeart.builder()
-                .member(findMember)
-                .board(findBoard)
+                .member(member)
+                .board(board)
                 .build();
 
         boardHeartRepository.save(createdBoard);

@@ -3,8 +3,12 @@ package wanderhub.server.domain.bo_comment.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wanderhub.server.domain.bo_comment.repository.BoCommentRepository;
+import wanderhub.server.domain.bo_comment_heart.entity.BoCommentHeart;
+import wanderhub.server.domain.bo_comment_heart.service.BoCommentHeartService;
+import wanderhub.server.domain.board.entity.Board;
 import wanderhub.server.domain.board.service.BoardService;
 import wanderhub.server.domain.bo_comment.entity.BoComment;
+import wanderhub.server.domain.board_heart.entity.BoardHeart;
 import wanderhub.server.domain.member.entity.Member;
 import wanderhub.server.domain.member.service.MemberService;
 import wanderhub.server.global.exception.CustomLogicException;
@@ -21,12 +25,14 @@ public class BoCommentService {
     private final CustomBeanUtils<BoComment> customBeanUtils;
     private final BoCommentRepository boCommentRepository;
     private final BoardService boardService;
+    private final BoCommentHeartService boCommentHeartService;
 
-    public BoCommentService(MemberService memberService, CustomBeanUtils<BoComment> customBeanUtils, BoCommentRepository boCommentRepository, BoardService boardService) {
+    public BoCommentService(MemberService memberService, CustomBeanUtils<BoComment> customBeanUtils, BoCommentRepository boCommentRepository, BoardService boardService, BoCommentHeartService boCommentHeartService) {
         this.memberService = memberService;
         this.customBeanUtils = customBeanUtils;
         this.boCommentRepository = boCommentRepository;
         this.boardService = boardService;
+        this.boCommentHeartService = boCommentHeartService;
     }
 
     // 게시판 댓글 작성
@@ -65,6 +71,26 @@ public class BoCommentService {
         boCommentRepository.delete(findBoComment);
     }
 
+    // 게시판 댓글 좋아요
+    public BoComment likeBoCommnet(Long boardId, Long boCommentId, String email) {
+        // 이메일을 통해서 사용자의 닉네임이 있는지 없는지 확인한다. // 즉, 사용자 검증을 해준다.
+        Member findMember = memberService.findMember(email);
+        memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
+        boardService.verificationBoard(boardId);            // Board 확인
+        // 댓글 확인
+        BoComment findBoComment = verificationBoComment(boCommentId);   // Id로 댓글을 조회한다.
+        // BoCommentHeart를 찾아온다. // 식별자를 이용해서 Optional객체로 찾아옴.
+        Optional<BoCommentHeart> boCommentHeartByBoCommentAndMember = boCommentHeartService.findByBoCommentAndMember(boCommentId, email);
+        // 있으면 삭제
+        if(boCommentHeartByBoCommentAndMember.isPresent()) {
+            boCommentHeartService.removeBoCommentHeart(boCommentHeartByBoCommentAndMember.get());
+        } else {        // 없으면 생성
+            boCommentHeartService.createBoCommentHeart(findMember, findBoComment);
+        }
+        return findBoComment;
+    }
+
+    // =================== 아래부터 유효성 검증 ===================
 
     public BoComment verificationBoComment(Long boCommentId) {    // 댓글이 있는지 확인한다.
         Optional<BoComment> findBoComment = boCommentRepository.findById(boCommentId);
@@ -77,6 +103,7 @@ public class BoCommentService {
             throw new CustomLogicException(ExceptionCode.BOARD_COMMNET_WRITER_DIFFERENT);
         } // 맞으면 수정 가능.
     }
-    
-    
+
+
+
 }

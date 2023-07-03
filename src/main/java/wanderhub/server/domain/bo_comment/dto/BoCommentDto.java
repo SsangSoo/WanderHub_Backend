@@ -31,6 +31,7 @@ public class BoCommentDto {
         private Long boardId;
         private String nickName;
         private String content;
+        private long likePoint;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
     }

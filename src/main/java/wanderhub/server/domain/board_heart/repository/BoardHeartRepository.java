@@ -10,7 +10,8 @@ import java.util.Optional;
 @Repository
 public interface BoardHeartRepository extends JpaRepository<BoardHeart, Long> {
 
-    @Query("select bh from BoardHeart as bh where bh.board.boardId = :boardId and bh.member.email = :email")
+    @Query("select bh from BoardHeart as bh " +
+            "where bh.board.boardId = :boardId and bh.member.email = :email")
     Optional<BoardHeart> findByMemberAndBoard(Long boardId, String email);
 
 

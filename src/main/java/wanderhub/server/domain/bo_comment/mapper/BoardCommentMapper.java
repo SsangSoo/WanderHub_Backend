@@ -20,6 +20,7 @@ public interface BoardCommentMapper {
                     .boardId(boComment.getBoard().getBoardId())
                     .nickName(boComment.getNickName())
                     .content(boComment.getContent())
+                    .likePoint(boComment.getBoCommentHeartList().size())
                     .createdAt(boComment.getCreatedAt())
                     .modifiedAt(boComment.getModifiedAt())
                     .build();

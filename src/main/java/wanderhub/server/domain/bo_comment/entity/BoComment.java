@@ -1,11 +1,15 @@
 package wanderhub.server.domain.bo_comment.entity;
 
 import lombok.*;
+import wanderhub.server.domain.bo_comment_heart.entity.BoCommentHeart;
 import wanderhub.server.domain.board.entity.Board;
 import wanderhub.server.domain.member.entity.Member;
 import wanderhub.server.global.audit.Auditable;
 
 import javax.persistence.*;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -13,11 +17,12 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class BoComment extends Auditable {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BOCOMMENT_ID")
     private Long boCommentId;
 
-    @Column(name = "NICKNAME",length = 50, nullable = false, updatable = false)
+    @Column(name = "NICKNAME", length = 50, nullable = false, updatable = false)
     @Setter
     private String nickName;
 
@@ -25,6 +30,9 @@ public class BoComment extends Auditable {
     @Lob
     @Setter
     private String content;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "boComment", orphanRemoval = true)
+    private List<BoCommentHeart> boCommentHeartList = new ArrayList();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
