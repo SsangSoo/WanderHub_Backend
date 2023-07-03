@@ -1,10 +1,10 @@
 package wanderhub.server.domain.member.mapper;
 
 import org.mapstruct.Mapper;
-import wanderhub.server.domain.community.mapper.BoardMapper;
-import wanderhub.server.domain.community.mapper.BoardMapperImpl;
-import wanderhub.server.domain.community_comment.mapper.BoardCommentMapper;
-import wanderhub.server.domain.community_comment.mapper.BoardCommentMapperImpl;
+import wanderhub.server.domain.bo_comment.mapper.BoardCommentMapperImpl;
+import wanderhub.server.domain.board.mapper.BoardMapper;
+import wanderhub.server.domain.bo_comment.mapper.BoardCommentMapper;
+import wanderhub.server.domain.board.mapper.BoardMapperImpl;
 import wanderhub.server.domain.member.dto.MemberDto;
 import wanderhub.server.domain.member.entity.Member;
 import wanderhub.server.global.utils.Local;
@@ -41,7 +41,7 @@ public interface MemberMapper {
             response.imgUrl(member.getImgUrl());
             response.local(member.getLocal().getLocal());
             response.memberStatus(member.getMemberStatus());
-            response.newbie(member.getNewbie());
+            response.newbie(member.isNewbie());
             response.createdAt(member.getCreatedAt());
             response.modifiedAt(member.getModifiedAt());
             return response.build();
@@ -61,7 +61,7 @@ public interface MemberMapper {
                     .imgUrl(member.getImgUrl())
                     .local(member.getLocal().getLocal())
                     .memberStatus(member.getMemberStatus())
-                    .newbie(member.getNewbie())
+                    .newbie(member.isNewbie())
                     .createdAt(member.getCreatedAt())
                     .modifiedAt(member.getModifiedAt())
                     .build();

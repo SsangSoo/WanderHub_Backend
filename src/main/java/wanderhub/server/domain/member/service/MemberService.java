@@ -77,7 +77,7 @@ public class MemberService {
 
     // 닉네임 검증 메서드
     public void verificatioinNickName(Member existingMember, Member memberWithUpdateData) {
-        if(existingMember.getNewbie()) { // 뉴비라면,
+        if(existingMember.isNewbie()) { // 뉴비라면,
             verificationNewbie(memberWithUpdateData);   // 뉴비검증 닉네임 정보 없으면 예외
             // 뉴비검증 통과시 닉네임 변경될 것이기때문에,
             // 신규회원여부를 false로 변경하여 기존 멤버라고 한다.
@@ -109,7 +109,7 @@ public class MemberService {
 
     // 닉네임이 없거나 휴면상태인 회원이 서비스를 시작하려할 때, 검증 메서드
     public void verificationMember(Member withoutNickNameOrHumanMember) {
-        if(withoutNickNameOrHumanMember.getNewbie() && withoutNickNameOrHumanMember.getNickName()==null) {          // 닉네임이 없는 사람인지 검증
+        if(withoutNickNameOrHumanMember.isNewbie() && withoutNickNameOrHumanMember.getNickName()==null) {          // 닉네임이 없는 사람인지 검증
             throw new CustomLogicException(ExceptionCode.NICKNAME_REQUIRED);
         }
         verificationActiveMember(withoutNickNameOrHumanMember);   // 휴면상태 검증

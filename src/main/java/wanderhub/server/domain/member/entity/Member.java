@@ -5,8 +5,10 @@ import org.hibernate.annotations.ColumnDefault;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import wanderhub.server.domain.community.entity.Board;
-import wanderhub.server.domain.community_comment.entity.BoComment;
+import wanderhub.server.domain.bo_comment_heart.entity.BoCommentHeart;
+import wanderhub.server.domain.board.entity.Board;
+import wanderhub.server.domain.bo_comment.entity.BoComment;
+import wanderhub.server.domain.board_heart.entity.BoardHeart;
 import wanderhub.server.global.audit.Auditable;
 import wanderhub.server.global.utils.Local;
 
@@ -55,9 +57,9 @@ public class Member extends Auditable {
     private MemberStatus memberStatus;
 
     @Setter
-    @ColumnDefault("false")
+    @ColumnDefault("false")     // 기본값 false로 지정
     @Column(name = "NEWBIE")
-    private Boolean newbie;
+    private boolean newbie;     // boolean 기본값 false
 
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
@@ -65,6 +67,14 @@ public class Member extends Auditable {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<BoComment> boCommentList = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<BoardHeart> boardHeartList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<BoCommentHeart> boCommentHeartList = new ArrayList<>();
+
 
 
     public Member(String email, Boolean newbie) {   // 이메일로 멤버 생성

@@ -41,7 +41,7 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         boolean newbie;
         if(!member.isPresent()) {   // 없다면 이메일을 통해서 Member를 생성한다.
             saveMember(email);      // 이메일을 통해 User생성
-            newbie = true;          // 새로가입하는 사람
+            newbie = true;          // 새로 가입하는 사람
         } else {                    // 멤버가 있다면, 회원가입 필요없다.
             newbie = false;         // 새로가입하는 사람 아님.
         }
@@ -50,8 +50,8 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
     }
 
     private void saveMember(String email) {
-            Member member = new Member(email, true);                  // 멤버가 생성됨.
-            memberService.createMember(member);                 // member를 DB에 저장
+            Member member = new Member(email, true);                 // 멤버가 생성됨.
+            memberService.createMember(member);                             // member를 DB에 저장
 
     }
 

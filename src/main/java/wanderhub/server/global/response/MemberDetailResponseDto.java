@@ -3,8 +3,8 @@ package wanderhub.server.global.response;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import wanderhub.server.domain.community.dto.BoardDto;
-import wanderhub.server.domain.community_comment.dto.BoCommentDto;
+import wanderhub.server.domain.bo_comment.dto.BoCommentDto;
+import wanderhub.server.domain.board.dto.BoardDto;
 import wanderhub.server.domain.member.dto.MemberDto;
 
 @Getter
