@@ -11,7 +11,6 @@ import wanderhub.server.global.exception.CustomLogicException;
 import wanderhub.server.global.exception.ExceptionCode;
 import wanderhub.server.global.utils.CustomBeanUtils;
 
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -43,14 +42,22 @@ public class MemberService {
         return customBeanUtils.copyNonNullProoerties(memberWithUpdateData, existingMember);  // updateMember 정보가 >>> srcMember로 업데이트된다.
     }
 
+    // 멤버조회
+    public Member getMember(String email) {
+        Member findMember = findMember(email);
+        verificationMember(findMember);   // 닉네임이 없거나 휴면상태인 회원이 서비스를 시작하려할 때, 검증 메서드
+        // 통과되면 멤버 돌려줌.
+        return findMember;
+    }
+
     // 멤버를 이메일로 찾는다.
-        // 없으면 예외 던진다.
+    // 없으면 예외 던진다.
     public Member findMember(String email) {
         return memberRepository.findByEmail(email).orElseThrow(() -> new CustomLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
     // 멤버를 기본키로 찾는다.
-        // 없으면 예외를 던진다.
+    // 없으면 예외를 던진다.
     public Member findMember(Long id) {
         return memberRepository.findById(id).orElseThrow(() -> new CustomLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
@@ -62,7 +69,7 @@ public class MemberService {
         return memberRepository.findByEmail(email);
     }
 
-    
+
     // 회원탈퇴 => 휴면상태
     public void quitMember(String email) {
         verificationMemberByEmail(email);
@@ -70,10 +77,7 @@ public class MemberService {
         member.setMemberStatus(MemberStatus.HUMAN);
     }
 
-    // 멤버조회
-    public Member getMember(String email) {
-        return findMember(email);// 멤버있는지 확인
-    }
+
 
     // 닉네임 검증 메서드
     public void verificatioinNickName(Member existingMember, Member memberWithUpdateData) {
