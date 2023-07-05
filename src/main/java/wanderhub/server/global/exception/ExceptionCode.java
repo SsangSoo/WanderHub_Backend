@@ -28,7 +28,10 @@ public enum ExceptionCode {
     ACCOMPANY_JOIN_MAX_NUM_OVER(404, "Max num over"),
     ACCOMPANY_JOIN_ALREADY_JOINED(404, "Already joined"),
     ACCOMPANY_JOIN_CANNOT_QUIT(404, "Cannot quit as you made"),
-    ACCOMPANY_JOIN_NOT_A_MEMBER(404, "Cannot quit as not a member");
+    ACCOMPANY_JOIN_NOT_A_MEMBER(404, "Cannot quit as not a member"),
+
+    TOKEN_INVALID(401, "Token is INVALID"), // 유효한 인증이 아닌 경우 401
+    TOKEN_EXPIRED(401, "Token is expired");
 
 
     @Getter

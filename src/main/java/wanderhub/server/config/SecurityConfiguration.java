@@ -15,7 +15,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import wanderhub.server.auth.jwt.JwtVerificationFilter;
 import wanderhub.server.auth.handler.MemberAccessDeniedHandler;
-import wanderhub.server.auth.handler.MemberAuthenticationEntryPoint;
 import wanderhub.server.auth.jwt.JwtTokenizer;
 import wanderhub.server.auth.handler.OAuth2MemberSuccessHandler;
 import wanderhub.server.auth.oauth.CustomOAuth2MemberService;
@@ -49,10 +48,6 @@ public class SecurityConfiguration {
                 .and()
                 .formLogin().disable()  // formLogin 비활성화 // 우리 프로젝트에 자체 회원가입은 후순위
                 .httpBasic().disable()  // request전송마다 Username/Password 정보를 Header에 실어서 인증하는 방식 // 사용 안 하므로 disable
-                .exceptionHandling()
-                .authenticationEntryPoint(new MemberAuthenticationEntryPoint())
-                .accessDeniedHandler(new MemberAccessDeniedHandler())
-                .and()
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeRequests(authorize -> authorize   // url authorization 전체추가.
