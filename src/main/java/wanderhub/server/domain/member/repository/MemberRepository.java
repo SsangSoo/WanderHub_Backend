@@ -6,8 +6,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import wanderhub.server.domain.member.entity.Member;
 
-import java.lang.annotation.Native;
-import java.util.List;
 import java.util.Optional;
 
 @Repository

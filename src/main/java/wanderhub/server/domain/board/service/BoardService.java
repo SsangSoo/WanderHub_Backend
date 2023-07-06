@@ -1,6 +1,5 @@
 package wanderhub.server.domain.board.service;
 
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -8,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import wanderhub.server.domain.board.entity.Board;
 import wanderhub.server.domain.board.repository.BoardRepository;
 import wanderhub.server.domain.board_heart.entity.BoardHeart;
-import wanderhub.server.domain.board_heart.repository.BoardHeartRepository;
 import wanderhub.server.domain.board_heart.service.BoardHeartService;
 import wanderhub.server.domain.member.entity.Member;
 import wanderhub.server.domain.member.service.MemberService;

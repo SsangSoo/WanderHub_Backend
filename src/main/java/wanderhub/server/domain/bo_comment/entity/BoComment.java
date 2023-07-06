@@ -7,7 +7,6 @@ import wanderhub.server.domain.member.entity.Member;
 import wanderhub.server.global.audit.Auditable;
 
 import javax.persistence.*;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -2,6 +2,7 @@ package wanderhub.server.auth.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -13,8 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtExceptionFilter extends OncePerRequestFilter {
 
     private final ObjectMapper objectMapper;
@@ -27,6 +28,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
             response.setStatus(401);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.setCharacterEncoding("UTF-8");
+            // 토큰이 유효하지 않거나, 만료되었을 때, 발생함.
             objectMapper.writeValue(response.getWriter(), e.getExceptionCode());
         }
     }

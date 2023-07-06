@@ -1,5 +1,6 @@
 package wanderhub.server.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -7,9 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -17,9 +16,9 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import wanderhub.server.auth.handler.MemberAuthenticationEntryPoint;
 import wanderhub.server.auth.jwt.JwtExceptionFilter;
-import wanderhub.server.auth.jwt.JwtVerificationFilter;
 import wanderhub.server.auth.jwt.JwtTokenizer;
 import wanderhub.server.auth.handler.OAuth2MemberSuccessHandler;
+import wanderhub.server.auth.jwt.JwtVerificationFilter;
 import wanderhub.server.auth.oauth.CustomOAuth2MemberService;
 import wanderhub.server.auth.utils.CustomAuthorityUtils;
 import wanderhub.server.domain.member.service.MemberService;
@@ -37,9 +36,8 @@ public class SecurityConfiguration {
     private final CustomAuthorityUtils authorityUtils;
     private final MemberService memberService;
     private final CustomOAuth2MemberService customOAuth2MemberService;
-    private final JwtExceptionFilter jwtExceptionFilter;
-    private final JwtVerificationFilter jwtVerificationFilter;
     private final MemberAuthenticationEntryPoint memberAuthenticationEntryPoint;
+
 
     @Bean   // 스프링에서 관리하는 빈으로 설정
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -55,35 +53,31 @@ public class SecurityConfiguration {
                 .httpBasic().disable()  // request전송마다 Username/Password 정보를 Header에 실어서 인증하는 방식 // 사용 안 하므로 disable
                 .exceptionHandling()
                 .authenticationEntryPoint(new MemberAuthenticationEntryPoint())
-//                .apply(new CustomFilterConfigurer())
-//                .and()
-//                .authorizeRequests(authorize -> authorize   // url authorization 전체추가.
-//                        .anyRequest().permitAll()
-//                )
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/v1/members/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.PATCH, "/v1/**/heart").hasAnyRole("USER", "ADMIN")  // 좋아요(게시판, 댓글 다 적용)
+                .antMatchers(HttpMethod.GET, "/v1/members/**").hasAnyRole("USER", "ADMIN")  // 멤버
+                .antMatchers(HttpMethod.PATCH, "/v1/members/**").hasAnyRole("USER", "ADMIN")  // 멤버
+                .antMatchers(HttpMethod.POST, "/v1/board/comment/**").hasAnyRole("USER","ADMIN")
+                .antMatchers(HttpMethod.PATCH, "/v1/board/comment/**").hasAnyRole("USER","ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/v1/board/comment/**").hasAnyRole("USER","ADMIN")
+                .antMatchers(HttpMethod.POST, "/v1/board/**").hasAnyRole("USER","ADMIN")
+                .antMatchers(HttpMethod.PATCH, "/v1/board/**").hasAnyRole("USER","ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/v1/board/**").hasAnyRole("USER","ADMIN")
                 .and()
                 .oauth2Login()  // OAuth2 로그인 인증 활성화
-//                .loginPage("/")
                 .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, authorityUtils, memberService)
                 )   // 소셜 로그인 성공한 이후에 이뤄질 Handler
-                .failureUrl("/") // 인증 실패시 URl
+//                .failureUrl("/") // 인증 실패시 URl
                 .userInfoEndpoint()
                 .userService(customOAuth2MemberService);
 
-
-//        return http.build(); // SecurityFilterChain 구성
-
-
-
         return http
-                .addFilterBefore(jwtVerificationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtExceptionFilter, jwtVerificationFilter.getClass())
+                .addFilterBefore(new JwtVerificationFilter(jwtTokenizer, authorityUtils), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtExceptionFilter(new ObjectMapper()), JwtVerificationFilter.class)
                 .build();
 
     }
-
 
     // CorsConfigurationSource Bean 생성 // CORS 정책설정
     @Bean
@@ -95,19 +89,4 @@ public class SecurityConfiguration {
         source.registerCorsConfiguration("/**", configuration);                    // 모든 URL에 configuration에서 설정한 정책 적용
         return source;
     }
-
-//    public class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity> {
-//        @Override
-//        public void configure(HttpSecurity builder) throws Exception {
-//            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
-                // addFilterAfter(필터1, 필터2) 필터1을 필터2 뒤에 적용
-                // addFilterBefore(필터1, 필터2) 필터1을 필터2 앞에 적용
-                // 
-                //        필터
-                //        OAuth2LoginAuthenticationFilter
-                //        JwtVerificationFilter
-//            builder.addFilterAfter(jwtVerificationFilter, OAuth2LoginAuthenticationFilter.class);
-//        }
-//
-//    }
 }

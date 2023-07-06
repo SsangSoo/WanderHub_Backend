@@ -32,12 +32,10 @@ public class JwtTokenizer {
     @Value("${jwt.refresh-token-expiration-minutes}")
     private int refreshTokenExpirationMinutes;  // yml의 {jwt.refresh-token-expiration-minutes}의 값을 불러언다.
 
-
     // 순수 Text 형태의 SecretKey의 byte[]를 Base64 형식의 문자열로 인코딩해준다.
     public String encodeBase64SecretKey(String secretKey) {
         return Encoders.BASE64.encode(secretKey.getBytes(StandardCharsets.UTF_8));
     }
-
 
     // 인증된 사용자에게 JWT를 최초로 발급해주기 위한 JWT 생성메서드
     public String generateAccessToken(Map<String, Object> claims,   // 인증된 사용자와 관련된 정보
@@ -55,7 +53,6 @@ public class JwtTokenizer {
                 .compact();                                     // JWT생성 & 직렬화
     }
 
-    
     // AccessToken이 만료되었을 경우, 새로 생성할 수 있게 해주는 Refresh Token 생성
     // Access Token을 생성해주는 역할을 하므로, claims가 없어도 됨.
     public String generateRefreshToken(String subject,
@@ -71,7 +68,6 @@ public class JwtTokenizer {
                 .compact();
     }
 
-
     public Jws<Claims> getClaims(String jws, String base64EncodedSecretKey) {
         Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
 
@@ -81,25 +77,13 @@ public class JwtTokenizer {
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(jws);
-        } catch (Exception e) {
+        } catch (SignatureException se) {
             throw new CustomLogicException(ExceptionCode.TOKEN_INVALID);
+        } catch (ExpiredJwtException ee) {
+            throw new CustomLogicException(ExceptionCode.TOKEN_EXPIRED);
         }
         return claims;
-
-
     }
-
-//    // JWT를 검증을 위한 메서드
-//        // jws는 검증할 JWT, 이미 서명된 JWT이기때문에, 'jws'라고 한다.
-//    public void verifySignature(String jws, String base64EncodedSecretKey) {
-//        Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
-//
-//        Jwts.parserBuilder()
-//                .setSigningKey(key)     // 메서드로 서명에 사용된 Secret Key를 설정.
-//                .build()
-//                .parseClaimsJws(jws);   // 예외가 발생하면 던지도록 되어있다.
-//    }
-
 
     // JWT의 만료 일시를 지정하기 위한 메서드로 JWT 생성시 사용된다.
     public Date getTokenExpiration(int expirationMinutes) {
@@ -109,7 +93,6 @@ public class JwtTokenizer {
 
         return expiration;
     }
-
 
     // JWT 서명에 사용할 SecretKey를 생성해준다.
     private Key getKeyFromBase64EncodedKey(String base64EncodedSecretKey) {

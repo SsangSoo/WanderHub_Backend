@@ -5,7 +5,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import wanderhub.server.auth.utils.CustomAuthorityUtils;
@@ -20,41 +19,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-@Component
 @RequiredArgsConstructor
 public class JwtVerificationFilter extends OncePerRequestFilter { // request당 한 번만 실행되는 SecurityFilter를 상속
 
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
 
-
-//    @Override
-//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-//        try {
-//            String accessToken = request.getHeader("Authorization").replace("Bearer ", "");
-//
-//            if (!StringUtils.hasText(accessToken)) {
-//                throw new CustomLogicException(ExceptionCode.TOKEN_INVALID);
-//            }
-//
-//            Map<String, Object> claims = verifyJws(accessToken);
-//            setAuthenticationToContext(claims);
-//
-//            // try-catch 후 일반적으로 예외를 던지지 않음.
-//                // 인증정보가 Spring Security에 저장되지 않고,
-//                // Filter 내부에서 AuthenticationException이 발생하게 되고,
-//                // AuthenticationEntryPoint가 처리하게 됨.
-//            filterChain.doFilter(request, response);
-//        } catch (SignatureException se) {       // JWT의 서명이 올바르게 생성되지 않았거나 서명이 JWT 데이터와 일치하지 않는 경우 발생.
-//            throw new CustomLogicException(ExceptionCode.TOKEN_INVALID);
-////            request.setAttribute("exception", se);
-//        } catch (ExpiredJwtException ee) {
-//            throw new CustomLogicException(ExceptionCode.TOKEN_EXPIRED);
-////            request.setAttribute("exception", ee);
-//        } catch (Exception e) {
-//            request.setAttribute("exception", e);
-//        }
-//    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -68,7 +38,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter { // request당 
             filterChain.doFilter(request, response);
     }
 
-
+    // true일 경우 해당 필터 스킵.
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String authorization = request.getHeader("Authorization");      // Header에서 authorization을 얻어온다.

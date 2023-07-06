@@ -3,7 +3,6 @@ package wanderhub.server.domain.bo_comment.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import wanderhub.server.domain.bo_comment.dto.BoCommentDto;

@@ -1,6 +1,5 @@
 package wanderhub.server.domain.bo_comment.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,7 +34,5 @@ public class BoCommentDto {
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
     }
-
-
 
 }

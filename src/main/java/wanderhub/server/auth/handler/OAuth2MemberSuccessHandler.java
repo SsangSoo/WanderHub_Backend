@@ -52,7 +52,6 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
     private void saveMember(String email) {
             Member member = new Member(email, true);                 // 멤버가 생성됨.
             memberService.createMember(member);                             // member를 DB에 저장
-
     }
 
     // 있다면, 해당 사용자가 활동중인지 아닌지 검증한다.
@@ -82,11 +81,8 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
         String subject = username;
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
-
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
-
         String accessToken = jwtTokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
-
         return accessToken;
     }
 

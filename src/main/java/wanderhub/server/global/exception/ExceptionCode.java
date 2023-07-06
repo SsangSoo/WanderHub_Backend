@@ -12,7 +12,7 @@ public enum ExceptionCode {
     NICKNAME_DUPLICATED(404, "Nickname Duplicated"),
 
     MEMBER_ALREADY_HUMAN(400, "Member is already Human"),
-    MEMBER_NOT_FOUND(404, "Member isnot found"),
+    MEMBER_NOT_FOUND(404, "Member is not found"),
     MEMBER_NOT_ACTIVE(404,"Member is not ACTIVE"),
     MEMBER_EXISTS(409, "Member exists"),
 
@@ -20,7 +20,7 @@ public enum ExceptionCode {
     BOARD_WRITER_DIFFERENT(404, "Writer Different"),
 
     BOARD_COMMENT_NOT_FOUND(404, "BoardComment is not found"),
-    BOARD_COMMNET_WRITER_DIFFERENT(404, "Witer Different"),
+    BOARD_COMMNET_WRITER_DIFFERENT(404, "Writer Different"),
 
     ACCOMPANY_NOT_FOUND(404, "Accompany not found"),
     ACCOMPANY_WRITER_DIFFERENT(404, "Writer Different"),
@@ -30,10 +30,9 @@ public enum ExceptionCode {
     ACCOMPANY_JOIN_CANNOT_QUIT(404, "Cannot quit as you made"),
     ACCOMPANY_JOIN_NOT_A_MEMBER(404, "Cannot quit as not a member"),
 
-    TOKEN_WITHOUT(401, "Token is wihtout"),
-    TOKEN_INVALID(401, "Token is INVALID"), // 유효한 인증이 아닌 경우 401
+    TOKEN_WITHOUT(401, "Token is without"), // 토큰 없음
+    TOKEN_INVALID(401, "Token is invalid"), // 유효한 인증이 아닌 경우 401
     TOKEN_EXPIRED(401, "Token is expired");
-
 
     @Getter
     private final int status;

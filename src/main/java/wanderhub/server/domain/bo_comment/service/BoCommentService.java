@@ -5,10 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 import wanderhub.server.domain.bo_comment.repository.BoCommentRepository;
 import wanderhub.server.domain.bo_comment_heart.entity.BoCommentHeart;
 import wanderhub.server.domain.bo_comment_heart.service.BoCommentHeartService;
-import wanderhub.server.domain.board.entity.Board;
 import wanderhub.server.domain.board.service.BoardService;
 import wanderhub.server.domain.bo_comment.entity.BoComment;
-import wanderhub.server.domain.board_heart.entity.BoardHeart;
 import wanderhub.server.domain.member.entity.Member;
 import wanderhub.server.domain.member.service.MemberService;
 import wanderhub.server.global.exception.CustomLogicException;
@@ -103,7 +101,5 @@ public class BoCommentService {
             throw new CustomLogicException(ExceptionCode.BOARD_COMMNET_WRITER_DIFFERENT);
         } // 맞으면 수정 가능.
     }
-
-
 
 }

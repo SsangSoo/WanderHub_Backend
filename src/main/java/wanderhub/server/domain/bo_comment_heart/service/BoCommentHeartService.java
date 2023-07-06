@@ -14,7 +14,6 @@ import java.util.Optional;
 public class BoCommentHeartService {
 
     private final BoCommentHeartRepository boCommentHeartRepository;
-
     public BoCommentHeartService(BoCommentHeartRepository boCommentHeartRepository) {
         this.boCommentHeartRepository = boCommentHeartRepository;
     }

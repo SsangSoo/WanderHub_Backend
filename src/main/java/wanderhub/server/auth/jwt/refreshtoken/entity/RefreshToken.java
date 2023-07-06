@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.index.Indexed;
 @Getter
 @RedisHash(value = "refreshToken")
 public class RefreshToken {
+
     @Id
     private String email;
 
