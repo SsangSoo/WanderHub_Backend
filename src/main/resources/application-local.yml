@@ -1,4 +1,7 @@
 spring:
+  redis:
+    host: localhost
+    port: 6379
   h2:
     console:
       enabled: true           # 콘솔 활성화 여부
@@ -58,7 +61,7 @@ admin:
 jwt:
   key:
     secret: ${JWT_SECRET_KEY}
-  access-token-expiration-minutes: 30
+  access-token-expiration-minutes: 1
   refresh-token-expiration-minutes: 1440
 
 type: local

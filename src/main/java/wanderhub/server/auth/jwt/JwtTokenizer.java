@@ -1,14 +1,15 @@
 package wanderhub.server.auth.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import wanderhub.server.global.exception.CustomLogicException;
+import wanderhub.server.global.exception.ExceptionCode;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
@@ -74,23 +75,30 @@ public class JwtTokenizer {
     public Jws<Claims> getClaims(String jws, String base64EncodedSecretKey) {
         Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
 
-        Jws<Claims> claims = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(jws);
+        Jws<Claims> claims;
+        try {
+            claims = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(jws);
+        } catch (Exception e) {
+            throw new CustomLogicException(ExceptionCode.TOKEN_INVALID);
+        }
         return claims;
+
+
     }
 
-    // JWT를 검증을 위한 메서드
-        // jws는 검증할 JWT, 이미 서명된 JWT이기때문에, 'jws'라고 한다.
-    public void verifySignature(String jws, String base64EncodedSecretKey) {
-        Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
-
-        Jwts.parserBuilder()
-                .setSigningKey(key)     // 메서드로 서명에 사용된 Secret Key를 설정.
-                .build()
-                .parseClaimsJws(jws);   // 예외가 발생하면 던지도록 되어있다.
-    }
+//    // JWT를 검증을 위한 메서드
+//        // jws는 검증할 JWT, 이미 서명된 JWT이기때문에, 'jws'라고 한다.
+//    public void verifySignature(String jws, String base64EncodedSecretKey) {
+//        Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
+//
+//        Jwts.parserBuilder()
+//                .setSigningKey(key)     // 메서드로 서명에 사용된 Secret Key를 설정.
+//                .build()
+//                .parseClaimsJws(jws);   // 예외가 발생하면 던지도록 되어있다.
+//    }
 
 
     // JWT의 만료 일시를 지정하기 위한 메서드로 JWT 생성시 사용된다.

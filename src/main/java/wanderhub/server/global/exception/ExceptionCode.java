@@ -30,6 +30,7 @@ public enum ExceptionCode {
     ACCOMPANY_JOIN_CANNOT_QUIT(404, "Cannot quit as you made"),
     ACCOMPANY_JOIN_NOT_A_MEMBER(404, "Cannot quit as not a member"),
 
+    TOKEN_WITHOUT(401, "Token is wihtout"),
     TOKEN_INVALID(401, "Token is INVALID"), // 유효한 인증이 아닌 경우 401
     TOKEN_EXPIRED(401, "Token is expired");
 
