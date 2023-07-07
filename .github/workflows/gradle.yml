@@ -46,6 +46,9 @@ jobs:
           spring.datasource.password: ${{secrets.MYSQL_PASSWORD}}
           jwt.key.secret: ${{secrets.JWT_SECRET_KEY}}
           admin.email: ${{secrets.ADMIN_EMAILS}}
+          spring.redis.host: ${{secrets.AWS_EC2_HOST}}
+          spring.redis.port: ${{secrets.AWS_REDIS_PORT}}
+          spring.redis.password: ${{secrets.REDIS_PASSWORD}}
 
       - name: init with Gradle
         uses: gradle/gradle-build-action@v2
