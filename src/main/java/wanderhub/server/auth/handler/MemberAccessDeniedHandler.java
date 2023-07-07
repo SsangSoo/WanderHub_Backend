@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
-import wanderhub.server.auth.utils.ErrorResponder;
+import wanderhub.server.global.response.ErrorResponder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

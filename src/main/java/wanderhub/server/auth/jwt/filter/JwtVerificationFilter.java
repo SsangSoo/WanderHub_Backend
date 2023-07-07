@@ -1,4 +1,4 @@
-package wanderhub.server.auth.jwt;
+package wanderhub.server.auth.jwt.filter;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import wanderhub.server.auth.jwt.JwtTokenizer;
 import wanderhub.server.auth.utils.CustomAuthorityUtils;
 import wanderhub.server.global.exception.CustomLogicException;
 import wanderhub.server.global.exception.ExceptionCode;

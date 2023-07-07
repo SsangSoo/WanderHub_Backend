@@ -5,9 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
-import wanderhub.server.auth.utils.ErrorResponder;
 import wanderhub.server.global.exception.CustomLogicException;
 import wanderhub.server.global.exception.ExceptionCode;
+import wanderhub.server.global.response.ErrorResponder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

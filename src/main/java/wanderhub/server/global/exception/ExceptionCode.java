@@ -32,7 +32,12 @@ public enum ExceptionCode {
 
     TOKEN_WITHOUT(401, "Token is without"), // 토큰 없음
     TOKEN_INVALID(401, "Token is invalid"), // 유효한 인증이 아닌 경우 401
-    TOKEN_EXPIRED(401, "Token is expired");
+    TOKEN_EXPIRED(401, "Token is expired"),
+
+    REFRESH_TOKEN_INVALID(401, "RefreshToken is Invalid"),
+    REFRESH_TOKNE_WITHOUT(401, "RefreshToken is Without"),
+    LOGOUT_TOKEN(401, "LogOuted Token!!");
+
 
     @Getter
     private final int status;

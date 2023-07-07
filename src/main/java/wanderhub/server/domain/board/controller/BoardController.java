@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import wanderhub.server.auth.jwt.refreshtoken.service.TokenService;
 import wanderhub.server.domain.board.dto.BoardDto;
 import wanderhub.server.domain.board.entity.Board;
 import wanderhub.server.domain.board.mapper.BoardMapper;
@@ -16,6 +17,7 @@ import wanderhub.server.global.response.PageInfo;
 import wanderhub.server.global.response.PageResponseDto;
 import wanderhub.server.global.response.SingleResponse;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
 @Slf4j
@@ -26,15 +28,18 @@ public class BoardController {
 
     private final BoardService boardService;
     private final BoardMapper boardMapper;
+    private final TokenService tokenService;
 
-    public BoardController(BoardService boardService, BoardMapper boardMapper) {
+    public BoardController(BoardService boardService, BoardMapper boardMapper, TokenService tokenService) {
         this.boardService = boardService;
         this.boardMapper = boardMapper;
+        this.tokenService = tokenService;
     }
 
     // 게시판 작성
     @PostMapping
-    public ResponseEntity boardPost(Principal principal, @Validated @RequestBody BoardDto.Post post) {
+    public ResponseEntity boardPost(HttpServletRequest request, Principal principal, @Validated @RequestBody BoardDto.Post post) {
+        tokenService.verificationLogOutToken(request);  // 블랙리스트 Token확인
         Board createBoardFromPostDto = boardMapper.boardPostDtoToBoardEntity(post);     // Dto로부터 생성된 객체
         String email = principal.getName();
         Board createdBoard = boardService.createBoard(createBoardFromPostDto, email);   // 서비스계층에서 Entity 생성
@@ -44,7 +49,8 @@ public class BoardController {
 
     // 게시판 수정
     @PatchMapping("/{board-id}")
-    public ResponseEntity boardPatch(@PathVariable("board-id")Long boardId, Principal principal, @Validated @RequestBody BoardDto.Patch patch) {
+    public ResponseEntity boardPatch(HttpServletRequest request, @PathVariable("board-id")Long boardId, Principal principal, @Validated @RequestBody BoardDto.Patch patch) {
+        tokenService.verificationLogOutToken(request);  // 블랙리스트 Token확인
         Board patchBoardFromPatchDto = boardMapper.boardPatchDtoToBoardEntity(patch);           // Dto로부터 생성된 객체
         String email = principal.getName();                                                     // email을 찾는다.
         Board updatedBoard = boardService.updateBoard(boardId, patchBoardFromPatchDto, email);  // response로
@@ -53,7 +59,8 @@ public class BoardController {
 
     // 게시판 삭제
     @DeleteMapping("/{board-id}")
-    public ResponseEntity deleteBoard(@PathVariable("board-id")Long boardId, Principal principal) {
+    public ResponseEntity deleteBoard(HttpServletRequest request, @PathVariable("board-id")Long boardId, Principal principal) {
+        tokenService.verificationLogOutToken(request);  // 블랙리스트 Token확인
         boardService.removeBoard(boardId, principal.getName());
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
@@ -68,7 +75,8 @@ public class BoardController {
 
     // 게시판 좋아요
     @PatchMapping("/{board-id}/heart")
-    public ResponseEntity boardHeart(@PathVariable("board-id")Long boardId, Principal principal) {
+    public ResponseEntity boardHeart(HttpServletRequest request, @PathVariable("board-id")Long boardId, Principal principal) {
+        tokenService.verificationLogOutToken(request);  // 블랙리스트 Token확인
         Board likedBoard = boardService.likeBoard(boardId, principal.getName());
         BoardDto.Response boardResponse = boardMapper.boardEntityToBoardResponseDto(likedBoard);
         return ResponseEntity.ok(new SingleResponse<>(boardResponse));

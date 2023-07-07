@@ -1,4 +1,4 @@
-package wanderhub.server.auth.jwt;
+package wanderhub.server.auth.jwt.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

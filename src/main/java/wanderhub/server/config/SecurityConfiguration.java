@@ -15,10 +15,11 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import wanderhub.server.auth.handler.MemberAuthenticationEntryPoint;
-import wanderhub.server.auth.jwt.JwtExceptionFilter;
+import wanderhub.server.auth.jwt.filter.JwtExceptionFilter;
 import wanderhub.server.auth.jwt.JwtTokenizer;
 import wanderhub.server.auth.handler.OAuth2MemberSuccessHandler;
-import wanderhub.server.auth.jwt.JwtVerificationFilter;
+import wanderhub.server.auth.jwt.filter.JwtVerificationFilter;
+import wanderhub.server.auth.jwt.refreshtoken.service.TokenService;
 import wanderhub.server.auth.oauth.CustomOAuth2MemberService;
 import wanderhub.server.auth.utils.CustomAuthorityUtils;
 import wanderhub.server.domain.member.service.MemberService;
@@ -37,7 +38,7 @@ public class SecurityConfiguration {
     private final MemberService memberService;
     private final CustomOAuth2MemberService customOAuth2MemberService;
     private final MemberAuthenticationEntryPoint memberAuthenticationEntryPoint;
-
+    private final TokenService refreshTokenService;
 
     @Bean   // 스프링에서 관리하는 빈으로 설정
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -52,7 +53,7 @@ public class SecurityConfiguration {
                 .formLogin().disable()  // formLogin 비활성화 // 우리 프로젝트에 자체 회원가입은 후순위
                 .httpBasic().disable()  // request전송마다 Username/Password 정보를 Header에 실어서 인증하는 방식 // 사용 안 하므로 disable
                 .exceptionHandling()
-                .authenticationEntryPoint(new MemberAuthenticationEntryPoint())
+                .authenticationEntryPoint(memberAuthenticationEntryPoint)
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.PATCH, "/v1/**/heart").hasAnyRole("USER", "ADMIN")  // 좋아요(게시판, 댓글 다 적용)
@@ -66,7 +67,8 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.DELETE, "/v1/board/**").hasAnyRole("USER","ADMIN")
                 .and()
                 .oauth2Login()  // OAuth2 로그인 인증 활성화
-                .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, authorityUtils, memberService)
+//                .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, authorityUtils, memberService, redisTemplate)
+                .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, authorityUtils, memberService, refreshTokenService)
                 )   // 소셜 로그인 성공한 이후에 이뤄질 Handler
 //                .failureUrl("/") // 인증 실패시 URl
                 .userInfoEndpoint()
