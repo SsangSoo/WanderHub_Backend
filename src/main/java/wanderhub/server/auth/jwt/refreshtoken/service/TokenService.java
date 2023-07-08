@@ -89,8 +89,8 @@ public class TokenService {
         // RedisUtils에서 LogoutToken을 얻어온다.
         String blackListAccessToken = redisUtils.getData(email + ":logOut");
 
-        // 만약 null이 아니라면, 즉 값이 있다면, 블랙리스트 토큰 이므로 예외처리한다.
-        if(blackListAccessToken!=null) {
+        // 블랙리스트 토큰과 Header에 있는 토큰을 비교한다. // 같으면 에러 발생
+        if(accessToken.equals(blackListAccessToken)) {
             throw new CustomLogicException(ExceptionCode.LOGOUT_TOKEN);
         } // else는 필요없음. null이면 통과.
     }
