@@ -67,7 +67,6 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.DELETE, "/v1/board/**").hasAnyRole("USER","ADMIN")
                 .and()
                 .oauth2Login()  // OAuth2 로그인 인증 활성화
-//                .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, authorityUtils, memberService, redisTemplate)
                 .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, authorityUtils, memberService, refreshTokenService)
                 )   // 소셜 로그인 성공한 이후에 이뤄질 Handler
 //                .failureUrl("/") // 인증 실패시 URl
