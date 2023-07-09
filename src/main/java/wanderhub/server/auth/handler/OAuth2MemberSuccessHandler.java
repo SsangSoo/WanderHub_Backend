@@ -109,7 +109,7 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
 //                   .build()
 //                   .toUri();
 //       }
-//
+
        return UriComponentsBuilder
                .newInstance()
                .scheme("https")
