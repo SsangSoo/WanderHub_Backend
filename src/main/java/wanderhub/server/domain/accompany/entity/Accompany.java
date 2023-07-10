@@ -1,6 +1,5 @@
 package wanderhub.server.domain.accompany.entity;
 
-
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import anderhub.server.domain.accompany_member.entity.AccompanyMember;
