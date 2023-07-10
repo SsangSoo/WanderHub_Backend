@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.*;
 
-@Slf4j
 @RequiredArgsConstructor
 public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHandler { //  Redirect를 손쉽게 할 수 있게 SimpleUrlAuthenticationSuccessHandler 상속
     private final JwtTokenizer jwtTokenizer;

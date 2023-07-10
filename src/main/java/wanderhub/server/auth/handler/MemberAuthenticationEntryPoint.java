@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-@Slf4j
 public class MemberAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     // Exception 발생으로 인해 SecurityContext에 Authentication이 저장되지 않을 경우
@@ -27,14 +26,6 @@ public class MemberAuthenticationEntryPoint implements AuthenticationEntryPoint 
         if (request.getHeader("Authorization") == null) {
             throw new CustomLogicException(ExceptionCode.TOKEN_WITHOUT);
         }
-        log.info("토큰 없음");
-        log.info("토큰 없음");
-        log.info("토큰 없음");
-        log.info("토큰 없음");
-        log.info("토큰 없음");
-        log.info("토큰 없음");
-        log.info("토큰 없음");
-        log.info("토큰 없음");
         ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED);
     }
 }

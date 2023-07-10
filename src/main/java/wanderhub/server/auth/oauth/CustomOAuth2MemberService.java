@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
-@Slf4j
 @Service    // OAuth2 인증으로 사용자 정보를 가져오는 역할을 하는 클래스
 public class CustomOAuth2MemberService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
@@ -37,7 +36,7 @@ public class CustomOAuth2MemberService implements OAuth2UserService<OAuth2UserRe
                 OAuth2Attribute.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
         // OAuth2Attribute 정보 출력(로그로)
-        log.info("{}", oAuth2Attribute);
+//        log.info("{}", oAuth2Attribute);
 
         // OAuth2Attribute를 Map형식으로 변환한다.
         var memberAttribute = oAuth2Attribute.convertToMap();
