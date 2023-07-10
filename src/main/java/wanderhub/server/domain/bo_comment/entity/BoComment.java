@@ -22,7 +22,6 @@ public class BoComment extends Auditable {
     private Long boCommentId;
 
     @Column(name = "NICKNAME", length = 50, nullable = false, updatable = false)
-    @Setter
     private String nickName;
 
     @Column(name = "CONTENT", nullable = false)
@@ -35,12 +34,10 @@ public class BoComment extends Auditable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
-    @Setter
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BOARD_ID")
-    @Setter
     private Board board;
 
     public void setBoardInit(Board board, Member writer) {
