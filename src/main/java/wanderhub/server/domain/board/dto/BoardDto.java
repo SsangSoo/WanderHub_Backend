@@ -47,8 +47,22 @@ public class BoardDto {
         private String local;
         private long viewPoint; // 기본값 0 // null로 식별할 필요없기 때문에, 기본형
         private long likePoint; // 기본값 0 // 위와 마찬가지 이유.
-        @Setter
         private List<BoCommentDto.Response> boComments;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ListResponse {
+        private Long boardId;
+        private String nickName;
+        private String title;
+        private String local;
+        private long viewPoint; // 기본값 0 // null로 식별할 필요없기 때문에, 기본형
+        private long likePoint; // 기본값 0 // 위와 마찬가지 이유.
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
     }

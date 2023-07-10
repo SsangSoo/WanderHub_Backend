@@ -1,5 +1,10 @@
 package wanderhub.server.domain.accompany.entity;
 
+
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import anderhub.server.domain.accompany_member.entity.AccompanyMember;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +24,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Accompany extends Auditable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
