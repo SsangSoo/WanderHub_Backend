@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-@Slf4j
 public class MemberAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     // Exception 발생으로 인해 SecurityContext에 Authentication이 저장되지 않을 경우
@@ -28,10 +27,5 @@ public class MemberAuthenticationEntryPoint implements AuthenticationEntryPoint 
             throw new CustomLogicException(ExceptionCode.TOKEN_WITHOUT);
         }
         ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED);
-//        logExceptionMessage(authException, exception);
     }
-
-//    private void logExceptionMessage(AuthenticationException authException, Exception exception) {
-//        String message = exception != null ? exception.getMessage() :  authException.getMessage();
-//    }
 }

@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Service
-@Slf4j
 public class TokenService {
     private final CustomAuthorityUtils customAuthorityUtils;
     private final RedisUtils redisUtils;

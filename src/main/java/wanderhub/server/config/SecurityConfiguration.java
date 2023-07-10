@@ -31,7 +31,6 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration  // 구성정보 클래스
 @EnableWebSecurity(debug = true)  // Spring Security 활성화
 @RequiredArgsConstructor
-@Slf4j
 public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;

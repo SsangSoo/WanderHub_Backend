@@ -76,7 +76,7 @@ public class JwtTokenizer {
             claims = Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
-                    .parseClaimsJws(jws);
+                    .parseClaimsJws(jws);   // JWT를 검증하고 예외를 발생시키는 메서드
         } catch (SignatureException se) {
             throw new CustomLogicException(ExceptionCode.TOKEN_INVALID);
         } catch (ExpiredJwtException ee) {
