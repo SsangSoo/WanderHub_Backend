@@ -3,7 +3,6 @@ package wanderhub.server.domain.accompany.entity;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import wanderhub.server.domain.accompany_member.entity.AccompanyMember;
-import wanderhub.server.domain.bo_comment.entity.BoComment;
 import wanderhub.server.global.audit.Auditable;
 import wanderhub.server.global.utils.Local;
 
@@ -75,6 +74,5 @@ public class Accompany extends Auditable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accompany", orphanRemoval = true) // orphanRemoval 연관관계가 끊어지면 자동으로 삭제
     private List<AccompanyMember> accompanyMemberList = new ArrayList<>();
-
 
 }
