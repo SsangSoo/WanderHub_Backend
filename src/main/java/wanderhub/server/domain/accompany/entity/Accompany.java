@@ -75,5 +75,4 @@ public class Accompany extends Auditable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accompany", orphanRemoval = true) // orphanRemoval 연관관계가 끊어지면 자동으로 삭제
     private List<AccompanyMember> accompanyMemberList = new ArrayList<>();
 
-
 }
