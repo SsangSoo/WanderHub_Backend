@@ -38,10 +38,8 @@ public class BoCommentService {
         // 이메일을 통해서 사용자의 닉네임이 있는지 없는지 확인한다. // 즉, 사용자 검증을 해준다.
         Member findMember = memberService.findMember(email);
         memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
-        // 보드가 존재하는지 확인 후 setter를 통해서 넣어준다.
-        createdBoCommentFromPostDto.setBoard(boardService.verificationBoard(boardId));    // Board 확인
-        createdBoCommentFromPostDto.setNickName(findMember.getNickName());
-        createdBoCommentFromPostDto.setMember(findMember);
+        // 보드가 존재하는지 확인 후, BoComment 초기 셋팅 메서드 이용.
+        createdBoCommentFromPostDto.setBoardInit(boardService.verificationBoard(boardId), findMember);    // Board 확인
         return boCommentRepository.save(createdBoCommentFromPostDto);
     }
 

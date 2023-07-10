@@ -25,7 +25,7 @@ public enum Local {
 
 
     @Getter
-    private String local;
+    private String localString;
 
     Local(String local) {
         this.local = local;
@@ -34,7 +34,7 @@ public enum Local {
     public static Local findByLocal(String local) {
         if(local == null) return X;
         for (Local status : values()) {
-            if (local.equals(status.getLocal())) {
+            if (local.equals(status.getLocalString())) {
                 return status;
             }
         } return X;
