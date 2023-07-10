@@ -27,11 +27,14 @@ public class MemberAuthenticationEntryPoint implements AuthenticationEntryPoint 
         if (request.getHeader("Authorization") == null) {
             throw new CustomLogicException(ExceptionCode.TOKEN_WITHOUT);
         }
+        log.info("토큰 없음");
+        log.info("토큰 없음");
+        log.info("토큰 없음");
+        log.info("토큰 없음");
+        log.info("토큰 없음");
+        log.info("토큰 없음");
+        log.info("토큰 없음");
+        log.info("토큰 없음");
         ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED);
-//        logExceptionMessage(authException, exception);
     }
-
-//    private void logExceptionMessage(AuthenticationException authException, Exception exception) {
-//        String message = exception != null ? exception.getMessage() :  authException.getMessage();
-//    }
 }

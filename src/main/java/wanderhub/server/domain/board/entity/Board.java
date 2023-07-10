@@ -22,7 +22,6 @@ public class Board extends Auditable {
     private Long boardId;
 
     @Column(name = "NICKNAME", length = 50, nullable = false)
-    @Setter
     private String nickName;    // 작성자
 
     @Column(name = "TITLE", length = 100, nullable = false)
@@ -49,18 +48,22 @@ public class Board extends Auditable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
-    @Setter
     private Member member;
-
 
     // 댓글
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "board", orphanRemoval = true) // orphanRemoval 연관관계가 끊어지면 자동으로 삭제
     private List<BoComment> boCommentList = new ArrayList<>();
 
     @Builder
-    public Board(String title, String content, Local local) {
+    public Board(String nickName, String title, String content, Local local) {
+        this.nickName = nickName;
         this.title = title;
         this.content = content;
         this.local = local;
+    }
+
+    public void setBoardInit(Member member) {
+        this.member = member;
+        this.nickName = member.getNickName();
     }
 }

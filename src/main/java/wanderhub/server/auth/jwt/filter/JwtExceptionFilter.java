@@ -29,6 +29,11 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.setCharacterEncoding("UTF-8");
             // 토큰이 유효하지 않거나, 만료되었을 때, 발생함.
+            log.info("JwtExceptionFilter 호출 : {}", e.getExceptionCode().getMessage());
+            log.info("JwtExceptionFilter 호출 : {}", e.getExceptionCode().getMessage());
+            log.info("JwtExceptionFilter 호출 : {}", e.getExceptionCode().getMessage());
+            log.info("JwtExceptionFilter 호출 : {}", e.getExceptionCode().getMessage());
+            log.info("JwtExceptionFilter 호출 : {}", e.getExceptionCode().getMessage());
             objectMapper.writeValue(response.getWriter(), e.getExceptionCode());
         }
     }
