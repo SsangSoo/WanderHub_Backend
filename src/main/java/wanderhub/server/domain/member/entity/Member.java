@@ -5,10 +5,12 @@ import org.hibernate.annotations.ColumnDefault;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import wanderhub.server.domain.accompany_member.entity.AccompanyMember;
 import wanderhub.server.domain.bo_comment_heart.entity.BoCommentHeart;
 import wanderhub.server.domain.board.entity.Board;
 import wanderhub.server.domain.bo_comment.entity.BoComment;
 import wanderhub.server.domain.board_heart.entity.BoardHeart;
+import wanderhub.server.domain.mytrip_plan.entity.MyTripPlan;
 import wanderhub.server.global.audit.Auditable;
 import wanderhub.server.global.utils.Local;
 
@@ -68,13 +70,17 @@ public class Member extends Auditable {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<BoComment> boCommentList = new ArrayList<>();
 
-
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<BoardHeart> boardHeartList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<BoCommentHeart> boCommentHeartList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<AccompanyMember> accompanyMemberList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<MyTripPlan> myTripPlanList = new ArrayList<>();
 
 
     public Member(String email, Boolean newbie) {   // 이메일로 멤버 생성

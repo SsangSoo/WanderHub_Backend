@@ -36,9 +36,7 @@ public class BoardService {
         // 이메일을 통해서 사용자의 닉네임이 있는지 없는지 확인한다. // 즉, 사용자 검증을 해준다.
         Member findMember = memberService.findMember(email);
         memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
-        board.setNickName(findMember.getNickName());        // 작성자
-        board.setViewPoint(0L);                             // 조회수 0부터
-        board.setMember(findMember);
+        board.setBoardInit(findMember);                     // 멤버와 닉네임 한 번에 설정
         return boardRepository.save(board);
     }
 

@@ -8,7 +8,6 @@ import lombok.ToString;
 import java.util.HashMap;
 import java.util.Map;
 
-@ToString
 @Builder(access = AccessLevel.PRIVATE)  // private 접근제어자를 가진 빌더패턴 생성
 @Getter
 public class OAuth2Attribute {
