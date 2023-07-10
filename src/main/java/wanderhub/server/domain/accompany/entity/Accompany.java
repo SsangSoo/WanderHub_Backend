@@ -1,8 +1,17 @@
 package wanderhub.server.domain.accompany.entity;
 
+
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import anderhub.server.domain.accompany_member.entity.AccompanyMember;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import wanderhub.server.domain.accompany_member.entity.AccompanyMember;
+import wanderhub.server.domain.bo_comment.entity.BoComment;
 import wanderhub.server.global.audit.Auditable;
 import wanderhub.server.global.utils.Local;
 
