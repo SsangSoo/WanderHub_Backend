@@ -39,7 +39,7 @@ public interface MemberMapper {
             response.name(member.getName());
             response.nickName(member.getNickName());
             response.imgUrl(member.getImgUrl());
-            response.local(member.getLocal().getLocal());
+            response.local(member.getLocal().getLocalString());
             response.memberStatus(member.getMemberStatus());
             response.newbie(member.isNewbie());
             response.createdAt(member.getCreatedAt());
@@ -59,7 +59,7 @@ public interface MemberMapper {
                     .email(member.getEmail())
                     .nickName(member.getNickName())
                     .imgUrl(member.getImgUrl())
-                    .local(member.getLocal().getLocal())
+                    .local(member.getLocal().getLocalString())
                     .memberStatus(member.getMemberStatus())
                     .newbie(member.isNewbie())
                     .createdAt(member.getCreatedAt())
