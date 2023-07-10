@@ -28,7 +28,7 @@ public enum Local {
     private String localString;
 
     Local(String local) {
-        this.local = local;
+        this.localString = local;
     }
 
     public static Local findByLocal(String local) {
