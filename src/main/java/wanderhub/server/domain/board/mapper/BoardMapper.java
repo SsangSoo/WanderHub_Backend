@@ -39,6 +39,7 @@ public interface BoardMapper {
         }
     }
 
+    // 게시판 단일 조회 Response Mapper
     default BoardDto.Response boardEntityToBoardResponseDto(Board board) {
         if(board == null) {
             return null;
@@ -48,27 +49,45 @@ public interface BoardMapper {
                     .nickName(board.getNickName())
                     .title(board.getTitle())
                     .content(board.getContent())
-                    .local(board.getLocal().getLocal())
+                    .local(board.getLocal().getLocalString())
                     .viewPoint(board.getViewPoint())
                     .likePoint(board.getBoardHeartList().size())  // 연산
                     .createdAt(board.getCreatedAt())
                     .modifiedAt(board.getModifiedAt())
+                    .boComments(boCommentMapper.boCommentEntityListToBoCommentResponseDtoList(board.getBoCommentList()))
                     .build();
-            if(board.getBoCommentList()!=null) {       // 댓글들 스트림 사용해서 Response로 변환 후 list에 담음
-                response.setBoComments(boCommentMapper.boCommentEntityListToBoCommentResponseDtoList(board.getBoCommentList()));
-            }
             return response;
         }
     }
 
-    default List<BoardDto.Response> boardEntityListToBoardResponseDtoList(List<Board> boardList) {
+    // 개시판 전체 조회용 Response Mapper
+    default BoardDto.ListResponse boardEntityToBoardListResponseDto(Board board) {
+        if(board == null) {
+            return null;
+        } else {
+            BoardDto.ListResponse listCaseResponse = BoardDto.ListResponse.builder()
+                    .boardId(board.getBoardId())
+                    .nickName(board.getNickName())
+                    .title(board.getTitle())
+                    .local(board.getLocal().getLocalString())
+                    .viewPoint(board.getViewPoint())
+                    .likePoint(board.getBoardHeartList().size())
+                    .createdAt(board.getCreatedAt())
+                    .modifiedAt(board.getModifiedAt())
+                    .build();
+            return listCaseResponse;
+        }
+
+    }
+
+    // 게시판 전체 조회 List형식으로 mapping
+    default List<BoardDto.ListResponse> boardEntityListToBoardResponseDtoList(List<Board> boardList) {
         if(boardList == null) {
             return null;
         } else {
-            List<BoardDto.Response> list = new ArrayList<BoardDto.Response>(boardList.size());
+            List<BoardDto.ListResponse> list = new ArrayList<BoardDto.ListResponse>(boardList.size());
             for(Board board : boardList) {
-                BoardDto.Response response = boardEntityToBoardResponseDto(board);
-                response.setBoComments(null);
+                BoardDto.ListResponse response = boardEntityToBoardListResponseDto(board);
                 list.add(response);
             }
             return list;
