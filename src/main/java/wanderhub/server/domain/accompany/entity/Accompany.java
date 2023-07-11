@@ -15,7 +15,6 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Accompany extends Auditable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,5 +73,23 @@ public class Accompany extends Auditable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accompany", orphanRemoval = true) // orphanRemoval 연관관계가 끊어지면 자동으로 삭제
     private List<AccompanyMember> accompanyMemberList = new ArrayList<>();
+
+    public void setAccompanyInit(String nickname) {
+        this.nickname = nickname;
+    }
+    
+
+    @Builder
+    public Accompany(Local local, Long maxMemberNum, Date accompanyStartDate, Date accompanyEndDate, String title, String content, Double coordinateX, Double coordinateY, String placeName) {
+        this.local = local;
+        this.maxMemberNum = maxMemberNum;
+        this.accompanyStartDate = accompanyStartDate;
+        this.accompanyEndDate = accompanyEndDate;
+        this.title = title;
+        this.content = content;
+        this.coordinateX = coordinateX;
+        this.coordinateY = coordinateY;
+        this.placeName = placeName;
+    }
 
 }
