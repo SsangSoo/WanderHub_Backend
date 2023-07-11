@@ -15,7 +15,6 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Accompany extends Auditable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,9 +29,6 @@ public class Accompany extends Auditable {
     @Column(name = "LOCAL", length = 16)    // ERD상 Not Null이지만, 기본 X(선택없음)로 들어가므로 nullable 표시 안함.
     private Local local;
 
-    @Setter
-    @Column(name = "CURRENT_MEMBER_NUM")    // 현재 인원
-    private long currentMemberNum;           // 기본 0
 
     @Setter
     @Column(name = "MAX_MEMBER_NUM", nullable = false)      // 최대인원
@@ -75,5 +71,21 @@ public class Accompany extends Auditable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accompany", orphanRemoval = true) // orphanRemoval 연관관계가 끊어지면 자동으로 삭제
     private List<AccompanyMember> accompanyMemberList = new ArrayList<>();
 
+    public void setAccompanyInit(String nickname) {
+        this.nickname = nickname;
+    }
+    
 
+    @Builder
+    public Accompany(Local local, Long maxMemberNum, Date accompanyStartDate, Date accompanyEndDate, String title, String content, Double coordinateX, Double coordinateY, String placeName) {
+        this.local = local;
+        this.maxMemberNum = maxMemberNum;
+        this.accompanyStartDate = accompanyStartDate;
+        this.accompanyEndDate = accompanyEndDate;
+        this.title = title;
+        this.content = content;
+        this.coordinateX = coordinateX;
+        this.coordinateY = coordinateY;
+        this.placeName = placeName;
+    }
 }

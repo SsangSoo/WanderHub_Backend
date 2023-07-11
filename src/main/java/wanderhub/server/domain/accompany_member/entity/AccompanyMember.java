@@ -1,8 +1,6 @@
 package wanderhub.server.domain.accompany_member.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import wanderhub.server.domain.accompany.entity.Accompany;
 import wanderhub.server.domain.member.entity.Member;
 import wanderhub.server.global.audit.Auditable;
@@ -13,6 +11,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class AccompanyMember extends Auditable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,4 +26,9 @@ public class AccompanyMember extends Auditable {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
+    @Builder
+    public AccompanyMember(Accompany accompany, Member member) {
+        this.accompany = accompany;
+        this.member = member;
+    }
 }
