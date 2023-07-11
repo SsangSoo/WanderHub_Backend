@@ -77,6 +77,11 @@ public class AccompanyService {
         Accompany getAccompany = verificationAccompanyExists(accompanyId);  // 동행 유효성 검증
         return getAccompany;
     }
+
+    // 동행 전체 조회 페이지 네이션 
+    public Page<Accompany> findAccompanies(Pageable pageable) {
+        return accompanyRepository.findAll(pageable);
+    }
     
     // ------------------ 유효성 검증 ------------------
 
@@ -92,10 +97,5 @@ public class AccompanyService {
             throw new CustomLogicException(ExceptionCode.ACCOMPANY_WRITER_DIFFERENT);
         }
     }
-
-
-    public Page<Accompany> findAccompanies(Pageable pageable) {
-        return accompanyRepository.findAll(pageable);
-    }
-
+    
 }

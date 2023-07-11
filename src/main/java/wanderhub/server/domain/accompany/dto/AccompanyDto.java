@@ -96,4 +96,5 @@ public class AccompanyDto {
         private boolean recruitComplete;
     }
 
+
 }

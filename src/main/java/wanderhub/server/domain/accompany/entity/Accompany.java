@@ -29,6 +29,9 @@ public class Accompany extends Auditable {
     @Column(name = "LOCAL", length = 16)    // ERD상 Not Null이지만, 기본 X(선택없음)로 들어가므로 nullable 표시 안함.
     private Local local;
 
+    @Setter
+    @Column(name = "CURRENT_MEMBER_NUM")    // 현재 인원
+    private long currentMemberNum;           // 기본 0
 
     @Setter
     @Column(name = "MAX_MEMBER_NUM", nullable = false)      // 최대인원
@@ -88,4 +91,5 @@ public class Accompany extends Auditable {
         this.coordinateY = coordinateY;
         this.placeName = placeName;
     }
+
 }
