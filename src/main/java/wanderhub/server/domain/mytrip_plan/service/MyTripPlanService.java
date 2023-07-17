@@ -79,6 +79,4 @@ public class MyTripPlanService {
         }
         return myTripPlan;
     }
-
-
 }
