@@ -72,13 +72,13 @@ public class MyTripPlanService {
     }
 
     //    // 개인 일정 단일 조회
-//    public MyTripPlanResponseDto getMyTripPlan(String email, Long myTripPlanId) {
-//        Member findMember = memberService.findMember(email);
-//        memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
-//        // MyTrip 회원 확인
-//        MyTripPlan removingMyTripPlan = verificationMyTrip(myTripPlanId, findMember.getNickName());
-//
-//    }
+    public MyTripPlanResponseDto getMyTripPlan(String email, Long myTripPlanId) {
+        Member findMember = memberService.findMember(email);
+        memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
+        // MyTrip 회원 확인
+        verificationMyTrip(myTripPlanId, findMember.getNickName()); // 통과되면 유효섬 검증 완료
+        return myTripPlanQueryDsl.getOnceMyTripPlan(myTripPlanId);
+    }
 
     //----------유효성 검증-----------------------
 
@@ -96,7 +96,5 @@ public class MyTripPlanService {
         }
         return myTripPlan;
     }
-
-
 
 }

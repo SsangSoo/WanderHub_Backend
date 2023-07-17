@@ -37,8 +37,6 @@ public class MyTripPlanQueryDsl {
                 .where(myTripPlan.myTripPlanId.eq(myTripPlanId))
                 .fetchOne();
 
-//        List<>
-
         return myTripPlanResponseDto;
     }
 
@@ -56,5 +54,11 @@ public class MyTripPlanQueryDsl {
                 .where(myTripPlan.member.Id.eq(memberId))
                 .fetch();
         return myTripPlanListResponseDtoList;
+    }
+
+    public MyTripPlanResponseDto getOnceMyTripPlan(Long myTripPlanId) {
+        MyTripPlanResponseDto myTripPlan = getMyTripPlan(myTripPlanId);
+//        myTripPlan.setMyTripPlanDetailResponseDtoList();
+        return myTripPlan;
     }
 }

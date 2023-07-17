@@ -66,11 +66,18 @@ public class MyTripPlanController {
     @GetMapping
     public ResponseEntity getAllMyTrip(HttpServletRequest request,
                                        Principal principal) {
-        tokenService.verificationLogOutToken(request);  // 블랙리스트 토큰 확인)
+        tokenService.verificationLogOutToken(request);  // 블랙리스트 토큰 확인
         return ResponseEntity.ok(myTripPlanService.getAllMyTripPlan(principal.getName()));
     }
 
     // 일정 단일 조회 ( 그냥 게시판 조회가 아니라, 자기 것만 조회가능)
+    @GetMapping("/{myTripPlan-id}")
+    public ResponseEntity getMyTrip(HttpServletRequest request,
+                                    Principal principal,
+                                    @PathVariable("myTripPlan-id")Long myTripPlanId) {
+        tokenService.verificationLogOutToken(request);  // 블랙리스트 토큰 확인
+        return ResponseEntity.ok(myTripPlanService.getMyTripPlan(principal.getName(), myTripPlanId));
+    }
 
 }
 
