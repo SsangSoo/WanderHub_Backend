@@ -48,7 +48,7 @@ public class MyTripPlanDetailService {
     public MyTripPlanDetailResponseDto updateTripPlanDetail(String email, Long myTripPlanId, Long myTripPlanDetailId, MyTripPlanDetail patchToMyTripPlanDetail) {
         Member findMember = memberService.findMember(email);
         memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
-        myTripPlanService.verificationMyTrip(myTripPlanId, findMember.getNickName()); // MyTripPlan 확인
+        MyTripPlan myTripPlan = myTripPlanService.verificationMyTrip(myTripPlanId, findMember.getNickName()); // MyTripPlan 확인
         // 부모와 자식 Id가 맞는 MyTripPlanDetail 확인
         MyTripPlanDetail byMyTripPlanDetailId = findByMyTripPlanDetailId(myTripPlanDetailId, myTripPlanId);
         MyTripPlanDetail updatedMyTripPlanDetail = customBeanUtils.copyNonNullProoerties(patchToMyTripPlanDetail, byMyTripPlanDetailId);
@@ -69,7 +69,6 @@ public class MyTripPlanDetailService {
 
     //--------------유효성 검증------------------
     // MyTripPlanDetail이 있는지 확인
-
     public MyTripPlanDetail findByMyTripPlanDetailId(Long myTripPlanDetailId, Long myTripPlanId) {
         Optional<MyTripPlanDetail> byMyTripPlanDetailId = myTripPlanDetailRepository.findByMyTripPlanDetailId(myTripPlanDetailId, myTripPlanId);
         return byMyTripPlanDetailId.orElseThrow(() -> new CustomLogicException(ExceptionCode.TRIP_PLAN_DETAIL_NOT_FOUND));
