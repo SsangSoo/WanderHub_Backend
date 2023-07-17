@@ -20,7 +20,7 @@ public class MyTripPlanResponseDto {
     @JsonFormat(pattern = "yyyy-MM-dd") // 2022-10-02
     private LocalDate tripEndDate;
     @Setter
-    List<MyTripPlanDetailResponseDto> myTripPlanDetailResponseDtoList;
+    List<MyTripPlanDetailResponseDto> myTripPlanDetailResponseDtoList = new ArrayList<>();
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
@@ -32,8 +32,5 @@ public class MyTripPlanResponseDto {
         this.tripEndDate = tripEndDate;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
-        if(myTripPlanDetailResponseDtoList==null) {
-            setMyTripPlanDetailResponseDtoList(new ArrayList<>());
-        }
     }
 }
