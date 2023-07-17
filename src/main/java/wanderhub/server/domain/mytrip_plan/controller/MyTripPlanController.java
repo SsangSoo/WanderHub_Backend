@@ -19,7 +19,6 @@ import java.security.Principal;
 @Validated
 @RestController
 @RequestMapping("/v1/mytrip")
-@Slf4j
 public class MyTripPlanController {
 
     private final TokenService tokenService;
@@ -53,7 +52,16 @@ public class MyTripPlanController {
         return ResponseEntity.ok(myTripPlanService.updateMyTripPlan(principal.getName(), myTripPlanId, patchMyTripPlan));
     }
 
-    //
+    // 일정 삭제
+    @DeleteMapping("/{myTripPlan-id}")
+    public ResponseEntity patchMyTrip(HttpServletRequest request,
+                                      Principal principal,
+                                      @PathVariable("myTripPlan-id")Long myTripPlanId) {
+        tokenService.verificationLogOutToken(request);  // 블랙리스트 토큰 확인
+        myTripPlanService.removeMyTripPlan(principal.getName(), myTripPlanId);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
 
 }
 

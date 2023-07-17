@@ -17,7 +17,6 @@ import java.util.Optional;
 
 @Service
 @Transactional
-@Slf4j
 public class MyTripPlanService {
 
     private final MemberService memberService;
@@ -49,6 +48,18 @@ public class MyTripPlanService {
         MyTripPlan destMyTripPlan = verificationMyTrip(myTripPlanId, findMember.getNickName());
         MyTripPlan updatedMyTripPlan = customBeanUtils.copyNonNullProoerties(patchMyTripPlan, destMyTripPlan);
         return myTripPlanQueryDsl.getMyTripPlan(updatedMyTripPlan.getMyTripPlanId());
+        // 추후 디테일 추가.
+    }
+
+
+    // 개인 일정 삭제
+    public void removeMyTripPlan(String email, Long myTripPlanId) {
+        Member findMember = memberService.findMember(email);
+        memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
+        // MyTrip 회원 확인
+        MyTripPlan removingMyTripPlan = verificationMyTrip(myTripPlanId, findMember.getNickName());
+        myTripPlanRepository.delete(removingMyTripPlan);
+        // 추후 디테일 삭제 같이 해야됨.
     }
 
 
@@ -56,7 +67,7 @@ public class MyTripPlanService {
 
     // myTripPlan 확인
     private MyTripPlan verificationMyTrip(Long myTripPlanId, String nickName) {
-        Optional<MyTripPlan> myTripPlanById = myTripPlanRepository.findById(myTripPlanId);
+        Optional<MyTripPlan> myTripPlanById = myTripPlanRepository.findByMyTripPlanId(myTripPlanId);
         // 여행계획이 있는지 확인
         if(!myTripPlanById.isPresent()) {
             throw new CustomLogicException(ExceptionCode.TRIP_PLAN_NOT_FOUND);
@@ -68,4 +79,6 @@ public class MyTripPlanService {
         }
         return myTripPlan;
     }
+
+
 }
