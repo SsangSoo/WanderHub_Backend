@@ -53,7 +53,4 @@ public class MyTripPlanController {
         return ResponseEntity.ok(myTripPlanService.updateMyTripPlan(principal.getName(), myTripPlanId, patchMyTripPlan));
     }
 
-    //
-
 }
-

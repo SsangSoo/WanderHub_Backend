@@ -15,9 +15,9 @@ import wanderhub.server.global.utils.CustomBeanUtils;
 
 import java.util.Optional;
 
+
 @Service
 @Transactional
-@Slf4j
 public class MyTripPlanService {
 
     private final MemberService memberService;
