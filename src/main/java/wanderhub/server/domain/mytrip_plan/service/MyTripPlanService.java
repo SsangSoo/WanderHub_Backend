@@ -83,7 +83,7 @@ public class MyTripPlanService {
     //----------유효성 검증-----------------------
 
     // myTripPlan 확인
-    private MyTripPlan verificationMyTrip(Long myTripPlanId, String nickName) {
+    public MyTripPlan verificationMyTrip(Long myTripPlanId, String nickName) {
         Optional<MyTripPlan> myTripPlanById = myTripPlanRepository.findByMyTripPlanId(myTripPlanId);
         // 여행계획이 있는지 확인
         if(!myTripPlanById.isPresent()) {

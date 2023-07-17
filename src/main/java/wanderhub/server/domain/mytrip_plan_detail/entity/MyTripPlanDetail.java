@@ -1,8 +1,6 @@
 package wanderhub.server.domain.mytrip_plan_detail.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import wanderhub.server.domain.mytrip_plan.entity.MyTripPlan;
 import wanderhub.server.global.audit.Auditable;
 
@@ -47,8 +45,21 @@ public class MyTripPlanDetail extends Auditable {
     @Column(name = "TIME_END")
     private LocalTime timeEnd;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MY_TRIP_PLAN_ID")
     private MyTripPlan myTripPlan;
 
+
+    @Builder
+    public MyTripPlanDetail(String subTitle, String content, Double coordinateX, Double coordinateY, String placeName, LocalDate whenDate, LocalTime timeStart, LocalTime timeEnd) {
+        this.subTitle = subTitle;
+        this.content = content;
+        this.coordinateX = coordinateX;
+        this.coordinateY = coordinateY;
+        this.placeName = placeName;
+        this.whenDate = whenDate;
+        this.timeStart = timeStart;
+        this.timeEnd = timeEnd;
+    }
 }

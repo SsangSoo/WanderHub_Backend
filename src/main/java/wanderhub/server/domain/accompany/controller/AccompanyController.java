@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.text.ParseException;
 
-@Slf4j
 @Validated
 @RestController
 @RequestMapping("/v1/accompany")
