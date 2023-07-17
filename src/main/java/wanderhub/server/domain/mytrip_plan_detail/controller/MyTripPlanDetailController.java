@@ -40,4 +40,16 @@ public class MyTripPlanDetailController {
         MyTripPlanDetail myTripPlanDetail = myTripPlanDetailMapper.myTripPlanDetailPostDtoToEntity(postTripPlanDetail);
         return new ResponseEntity(new SingleResponse<>(myTripPlanDetailService.createTripPlanDetail(principal.getName(), myTripPlanId, myTripPlanDetail)), HttpStatus.CREATED);
     }
+    
+    // 일정 디테일 수정
+    @PatchMapping("/{myTripPlanDetail-id}")
+    public ResponseEntity patchMyTripPlanDetail(HttpServletRequest request,
+                                                @PathVariable("myTripPlan-id")Long myTripPlanId,
+                                                @PathVariable("myTripPlanDetail-id")Long myTripPlanDetailId,
+                                                @Validated @RequestBody MyTripPlanDetailDto.Patch patch,
+                                                Principal principal) {
+        tokenService.verificationLogOutToken(request);
+        MyTripPlanDetail patchToMyTripPlanDetail = myTripPlanDetailMapper.myTripPlanDetailPatchDtoToEntity(patch);
+        return ResponseEntity.ok(myTripPlanDetailService.updateTripPlanDetail(principal.getName(), myTripPlanId, myTripPlanDetailId, patchToMyTripPlanDetail));
+    }
 }

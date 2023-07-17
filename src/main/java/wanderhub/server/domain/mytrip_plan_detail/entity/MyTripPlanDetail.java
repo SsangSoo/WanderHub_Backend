@@ -20,28 +20,36 @@ public class MyTripPlanDetail extends Auditable {
     @Column(name = "MY_TRIP_PLAN_DETAIL_ID")
     private Long myTripPlanDetailId;
 
+    @Setter
     @Column(name = "SUBTITLE", length = 100, nullable = false)
     private String subTitle;
 
     @Lob
+    @Setter
     @Column(name = "CONTENT")
     private String content;
 
+    @Setter
     @Column(name = "COORDINATE_X")
     private Double coordinateX;
 
+    @Setter
     @Column(name = "COORDINATE_Y")
     private Double coordinateY;
 
+    @Setter
     @Column(name = "PLACE_NAME", length = 100)
     private String placeName;
 
+    @Setter
     @Column(name = "WHEN_DATE")
     private LocalDate whenDate;
 
+    @Setter
     @Column(name = "TIME_START")
     private LocalTime timeStart;
 
+    @Setter
     @Column(name = "TIME_END")
     private LocalTime timeEnd;
 

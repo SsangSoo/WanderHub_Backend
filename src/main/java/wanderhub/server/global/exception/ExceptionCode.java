@@ -39,6 +39,8 @@ public enum ExceptionCode {
     LOGOUT_TOKEN(401, "LogOuted Token!!"),
 
     TRIP_PLAN_NOT_FOUND(404, "TripPlan Not Found"),
+    TRIP_PLAN_DIFFERENT_WRITER(404, "Writer is Different"),
+    TRIP_PLAN_DETAIL_NOT_FOUND(404, "TripPlanDetail Not Found");
     TRIP_PLAN_DIFFERENT_WRITER(404, "Writer is Different");
 
 
