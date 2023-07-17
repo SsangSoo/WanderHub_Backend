@@ -1,6 +1,5 @@
 package wanderhub.server.domain.board.dto;
 
-import lombok.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class BoardDto {
+public class BoardTempDto {
 
     @Builder
     @Getter
@@ -52,6 +51,7 @@ public class BoardDto {
         private LocalDateTime modifiedAt;
     }
 
+    // 임시
     @Builder
     @Getter
     @NoArgsConstructor

@@ -7,6 +7,8 @@ import wanderhub.server.global.audit.Auditable;
 import wanderhub.server.global.utils.Local;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +21,7 @@ public class Accompany extends Auditable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ACCOMPANY_ID", updatable = false)
-    private Long id;
+    private Long accompanyId;
 
     @Column(name = "NICKNAME",length = 50, updatable = false)
     private String nickname;
@@ -29,18 +31,17 @@ public class Accompany extends Auditable {
     @Column(name = "LOCAL", length = 16)    // ERD상 Not Null이지만, 기본 X(선택없음)로 들어가므로 nullable 표시 안함.
     private Local local;
 
-
     @Setter
     @Column(name = "MAX_MEMBER_NUM", nullable = false)      // 최대인원
     private Long maxMemberNum;
 
     @Setter
     @Column(name = "ACCOMPANY_START_DATE")
-    private Date accompanyStartDate;        // 동행 시작 날짜
+    private LocalDate accompanyStartDate;        // 동행 시작 날짜
 
     @Setter
     @Column(name = "ACCOMPANY_END_DATE")
-    private Date accompanyEndDate;          // 동행 시작 날짜
+    private LocalDate accompanyEndDate;          // 동행 시작 날짜
 
     @Setter
     @Column(name = "TITLE", length = 100, nullable = false)
@@ -77,7 +78,7 @@ public class Accompany extends Auditable {
     
 
     @Builder
-    public Accompany(Local local, Long maxMemberNum, Date accompanyStartDate, Date accompanyEndDate, String title, String content, Double coordinateX, Double coordinateY, String placeName) {
+    public Accompany(Local local, Long maxMemberNum, LocalDate accompanyStartDate, LocalDate accompanyEndDate, String title, String content, Double coordinateX, Double coordinateY, String placeName) {
         this.local = local;
         this.maxMemberNum = maxMemberNum;
         this.accompanyStartDate = accompanyStartDate;

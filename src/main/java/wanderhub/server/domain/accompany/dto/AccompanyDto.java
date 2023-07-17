@@ -6,7 +6,8 @@ import lombok.*;
 import javax.persistence.Lob;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class AccompanyDto {
@@ -20,9 +21,9 @@ public class AccompanyDto {
         @NotNull
         private Long maxMemberNum;
         @JsonFormat(pattern = "yyyy-MM-dd") // 2022-10-02
-        private Date accompanyStartDate;
+        private LocalDate accompanyStartDate;
         @JsonFormat(pattern = "yyyy-MM-dd") // 2022-10-02
-        private Date accompanyEndDate;
+        private LocalDate accompanyEndDate;
         @NotBlank
         private String title;
         @Lob
@@ -41,9 +42,9 @@ public class AccompanyDto {
         private String local;
         private Long maxMemberNum;
         @JsonFormat(pattern = "yyyy-MM-dd") // 2022-10-02
-        private Date accompanyStartDate;
+        private LocalDate accompanyStartDate;
         @JsonFormat(pattern = "yyyy-MM-dd") // 2022-10-02
-        private Date accompanyEndDate;
+        private LocalDate accompanyEndDate;
         private String title;
         @Lob
         private String content;
@@ -51,49 +52,4 @@ public class AccompanyDto {
         private Double coordinateY;
         private String placeName;
     }
-
-    
-    // 응답용
-    @Getter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    public static class Response {
-        private Long id;
-        private String nickname;
-        private String local;
-        private long currentMemberNum;
-        private Long maxMemberNum;
-        @JsonFormat(pattern = "yyyy-MM-dd") // 2022-10-02
-        private Date accompanyStartDate;
-        @JsonFormat(pattern = "yyyy-MM-dd") // 2022-10-02
-        private Date accompanyEndDate;
-        private String title;
-        private String content;
-        private boolean recruitComplete;
-        private Double coordinateX;
-        private Double coordinateY;
-        private String placeName;
-        private List<String> joinMembers;
-    }
-
-    // 전체 조회용 Response
-    @Getter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    public static class ListResponse {
-        private Long id;
-        private String nickname;
-        private String local;
-        private long currentMemberNum;
-        private Long maxMemberNum;
-        @JsonFormat(pattern = "yyyy-MM-dd") // 2022-10-02
-        private Date accompanyStartDate;
-        @JsonFormat(pattern = "yyyy-MM-dd") // 2022-10-02
-        private Date accompanyEndDate;
-        private String title;
-        private boolean recruitComplete;
-    }
-
 }

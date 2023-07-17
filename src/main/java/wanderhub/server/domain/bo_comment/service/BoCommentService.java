@@ -2,6 +2,7 @@ package wanderhub.server.domain.bo_comment.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import wanderhub.server.domain.bo_comment.dto.BoCommentResponseDto;
 import wanderhub.server.domain.bo_comment.repository.BoCommentRepository;
 import wanderhub.server.domain.bo_comment_heart.entity.BoCommentHeart;
 import wanderhub.server.domain.bo_comment_heart.service.BoCommentHeartService;
@@ -13,6 +14,7 @@ import wanderhub.server.global.exception.CustomLogicException;
 import wanderhub.server.global.exception.ExceptionCode;
 import wanderhub.server.global.utils.CustomBeanUtils;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -96,7 +98,7 @@ public class BoCommentService {
 
     public void verficationBoCommentWriter(BoComment boComment, Member member) {    // 댓글의 작성자를 비교한다.
         if(!boComment.getNickName().equals(member.getNickName()))  {    // 같은 사람이 아니면,
-            throw new CustomLogicException(ExceptionCode.BOARD_COMMNET_WRITER_DIFFERENT);
+            throw new CustomLogicException(ExceptionCode.BOARD_COMMENT_WRITER_DIFFERENT);
         } // 맞으면 수정 가능.
     }
 

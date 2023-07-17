@@ -8,6 +8,7 @@ import wanderhub.server.domain.mytrip_plan_detail.entity.MyTripPlanDetail;
 import wanderhub.server.global.audit.Auditable;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,10 +28,10 @@ public class MyTripPlan extends Auditable {
     private String title;
 
     @Column(name = "TRIP_START_DATE", nullable = false)
-    private Date tripStartDate;
+    private LocalDateTime tripStartDate;
 
     @Column(name = "TRIP_END_DATE",nullable = false)
-    private Date tripEndDate;
+    private LocalDateTime tripEndDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")

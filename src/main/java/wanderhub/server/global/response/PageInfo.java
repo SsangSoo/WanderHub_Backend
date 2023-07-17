@@ -22,4 +22,5 @@ public class PageInfo {
         this.first = currentPage == 0;
         this.last = currentPage == totalPage - 1;
     }
+
 }

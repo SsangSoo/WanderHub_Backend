@@ -9,6 +9,7 @@ import wanderhub.server.domain.accompany_member.repository.AccompanyMemberReposi
 import wanderhub.server.domain.member.entity.Member;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -31,9 +32,14 @@ public class AccompanyMemberService {
     }
 
     public void removeAccompanyMemberByAccompanyId(Long accompanyId) {
-        List<AccompanyMember> findAccompanyMembersByAccompanyId = accompanyMemberRepository.findByAccompanyId(accompanyId);
-        for(AccompanyMember am : findAccompanyMembersByAccompanyId) {
-            accompanyMemberRepository.delete(am);
-        }
+        accompanyMemberRepository.deleteAccompanyMemberByAccompany_AccompanyId(accompanyId);
+    }
+
+    public Optional<AccompanyMember> findAccompanyMember(Long accompanyId, Long memberId) {
+        return accompanyMemberRepository.findByAccompany_AccompanyIdAndMemberId(accompanyId, memberId);
+    }
+
+    public void outAccompanyMember(Long accompanyId, Long memberId) {
+        accompanyMemberRepository.deleteAccompanyMemberByAccompany_AccompanyIdAndMember_Id(accompanyId, memberId);
     }
 }

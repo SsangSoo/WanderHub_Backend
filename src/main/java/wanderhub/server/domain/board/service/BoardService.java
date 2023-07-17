@@ -4,16 +4,23 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import wanderhub.server.domain.bo_comment.dto.BoCommentResponseDto;
+import wanderhub.server.domain.bo_comment.service.BoCommentService;
+import wanderhub.server.domain.board.dto.BoardListResponseDto;
+import wanderhub.server.domain.board.dto.BoardResponseDto;
 import wanderhub.server.domain.board.entity.Board;
 import wanderhub.server.domain.board.repository.BoardRepository;
+import wanderhub.server.domain.board.repository.BoardSearchRepository;
 import wanderhub.server.domain.board_heart.entity.BoardHeart;
 import wanderhub.server.domain.board_heart.service.BoardHeartService;
 import wanderhub.server.domain.member.entity.Member;
 import wanderhub.server.domain.member.service.MemberService;
 import wanderhub.server.global.exception.CustomLogicException;
 import wanderhub.server.global.exception.ExceptionCode;
+import wanderhub.server.global.response.PageResponseDto;
 import wanderhub.server.global.utils.CustomBeanUtils;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,12 +31,16 @@ public class BoardService {
     private final CustomBeanUtils<Board> customBeanUtils;
     private final MemberService memberService;
     private final BoardHeartService boardHeartService;
+    private final BoardSearchRepository boardSearchRepository;
+//    private final BoCommentService boCommentService;
 
-    public BoardService(BoardRepository boardRepository, CustomBeanUtils<Board> customBeanUtils, MemberService memberService, BoardHeartService boardHeartService) {
+
+    public BoardService(BoardRepository boardRepository, CustomBeanUtils<Board> customBeanUtils, MemberService memberService, BoardHeartService boardHeartService, BoardSearchRepository boardSearchRepository) {
         this.boardRepository = boardRepository;
         this.customBeanUtils = customBeanUtils;
         this.memberService = memberService;
         this.boardHeartService = boardHeartService;
+        this.boardSearchRepository = boardSearchRepository;
     }
 
     public Board createBoard(Board board, String email) {   // 컨트롤러부터 매퍼로 매핑된 Board와 인증객체의 이메일을 찾아온다.
@@ -54,7 +65,7 @@ public class BoardService {
         Member findMember = memberService.findMember(email);
         memberService.verificationMember(findMember);               // 통과시 회원 검증 완료
         Board findBoard = verificationBoard(boardId);                   //  게시판이 있는 게시판인지 확인
-        verificationWriter(findBoard, findMember);                      //  삭제시도를 하는 사람이 작성한 사람인지 확인 // 통과되면 검증 완료
+        verificationWriter(findBoard, findMember);                      //  삭제 시도를 하는 사람이 작성한 사람인지 확인 // 통과되면 검증 완료
         boardRepository.delete(findBoard);                              //  개시판 삭제
     }
 
@@ -67,7 +78,7 @@ public class BoardService {
     }
 
     // 게시판 단일 조회
-    public Board getBoard(Long boardId) {
+    public Board getTempBoard(Long boardId) {
         Optional<Board> board = boardRepository.findById(boardId);
         if(board.isPresent()) { // 게시판이 있으면
             Board findBoard = board.get();  // 실제 게시판 객체 추출
@@ -79,11 +90,29 @@ public class BoardService {
         }
     }
 
+    // 게시판 단일 조회 N + 1 해결
+    public BoardResponseDto getBoard(Long boardId) {
+        Optional<Board> board = boardRepository.findById(boardId);
+        if(board.isPresent()) { // 게시판이 있으면
+            Board findBoard = board.get();  // 실제 게시판 객체 추출
+            boardSearchRepository.updateViewPoint(findBoard.getBoardId());  // viewPoint 1 증가.
+            BoardResponseDto resultBoard = boardSearchRepository.getResultBoard(findBoard.getBoardId()); // Board Dto를 반환
+            resultBoard.setBoComments(boardSearchRepository.getBoardCommentList(findBoard.getBoardId()));
+            return resultBoard;  // Board를 반환
+        } else {
+            throw new CustomLogicException(ExceptionCode.BOARD_NOT_FOUND);  // 없으면 예외던진다.
+        }
+    }
+
     // 게시판 전체 조회
     public Page<Board> findBoards(Pageable pageable) {
         return boardRepository.findAll(pageable);
     }
 
+    // 게시판 전체 조회 N+1 해결
+    public PageResponseDto<BoardListResponseDto> findAllBoards(Integer page) {
+        return boardSearchRepository.searchBoard(page);
+    }
 
     // 게시판 좋아요
     public Board likeBoard(Long boardId, String email) {
@@ -113,9 +142,7 @@ public class BoardService {
     public void verificationWriter(Board board, Member member) {
         if (!board.getNickName().equals(member.getNickName())) {            // 찾은 게시판의 작성자와 게시판을 수정을 시도하려는 사용자의 닉네임이 다를 때
             throw new CustomLogicException(ExceptionCode.BOARD_WRITER_DIFFERENT);   // 멤버가 다르다는 예외 발생
-
         }
     }
-
 
 }

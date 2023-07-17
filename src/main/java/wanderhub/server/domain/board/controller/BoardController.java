@@ -9,12 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import wanderhub.server.auth.jwt.refreshtoken.service.TokenService;
-import wanderhub.server.domain.board.dto.BoardDto;
+import wanderhub.server.domain.board.dto.BoardTempDto;
 import wanderhub.server.domain.board.entity.Board;
 import wanderhub.server.domain.board.mapper.BoardMapper;
 import wanderhub.server.domain.board.service.BoardService;
 import wanderhub.server.global.response.PageInfo;
-import wanderhub.server.global.response.PageResponseDto;
+import wanderhub.server.global.response.PageTempResponseDto;
 import wanderhub.server.global.response.SingleResponse;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,18 +38,18 @@ public class BoardController {
 
     // 게시판 작성
     @PostMapping
-    public ResponseEntity boardPost(HttpServletRequest request, Principal principal, @Validated @RequestBody BoardDto.Post post) {
+    public ResponseEntity boardPost(HttpServletRequest request, Principal principal, @Validated @RequestBody BoardTempDto.Post post) {
         tokenService.verificationLogOutToken(request);  // 블랙리스트 Token확인
         Board createBoardFromPostDto = boardMapper.boardPostDtoToBoardEntity(post);     // Dto로부터 생성된 객체
         String email = principal.getName();
         Board createdBoard = boardService.createBoard(createBoardFromPostDto, email);   // 서비스계층에서 Entity 생성
-        BoardDto.Response boardResponse = boardMapper.boardEntityToBoardResponseDto(createdBoard);   // Response로
+        BoardTempDto.Response boardResponse = boardMapper.boardEntityToBoardResponseDto(createdBoard);   // Response로
         return new ResponseEntity(new SingleResponse<>(boardResponse), HttpStatus.CREATED);
     }
 
     // 게시판 수정
     @PatchMapping("/{board-id}")
-    public ResponseEntity boardPatch(HttpServletRequest request, @PathVariable("board-id")Long boardId, Principal principal, @Validated @RequestBody BoardDto.Patch patch) {
+    public ResponseEntity boardPatch(HttpServletRequest request, @PathVariable("board-id")Long boardId, Principal principal, @Validated @RequestBody BoardTempDto.Patch patch) {
         tokenService.verificationLogOutToken(request);  // 블랙리스트 Token확인
         Board patchBoardFromPatchDto = boardMapper.boardPatchDtoToBoardEntity(patch);           // Dto로부터 생성된 객체
         String email = principal.getName();                                                     // email을 찾는다.
@@ -65,11 +65,11 @@ public class BoardController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    // 게시판 단일 조회
-    @GetMapping("/{board-id}")
-    public ResponseEntity getBoard(@PathVariable("board-id")Long boardId) {
-        Board getBoardEntity = boardService.getBoard(boardId);
-        BoardDto.Response boardResponse = boardMapper.boardEntityToBoardResponseDto(getBoardEntity);
+    // 게시판 단일 조회(N+1 문제 발생)
+    @GetMapping("/temp/{board-id}")
+    public ResponseEntity getTempBoard(@PathVariable("board-id")Long boardId) {
+        Board getBoardEntity = boardService.getTempBoard(boardId);
+        BoardTempDto.Response boardResponse = boardMapper.boardEntityToBoardResponseDto(getBoardEntity);
         return new ResponseEntity(new SingleResponse<>(boardResponse), HttpStatus.OK);
     }
 
@@ -78,19 +78,30 @@ public class BoardController {
     public ResponseEntity boardHeart(HttpServletRequest request, @PathVariable("board-id")Long boardId, Principal principal) {
         tokenService.verificationLogOutToken(request);  // 블랙리스트 Token확인
         Board likedBoard = boardService.likeBoard(boardId, principal.getName());
-        BoardDto.Response boardResponse = boardMapper.boardEntityToBoardResponseDto(likedBoard);
+        BoardTempDto.Response boardResponse = boardMapper.boardEntityToBoardResponseDto(likedBoard);
         return ResponseEntity.ok(new SingleResponse<>(boardResponse));
     }
 
 
-
-    //  게시판 전체 조회
-    @GetMapping
-    public ResponseEntity getBoards(@PageableDefault Pageable pageable){
+    // 게시판 전체 조회 (N+1 문제 발생)
+    @GetMapping("/temp")
+    public ResponseEntity tempGetBoards(@PageableDefault Pageable pageable){
         Page<Board> boardEntityListPage = boardService.findBoards(pageable);
         return  new ResponseEntity<>(
-                new PageResponseDto<>(boardMapper.boardEntityListToBoardResponseDtoList(boardEntityListPage.getContent()),
+                new PageTempResponseDto<>(boardMapper.boardEntityListToBoardResponseDtoList(boardEntityListPage.getContent()),
                         new PageInfo(boardEntityListPage.getPageable(), boardEntityListPage.getTotalElements())), HttpStatus.OK);
+    }
+
+    // 게시판 전체 조회 N + 1 해결
+    @GetMapping
+    public ResponseEntity getAllBoard(@RequestParam(name = "page", defaultValue = "1") Integer page) {
+        return ResponseEntity.ok(boardService.findAllBoards(page));
+    }
+
+    // 게시판 단일조회 N + 1 해결
+    @GetMapping("/{board-id}")
+    public ResponseEntity getBoard(@PathVariable("board-id")Long boardId) {
+        return ResponseEntity.ok(boardService.getBoard(boardId));
     }
 
 }
