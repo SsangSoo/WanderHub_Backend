@@ -41,7 +41,6 @@ public class MyTripPlanQueryDsl {
 
         return myTripPlanResponseDto;
     }
-
     public List<MyTripPlanListResponseDto> getMyTripPlanList(Long memberId) {
         List<MyTripPlanListResponseDto> myTripPlanListResponseDtoList;
         myTripPlanListResponseDtoList = queryFactory

@@ -12,4 +12,5 @@ public interface MyTripPlanRepository extends JpaRepository<MyTripPlan, Long> {
 
     @Query("select mtp from MyTripPlan as mtp where mtp.myTripPlanId = :myTripPlanId")
     Optional<MyTripPlan> findByMyTripPlanId(Long myTripPlanId);
+
 }
