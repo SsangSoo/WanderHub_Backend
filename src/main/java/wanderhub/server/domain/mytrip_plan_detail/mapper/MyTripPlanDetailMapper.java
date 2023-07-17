@@ -1,7 +1,6 @@
 package wanderhub.server.domain.mytrip_plan_detail.mapper;
 
 import org.mapstruct.Mapper;
-import wanderhub.server.domain.mytrip_plan.dto.MyTripPlanDto;
 import wanderhub.server.domain.mytrip_plan_detail.dto.MyTripPlanDetailDto;
 import wanderhub.server.domain.mytrip_plan_detail.entity.MyTripPlanDetail;
 
