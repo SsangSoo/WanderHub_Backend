@@ -62,6 +62,15 @@ public class MyTripPlanController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
+    // 일정 전체 조회 (자기 것만)
+    @GetMapping
+    public ResponseEntity getAllMyTrip(HttpServletRequest request,
+                                       Principal principal) {
+        tokenService.verificationLogOutToken(request);  // 블랙리스트 토큰 확인)
+        return ResponseEntity.ok(myTripPlanService.getAllMyTripPlan(principal.getName()));
+    }
+
+    // 일정 단일 조회 ( 그냥 게시판 조회가 아니라, 자기 것만 조회가능)
 
 }
 
