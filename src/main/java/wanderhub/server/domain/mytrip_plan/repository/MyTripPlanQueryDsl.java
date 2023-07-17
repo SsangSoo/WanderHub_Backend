@@ -36,11 +36,9 @@ public class MyTripPlanQueryDsl {
                 .from(myTripPlan)
                 .where(myTripPlan.myTripPlanId.eq(myTripPlanId))
                 .fetchOne();
-
-//        List<>
-
         return myTripPlanResponseDto;
     }
+
     public List<MyTripPlanListResponseDto> getMyTripPlanList(Long memberId) {
         List<MyTripPlanListResponseDto> myTripPlanListResponseDtoList;
         myTripPlanListResponseDtoList = queryFactory
@@ -55,5 +53,11 @@ public class MyTripPlanQueryDsl {
                 .where(myTripPlan.member.Id.eq(memberId))
                 .fetch();
         return myTripPlanListResponseDtoList;
+    }
+
+    public MyTripPlanResponseDto getOnceMyTripPlan(Long myTripPlanId) {
+        MyTripPlanResponseDto myTripPlan = getMyTripPlan(myTripPlanId);
+//        myTripPlan.setMyTripPlanDetailResponseDtoList();
+        return myTripPlan;
     }
 }
