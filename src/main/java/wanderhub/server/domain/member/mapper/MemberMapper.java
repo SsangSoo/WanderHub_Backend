@@ -9,6 +9,8 @@ import wanderhub.server.domain.member.dto.MemberDto;
 import wanderhub.server.domain.member.entity.Member;
 import wanderhub.server.global.utils.Local;
 
+import java.util.Objects;
+
 @Mapper(componentModel = "spring")
 public interface MemberMapper {
 
@@ -16,9 +18,7 @@ public interface MemberMapper {
     BoardCommentMapper boardCommentMapper = new BoardCommentMapperImpl();
 
     default Member memberPatchDtoToMemberEntity(MemberDto.Patch memberDtoPatch) {
-        if (memberDtoPatch == null) {
-            return null;
-        } else {
+        if(Objects.nonNull(memberDtoPatch)) {
             Member patchMember = Member.builder()
                     .name(memberDtoPatch.getName())
                     .nickName(memberDtoPatch.getNickName())
@@ -27,13 +27,12 @@ public interface MemberMapper {
                     .build();
             return patchMember;
         }
+        return null;
     }
 
     // 멤버 수정시 나오는 응답들.
     default MemberDto.Response memberEntityToMemberResponseDto(Member member) {
-        if (member == null) {
-            return null;
-        } else {
+        if(Objects.nonNull(member)) {
             MemberDto.Response.ResponseBuilder response = MemberDto.Response.builder();
             response.email(member.getEmail());
             response.name(member.getName());
@@ -46,14 +45,13 @@ public interface MemberMapper {
             response.modifiedAt(member.getModifiedAt());
             return response.build();
         }
+        return null;
     }
 
 
     // 멤버 단일조회 마이페이지용
     default MemberDto.GetResponse getMemberEntityToMemberResponseDto(Member member) {
-        if (member == null) {
-            return null;
-        } else {
+        if(Objects.nonNull(member)) {
             MemberDto.GetResponse response = MemberDto.GetResponse.builder()
                     .name(member.getName())
                     .email(member.getEmail())
@@ -65,16 +63,8 @@ public interface MemberMapper {
                     .createdAt(member.getCreatedAt())
                     .modifiedAt(member.getModifiedAt())
                     .build();
-//            if (member.getBoardList() != null) {
-//                response.setBoardList(boardMapper.boardsToBoardDtoResponseList(member.getBoardList()));
-//            }
-//            if (member.getBoCommentList() != null) {
-//                response.setBoCommentList(boardCommentMapper.boCommentsToBoCommentDtoResponseList(member.getBoCommentList()));
-//            }
             return response;
-
-
         }
+        return null;
     }
-
 }

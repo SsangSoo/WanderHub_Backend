@@ -5,15 +5,15 @@ import wanderhub.server.domain.accompany.dto.AccompanyDto;
 import wanderhub.server.domain.accompany.entity.Accompany;
 import wanderhub.server.global.utils.Local;
 
+import java.util.Objects;
+
 
 @Mapper(componentModel = "spring")
 public interface AccompanyMapper {
 
     // 생성 mapper
     default Accompany accompanyPostDtoToAccompanyEntity(AccompanyDto.Post accompanyPost) {
-       if(accompanyPost==null) {
-           return null;
-       } else {
+       if(Objects.nonNull(accompanyPost)) {
            return Accompany.builder()
                    .local(Local.findByLocal(accompanyPost.getLocal()))
                    .maxMemberNum(accompanyPost.getMaxMemberNum())
@@ -26,13 +26,12 @@ public interface AccompanyMapper {
                    .placeName(accompanyPost.getPlaceName())
                    .build();
        }
+       return null;
     }
 
     // 수정시 mapper
     default Accompany accompanyPatchDtoToAccompanyEntity(AccompanyDto.Patch patch) {
-        if(patch==null) {
-            return null;
-        } else {
+        if(Objects.nonNull(patch)) {
             return Accompany.builder()
                     .local(Local.findByLocal(patch.getLocal()))
                     .maxMemberNum(patch.getMaxMemberNum())
@@ -45,7 +44,7 @@ public interface AccompanyMapper {
                     .placeName(patch.getPlaceName())
                     .build();
         }
-
+        return null;
     }
 
 }
