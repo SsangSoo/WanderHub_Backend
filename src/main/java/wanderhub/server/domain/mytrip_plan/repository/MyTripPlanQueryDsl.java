@@ -36,6 +36,8 @@ public class MyTripPlanQueryDsl {
                 .where(myTripPlan.myTripPlanId.eq(myTripPlanId))
                 .fetchOne();
 
+//        List<>
+
         return myTripPlanResponseDto;
     }
 

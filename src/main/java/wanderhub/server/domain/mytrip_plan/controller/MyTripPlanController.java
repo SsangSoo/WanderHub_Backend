@@ -42,8 +42,15 @@ public class MyTripPlanController {
         return new ResponseEntity(new SingleResponse<>(myTripPlanService.createTripPlan(principal.getName(), postMyTripPlan)), HttpStatus.CREATED);
     }
 
-//    @PatchMapping("/{myTripPlan-id}")
-//    public ResponseEntity patchMyTrip(HttpServletRequest request,
-//                                     Principal principal,
-//                                     @Validated @RequestBody MyTripPlanDto.Post post) {
+    // 일정 업데이트
+    @PatchMapping("/{myTripPlan-id}")
+    public ResponseEntity patchMyTrip(HttpServletRequest request,
+                                     Principal principal,
+                                     @PathVariable("myTripPlan-id")Long myTripPlanId,
+                                     @Validated @RequestBody MyTripPlanDto.Patch patch) {
+        tokenService.verificationLogOutToken(request);  // 블랙리스트 토큰 확인
+        MyTripPlan patchMyTripPlan = myTripMapper.myTripPlanPatchDtoToMyTripPlanEntity(patch);
+        return ResponseEntity.ok(myTripPlanService.updateMyTripPlan(principal.getName(), myTripPlanId, patchMyTripPlan));
+    }
+
 }

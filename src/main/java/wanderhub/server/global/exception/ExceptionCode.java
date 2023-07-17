@@ -36,7 +36,10 @@ public enum ExceptionCode {
 
     REFRESH_TOKEN_INVALID(401, "RefreshToken is Invalid"),
     REFRESH_TOKNE_WITHOUT(401, "RefreshToken is Without"),
-    LOGOUT_TOKEN(401, "LogOuted Token!!");
+    LOGOUT_TOKEN(401, "LogOuted Token!!"),
+
+    TRIP_PLAN_NOT_FOUND(404, "TripPlan Not Found"),
+    TRIP_PLAN_DIFFERENT_WRITER(404, "Writer is Different");
 
 
     @Getter
