@@ -52,4 +52,16 @@ public class MyTripPlanDetailController {
         MyTripPlanDetail patchToMyTripPlanDetail = myTripPlanDetailMapper.myTripPlanDetailPatchDtoToEntity(patch);
         return ResponseEntity.ok(myTripPlanDetailService.updateTripPlanDetail(principal.getName(), myTripPlanId, myTripPlanDetailId, patchToMyTripPlanDetail));
     }
+
+    // 일정 디테일 삭제
+    @DeleteMapping("/{myTripPlanDetail-id}")
+    public ResponseEntity patchMyTripPlanDetail(HttpServletRequest request,
+                                                @PathVariable("myTripPlan-id")Long myTripPlanId,
+                                                @PathVariable("myTripPlanDetail-id")Long myTripPlanDetailId,
+                                                Principal principal) {
+        tokenService.verificationLogOutToken(request);
+        myTripPlanDetailService.removeMyTripPlanDetail(principal.getName(), myTripPlanId, myTripPlanDetailId);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
 }
+
