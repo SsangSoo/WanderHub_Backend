@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 import wanderhub.server.domain.accompany.dto.AccompanyResponseDto;
 import wanderhub.server.domain.accompany.dto.QAccompanyResponseDto;
 import wanderhub.server.domain.mytrip_plan.dto.*;
+import wanderhub.server.domain.mytrip_plan_detail.dto.MyTripPlanDetailListResponseDto;
+import wanderhub.server.domain.mytrip_plan_detail.dto.QMyTripPlanDetailListResponseDto;
 
 import javax.persistence.EntityManager;
 
@@ -12,6 +14,8 @@ import java.util.List;
 
 import static wanderhub.server.domain.mytrip_plan.entity.QMyTripPlan.*;
 import static wanderhub.server.domain.mytrip_plan.dto.QMyTripPlanListResponseDto.*;
+import static wanderhub.server.domain.mytrip_plan_detail.dto.QMyTripPlanDetailListResponseDto.*;
+import static wanderhub.server.domain.mytrip_plan_detail.entity.QMyTripPlanDetail.*;
 
 @Repository
 public class MyTripPlanQueryDsl {
@@ -55,9 +59,26 @@ public class MyTripPlanQueryDsl {
         return myTripPlanListResponseDtoList;
     }
 
+    public List<MyTripPlanDetailListResponseDto> getTripPlanDetailListOfMyTripPlan(Long myTripPlanId) {
+        List<MyTripPlanDetailListResponseDto> myTripPlanDetailListResponseList;
+        myTripPlanDetailListResponseList = queryFactory
+                .select(new QMyTripPlanDetailListResponseDto(
+                        myTripPlanDetail.myTripPlanDetailId,
+                        myTripPlanDetail.subTitle,
+                        myTripPlanDetail.placeName,
+                        myTripPlanDetail.whenDate,
+                        myTripPlanDetail.createdAt
+                ))
+                .from(myTripPlanDetail)
+                .where(myTripPlanDetail.myTripPlan.myTripPlanId.eq(myTripPlanId))
+                .fetch();
+        return myTripPlanDetailListResponseList;
+    }
+
     public MyTripPlanResponseDto getOnceMyTripPlan(Long myTripPlanId) {
         MyTripPlanResponseDto myTripPlan = getMyTripPlan(myTripPlanId);
-//        myTripPlan.setMyTripPlanDetailResponseDtoList();
+        List<MyTripPlanDetailListResponseDto> myTripPlanDetailListResponseList = getTripPlanDetailListOfMyTripPlan(myTripPlanId);
+        myTripPlan.setMyTripPlanDetailResponseDtoList(myTripPlanDetailListResponseList);
         return myTripPlan;
     }
 }

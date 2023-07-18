@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.Setter;
-import wanderhub.server.domain.mytrip_plan_detail.dto.MyTripPlanDetailResponseDto;
+import wanderhub.server.domain.mytrip_plan_detail.dto.MyTripPlanDetailListResponseDto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,7 +20,7 @@ public class MyTripPlanResponseDto {
     @JsonFormat(pattern = "yyyy-MM-dd") // 2022-10-02
     private LocalDate tripEndDate;
     @Setter
-    List<MyTripPlanDetailResponseDto> myTripPlanDetailResponseDtoList = new ArrayList<>();
+    List<MyTripPlanDetailListResponseDto> myTripPlanDetailResponseDtoList = new ArrayList<>();
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
