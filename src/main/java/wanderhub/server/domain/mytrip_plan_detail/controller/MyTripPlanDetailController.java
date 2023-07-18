@@ -63,5 +63,15 @@ public class MyTripPlanDetailController {
         myTripPlanDetailService.removeMyTripPlanDetail(principal.getName(), myTripPlanId, myTripPlanDetailId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+
+    // 일정 단일 조회
+    @GetMapping("/{myTripPlanDetail-id}")
+    public ResponseEntity getOnceMyTripPlanDetail(HttpServletRequest request,
+                                                  @PathVariable("myTripPlan-id")Long myTripPlanId,
+                                                  @PathVariable("myTripPlanDetail-id")Long myTripPlanDetailId,
+                                                  Principal principal) {
+        tokenService.verificationLogOutToken(request);
+        return ResponseEntity.ok(myTripPlanDetailService.getOnceMyTripPlanDetail(principal.getName(), myTripPlanId, myTripPlanDetailId));
+    }
 }
 
