@@ -73,6 +73,6 @@ public class MyTripPlanDetailController {
         tokenService.verificationLogOutToken(request);
         return ResponseEntity.ok(myTripPlanDetailService.getOnceMyTripPlanDetail(principal.getName(), myTripPlanId, myTripPlanDetailId));
     }
-  
+
 }
 

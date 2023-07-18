@@ -71,7 +71,7 @@ public class MyTripPlanService {
         return myTripPlanQueryDsl.getMyTripPlanList(findMember.getId());
     }
 
-    //    // 개인 일정 단일 조회
+    // 개인 일정 단일 조회
     public MyTripPlanResponseDto getMyTripPlan(String email, Long myTripPlanId) {
         Member findMember = memberService.findMember(email);
         memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
