@@ -71,10 +71,9 @@ public class MyTripPlanDetailService {
         memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
         myTripPlanService.verificationMyTrip(myTripPlanId, findMember.getNickName()); // MyTripPlan 확인
         // 부모와 자식 Id가 맞는 MyTripPlanDetail 확인
-        MyTripPlanDetail byMyTripPlanDetailId = findByMyTripPlanDetailId(myTripPlanDetailId, myTripPlanId);
+        findByMyTripPlanDetailId(myTripPlanDetailId, myTripPlanId); // 여기서 통과 되면 유효성 검증 끝
         return myTripPlanDetailQueryDsl.getMyTripPlanDetail(myTripPlanDetailId);
     }
-
 
     //--------------유효성 검증------------------
     // MyTripPlanDetail이 있는지 확인
