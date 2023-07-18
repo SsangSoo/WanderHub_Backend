@@ -1,8 +1,10 @@
 package wanderhub.server.domain.member.controller;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import wanderhub.server.auth.jwt.refreshtoken.service.TokenService;
 import wanderhub.server.domain.member.dto.MemberDto;
@@ -42,11 +44,6 @@ public class MemberController {
         return ResponseEntity.ok(new SingleResponse<>(memberMapper.memberEntityToMemberResponseDto(updatedMember)));
     }
 
-    // 멤버조회
-    // 내가 작성한 게시글
-    // 내가 작성한 댓글
-    // 내가 작성한 동행
-    // 내가 참여한 동행
     @GetMapping
     public ResponseEntity getMember(HttpServletRequest request, Principal principal) {
         tokenService.verificationLogOutToken(request);  // 블랙리스트 Token확인
@@ -62,4 +59,48 @@ public class MemberController {
         return new ResponseEntity(new MessageResponseDto("회원이 휴면계정으로 변경되었습니다."), HttpStatus.NO_CONTENT);
     }
 
+
+    // 내가 만든 게시판
+    @GetMapping("/board/write")
+    public ResponseEntity getWriteBoardList(HttpServletRequest request, Principal principal) {
+        tokenService.verificationLogOutToken(request);
+        return ResponseEntity.ok(memberService.getWriteBoardList(principal.getName()));
+    }
+
+
+    // 내가 좋아요 한 게시판
+    @GetMapping("/board/heart")
+    public ResponseEntity getWriteBoardListWithHeart(HttpServletRequest request, Principal principal) {
+        tokenService.verificationLogOutToken(request);
+        return ResponseEntity.ok(memberService.getWriteBoardListWithHeart(principal.getName()));
+    }
+
+
+    // 내가 댓글 달은 게시판
+    @GetMapping("/board/with-comment")
+    public ResponseEntity getBoardWithWriteMyBoardComment(HttpServletRequest request, Principal principal) {
+        tokenService.verificationLogOutToken(request);
+        return ResponseEntity.ok(memberService.getBoardWithWriteMyBoardComment(principal.getName()));
+    }
+
+    // 내가 좋아요 달은 댓글이 있는 게시판
+    @GetMapping("/board/with-commentandheart")
+    public ResponseEntity getBoardWithWriteHeartBoardComment(HttpServletRequest request, Principal principal) {
+        tokenService.verificationLogOutToken(request);
+        return ResponseEntity.ok(memberService.getBoardWithWriteHeartBoardComment(principal.getName()));
+    }
+
+    // 내가 만등 동행
+    @GetMapping("/accompany/wrtie")
+    public ResponseEntity getWriteAccompanyList(HttpServletRequest request, Principal principal) {
+        tokenService.verificationLogOutToken(request);
+        return ResponseEntity.ok(memberService.getWriteAccompanList(principal.getName()));
+    }
+
+    // 내가 참여 중인 동행
+    @GetMapping("/accompany/joining")
+    public ResponseEntity getWriteAccompanyJoined(HttpServletRequest request, Principal principal) {
+        tokenService.verificationLogOutToken(request);
+        return ResponseEntity.ok(memberService.getWriteAccompanyJoined(principal.getName()));
+    }
 }

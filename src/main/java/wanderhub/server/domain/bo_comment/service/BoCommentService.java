@@ -52,7 +52,7 @@ public class BoCommentService {
         memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
         boardService.verificationBoard(boardId);            // Board 확인
         // 댓글 확인
-        BoComment findBoComment = verificationBoComment(boCommentId);   // Id로 댓글을 조회한다.
+        BoComment findBoComment = verificationBoComment(boardId, boCommentId);   // Id로 댓글을 조회한다.
         verficationBoCommentWriter(findBoComment, findMember);          // 댓글과 멤버로 작성자 검증 통과시 수정 가능
         return customBeanUtils.copyNonNullProoerties(patchBoCommentFromPatchDto, findBoComment); // 매퍼로부터 받은 댓글 수정정보 -> 이미 있던 댓글
     }
@@ -64,7 +64,7 @@ public class BoCommentService {
         memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
         boardService.verificationBoard(boardId);            // Board 확인
         // 댓글 확인
-        BoComment findBoComment = verificationBoComment(boCommentId);   // Id로 댓글을 조회한다.
+        BoComment findBoComment = verificationBoComment(boardId, boCommentId);   // Id로 댓글을 조회한다.
         verficationBoCommentWriter(findBoComment, findMember);          // 댓글과 멤버로 작성자 검증 // 통과시 삭제 가능
         boCommentRepository.delete(findBoComment);
     }
@@ -76,9 +76,9 @@ public class BoCommentService {
         memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
         boardService.verificationBoard(boardId);            // Board 확인
         // 댓글 확인
-        BoComment findBoComment = verificationBoComment(boCommentId);   // Id로 댓글을 조회한다.
+        BoComment findBoComment = verificationBoComment(boardId, boCommentId);   // Id로 댓글을 조회한다.
         // BoCommentHeart를 찾아온다. // 식별자를 이용해서 Optional객체로 찾아옴.
-        Optional<BoCommentHeart> boCommentHeartByBoCommentAndMember = boCommentHeartService.findByBoCommentAndMember(boCommentId, email);
+        Optional<BoCommentHeart> boCommentHeartByBoCommentAndMember = boCommentHeartService.findByBoCommentAndMember(findBoComment.getBoCommentId(), findMember.getId());
         // 있으면 삭제
         if(boCommentHeartByBoCommentAndMember.isPresent()) {
             boCommentHeartService.removeBoCommentHeart(boCommentHeartByBoCommentAndMember.get());
@@ -90,8 +90,8 @@ public class BoCommentService {
 
     // =================== 아래부터 유효성 검증 ===================
 
-    public BoComment verificationBoComment(Long boCommentId) {    // 댓글이 있는지 확인한다.
-        Optional<BoComment> findBoComment = boCommentRepository.findById(boCommentId);
+    public BoComment verificationBoComment(Long boardId, Long boCommentId) {    // 댓글이 있는지 확인한다.
+        Optional<BoComment> findBoComment = boCommentRepository.findByBoCommentId(boardId, boCommentId);
         // 있으면 리턴, 없으면 없다고 예외처리한다.
         return findBoComment.orElseThrow(() -> new CustomLogicException(ExceptionCode.BOARD_COMMENT_NOT_FOUND));
     }

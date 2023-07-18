@@ -89,7 +89,7 @@ public class AccompanyController {
 
 
     // 동행 나가기 > Patch
-    @PatchMapping("/{accompany-id}/out")
+    @PatchMapping("/{accompany-id}/quit")
     public ResponseEntity outAccompany(HttpServletRequest request,
                                         @PathVariable("accompany-id")Long accompanyId,
                                         Principal principal) {

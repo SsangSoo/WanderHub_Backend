@@ -10,7 +10,6 @@ import wanderhub.server.domain.mytrip_plan.dto.MyTripPlanDto;
 import wanderhub.server.domain.mytrip_plan.entity.MyTripPlan;
 import wanderhub.server.domain.mytrip_plan.mapper.MyTripMapper;
 import wanderhub.server.domain.mytrip_plan.service.MyTripPlanService;
-import wanderhub.server.domain.mytrip_plan_detail.entity.MyTripPlanDetail;
 import wanderhub.server.global.response.SingleResponse;
 
 import javax.servlet.http.HttpServletRequest;
