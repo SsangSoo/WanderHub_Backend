@@ -30,7 +30,8 @@ public class MyTripPlanDetailQueryDsl {
                         myTripPlanDetail.whenDate,
                         myTripPlanDetail.timeStart,
                         myTripPlanDetail.timeEnd,
-                        myTripPlanDetail.createdAt
+                        myTripPlanDetail.createdAt,
+                        myTripPlanDetail.modifiedAt
                 ))
                 .from(myTripPlanDetail)
                 .where(myTripPlanDetail.myTripPlanDetailId.eq(myTripPlanDetailId))

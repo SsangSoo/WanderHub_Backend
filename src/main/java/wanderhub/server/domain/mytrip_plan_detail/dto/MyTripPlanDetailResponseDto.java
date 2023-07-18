@@ -25,8 +25,10 @@ public class MyTripPlanDetailResponseDto {
     @JsonFormat(pattern = "HH:mm")
     private LocalTime timeEnd;
     private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
+
     @QueryProjection
-    public MyTripPlanDetailResponseDto(Long myTripPlanDetailId, String subTitle, String content, Double coordinateX, Double coordinateY, String placeName, LocalDate whenDate, LocalTime timeStart, LocalTime timeEnd, LocalDateTime createdAt) {
+    public MyTripPlanDetailResponseDto(Long myTripPlanDetailId, String subTitle, String content, Double coordinateX, Double coordinateY, String placeName, LocalDate whenDate, LocalTime timeStart, LocalTime timeEnd, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.myTripPlanDetailId = myTripPlanDetailId;
         this.subTitle = subTitle;
         this.content = content;
@@ -37,5 +39,6 @@ public class MyTripPlanDetailResponseDto {
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
         this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
     }
 }
