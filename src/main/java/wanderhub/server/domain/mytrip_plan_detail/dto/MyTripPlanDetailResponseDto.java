@@ -28,7 +28,6 @@ public class MyTripPlanDetailResponseDto {
     private LocalDateTime modifiedAt;
 
     @QueryProjection
-
     public MyTripPlanDetailResponseDto(Long myTripPlanDetailId, String subTitle, String content, Double coordinateX, Double coordinateY, String placeName, LocalDate whenDate, LocalTime timeStart, LocalTime timeEnd, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.myTripPlanDetailId = myTripPlanDetailId;
         this.subTitle = subTitle;

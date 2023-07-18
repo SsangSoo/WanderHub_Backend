@@ -75,6 +75,7 @@ public class MyTripPlanDetailService {
         return myTripPlanDetailQueryDsl.getMyTripPlanDetail(myTripPlanDetailId);
     }
 
+
     //--------------유효성 검증------------------
     // MyTripPlanDetail이 있는지 확인
     public MyTripPlanDetail findByMyTripPlanDetailId(Long myTripPlanDetailId, Long myTripPlanId) {

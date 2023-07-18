@@ -74,4 +74,3 @@ public class MyTripPlanDetailController {
         return ResponseEntity.ok(myTripPlanDetailService.getOnceMyTripPlanDetail(principal.getName(), myTripPlanId, myTripPlanDetailId));
     }
 }
-
