@@ -18,8 +18,8 @@ public class BoCommentHeartService {
         this.boCommentHeartRepository = boCommentHeartRepository;
     }
 
-    public Optional<BoCommentHeart> findByBoCommentAndMember(Long boCommentId, String email) {
-        return boCommentHeartRepository.findByBoCommentAndMember(boCommentId, email);
+    public Optional<BoCommentHeart> findByBoCommentAndMember(Long boCommentId, Long memberId) {
+        return boCommentHeartRepository.findByBoCommentAndMember(boCommentId, memberId);
     }
 
     public void removeBoCommentHeart(BoCommentHeart boCommentHeartWillRemove) {

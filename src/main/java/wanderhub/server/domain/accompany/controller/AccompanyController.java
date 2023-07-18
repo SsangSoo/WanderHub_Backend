@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.text.ParseException;
 
-@Slf4j
 @Validated
 @RestController
 @RequestMapping("/v1/accompany")
@@ -90,7 +89,7 @@ public class AccompanyController {
 
 
     // 동행 나가기 > Patch
-    @PatchMapping("/{accompany-id}/out")
+    @PatchMapping("/{accompany-id}/quit")
     public ResponseEntity outAccompany(HttpServletRequest request,
                                         @PathVariable("accompany-id")Long accompanyId,
                                         Principal principal) {

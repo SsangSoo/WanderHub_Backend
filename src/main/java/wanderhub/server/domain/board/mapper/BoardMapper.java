@@ -9,6 +9,7 @@ import wanderhub.server.global.utils.Local;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 @Mapper(componentModel = "spring")
@@ -17,34 +18,30 @@ public interface BoardMapper {
     BoardCommentMapper boCommentMapper = new BoardCommentMapperImpl();
 
     default Board boardPostDtoToBoardEntity(BoardTempDto.Post post) {
-        if(post==null) {
-            return null;
-        } else {
+        if(Objects.nonNull(post)) {
             return Board.builder()
                     .title(post.getTitle())
                     .content(post.getContent())
                     .local(Local.findByLocal(post.getLocal()))
                     .build();
         }
+        return null;
     }
 
     default Board boardPatchDtoToBoardEntity(BoardTempDto.Patch patch) {
-        if(patch==null) {
-            return null;
-        } else {
+        if(Objects.nonNull(patch)) {
             return Board.builder()
                     .title(patch.getTitle())
                     .content(patch.getContent())
                     .local(Local.findByLocal(patch.getLocal()))
                     .build();
         }
+        return null;
     }
 
     // 게시판 단일 조회 Response Mapper
     default BoardTempDto.Response boardEntityToBoardResponseDto(Board board) {
-        if(board == null) {
-            return null;
-        } else {
+        if(Objects.nonNull(board)) {
             BoardTempDto.Response response = BoardTempDto.Response.builder()
                     .boardId(board.getBoardId())
                     .nickName(board.getNickName())
@@ -59,13 +56,12 @@ public interface BoardMapper {
                     .build();
             return response;
         }
+        return null;
     }
 
     // 개시판 전체 조회용 Response Mapper
     default BoardTempDto.ListResponse boardEntityToBoardListResponseDto(Board board) {
-        if(board == null) {
-            return null;
-        } else {
+        if(Objects.nonNull(board)) {
             BoardTempDto.ListResponse listCaseResponse = BoardTempDto.ListResponse.builder()
                     .boardId(board.getBoardId())
                     .nickName(board.getNickName())
@@ -78,14 +74,12 @@ public interface BoardMapper {
                     .build();
             return listCaseResponse;
         }
-
+        return null;
     }
 
     // 게시판 전체 조회 List형식으로 mapping
     default List<BoardTempDto.ListResponse> boardEntityListToBoardResponseDtoList(List<Board> boardList) {
-        if(boardList == null) {
-            return null;
-        } else {
+        if(Objects.nonNull(boardList)) {
             List<BoardTempDto.ListResponse> list = new ArrayList<BoardTempDto.ListResponse>(boardList.size());
             for(Board board : boardList) {
                 BoardTempDto.ListResponse response = boardEntityToBoardListResponseDto(board);
@@ -93,6 +87,7 @@ public interface BoardMapper {
             }
             return list;
         }
+        return null;
     }
 
 }
