@@ -17,7 +17,7 @@ import java.security.Principal;
 
 @Slf4j
 @RestController
-@RequestMapping("/v1/board/comment")
+@RequestMapping("/v1/board/{board-id}/comment")
 public class BoCommentController {
 
     private final BoardCommentMapper boardCommentMapper;
@@ -31,7 +31,7 @@ public class BoCommentController {
     }
 
     // 댓글 생성
-    @PostMapping("/{board-id}")
+    @PostMapping
     public ResponseEntity postBoardComment(HttpServletRequest request,
                                            Principal principal,
                                                @PathVariable("board-id")Long boardId,
@@ -44,7 +44,7 @@ public class BoCommentController {
     }
 
     // 댓글 수정
-    @PatchMapping("/{board-id}/{comment-id}")
+    @PatchMapping("/{comment-id}")
     public ResponseEntity patchBoardComment(HttpServletRequest request,
                                             @PathVariable("board-id")Long boardId,
                                                 @PathVariable("comment-id")Long commentId,
@@ -58,7 +58,7 @@ public class BoCommentController {
     }
 
     // 댓글 삭제
-    @DeleteMapping("/{board-id}/{comment-id}")
+    @DeleteMapping("/{comment-id}")
     public ResponseEntity patchBoardComment(HttpServletRequest request,
                                             @PathVariable("board-id")Long boardId,
                                                 @PathVariable("comment-id")Long commentId,
@@ -69,7 +69,7 @@ public class BoCommentController {
     }
 
     // 댓글 좋아요
-    @PatchMapping("/{board-id}/{comment-id}/heart")
+    @PatchMapping("/{comment-id}/heart")
     public ResponseEntity likeBoardComment(HttpServletRequest request,
                                            @PathVariable("board-id")Long boardId,
                                            @PathVariable("comment-id")Long commentId,
@@ -78,6 +78,5 @@ public class BoCommentController {
         BoComment likeBoComment = boCommentService.likeBoCommnet(boardId, commentId, principal.getName());
         BoCommentDto.Response boCommentResponse = boardCommentMapper.boCommentEntityToBoCommentResponseDto(likeBoComment);
         return ResponseEntity.ok(new SingleResponse<>(boCommentResponse));
-
     }
 }

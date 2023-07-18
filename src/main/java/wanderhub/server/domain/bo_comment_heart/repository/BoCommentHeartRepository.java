@@ -11,6 +11,6 @@ import java.util.Optional;
 public interface BoCommentHeartRepository extends JpaRepository<BoCommentHeart, Long> {
 
     @Query("select bch from BoCommentHeart as bch " +
-            "where bch.boComment.boCommentId = :boCommentId and bch.member.email = :email")
-    Optional<BoCommentHeart> findByBoCommentAndMember(Long boCommentId, String email);
+            "where bch.boComment.boCommentId = :boCommentId and bch.member.Id = :memberId")
+    Optional<BoCommentHeart> findByBoCommentAndMember(Long boCommentId, Long memberId);
 }

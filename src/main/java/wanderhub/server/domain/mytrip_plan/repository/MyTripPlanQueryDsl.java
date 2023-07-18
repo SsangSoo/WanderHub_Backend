@@ -8,7 +8,6 @@ import wanderhub.server.domain.mytrip_plan.dto.*;
 import wanderhub.server.domain.mytrip_plan_detail.dto.MyTripPlanDetailListResponseDto;
 import wanderhub.server.domain.mytrip_plan_detail.dto.QMyTripPlanDetailListResponseDto;
 
-
 import javax.persistence.EntityManager;
 
 import java.util.List;
@@ -17,7 +16,6 @@ import static wanderhub.server.domain.mytrip_plan.entity.QMyTripPlan.*;
 import static wanderhub.server.domain.mytrip_plan.dto.QMyTripPlanListResponseDto.*;
 import static wanderhub.server.domain.mytrip_plan_detail.dto.QMyTripPlanDetailListResponseDto.*;
 import static wanderhub.server.domain.mytrip_plan_detail.entity.QMyTripPlanDetail.*;
-
 
 @Repository
 public class MyTripPlanQueryDsl {
