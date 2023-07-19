@@ -1,8 +1,10 @@
 package wanderhub.server.global.utils;
 
+import lombok.Getter;
 import org.springframework.http.HttpHeaders;
 
 public class GenerateMockToken {
+    private static final String EMAIL = "email";
     private static final String AUTHORIZATION = "Authorization";
     public static String createMockToken() {
         return "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjcxNjg5Nzg4fQ.eFeEyh5F5ilhUfK28DzIxNPscqrlo5d9kNcOZYgbsUs";
@@ -18,6 +20,12 @@ public class GenerateMockToken {
     public static HttpHeaders getMockHeaderRefreshToken(){
         HttpHeaders headers = new HttpHeaders();
         headers.add(AUTHORIZATION, createMockRefreshToken());
+        return headers;
+    }
+
+    public static HttpHeaders getEmail(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(EMAIL, "user@Email.com");
         return headers;
     }
 }

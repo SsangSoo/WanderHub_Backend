@@ -1,8 +1,6 @@
 package wanderhub.server.domain.board.repository;
 
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.querydsl.jpa.impl.JPAUpdateClause;
 import org.springframework.stereotype.Repository;
 import wanderhub.server.domain.bo_comment.dto.BoCommentResponseDto;
 import wanderhub.server.domain.bo_comment.dto.QBoCommentResponseDto;
@@ -10,22 +8,20 @@ import wanderhub.server.domain.board.dto.BoardListResponseDto;
 import wanderhub.server.domain.board.dto.BoardResponseDto;
 import wanderhub.server.domain.board.dto.QBoardListResponseDto;
 import wanderhub.server.domain.board.dto.QBoardResponseDto;
-import wanderhub.server.domain.board.entity.QBoard;
 import wanderhub.server.global.response.PageResponseDto;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Map;
 
 import static com.querydsl.core.group.GroupBy.groupBy;
 import static wanderhub.server.domain.board.entity.QBoard.*;
 import static wanderhub.server.domain.bo_comment.entity.QBoComment.*;
 
 @Repository
-public class BoardSearchRepository {
+public class BoardQueryDslRepository {
     private final JPAQueryFactory queryFactory;
 
-    public BoardSearchRepository(EntityManager em) {
+    public BoardQueryDslRepository(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
@@ -83,6 +79,9 @@ public class BoardSearchRepository {
                 .from(board)
                 .where(board.boardId.eq(boardId))
                 .fetchOne();
+
+        boardResponseDto.setBoComments(getBoardCommentList(boardId));
+
         return boardResponseDto;
     }
 

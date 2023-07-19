@@ -12,6 +12,7 @@ import java.time.LocalDate;
 public class MyTripPlanDto {
 
     @Getter
+    @Builder
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Post {

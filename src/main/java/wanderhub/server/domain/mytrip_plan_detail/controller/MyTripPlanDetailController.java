@@ -55,7 +55,7 @@ public class MyTripPlanDetailController {
 
     // 일정 디테일 삭제
     @DeleteMapping("/{myTripPlanDetail-id}")
-    public ResponseEntity patchMyTripPlanDetail(HttpServletRequest request,
+    public ResponseEntity deleteMyTripPlanDetail(HttpServletRequest request,
                                                 @PathVariable("myTripPlan-id")Long myTripPlanId,
                                                 @PathVariable("myTripPlanDetail-id")Long myTripPlanDetailId,
                                                 Principal principal) {

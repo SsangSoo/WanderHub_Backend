@@ -2,6 +2,7 @@ package wanderhub.server.domain.bo_comment.mapper;
 
 import org.mapstruct.Mapper;
 import wanderhub.server.domain.bo_comment.dto.BoCommentDto;
+import wanderhub.server.domain.bo_comment.dto.BoCommentResponseDto;
 import wanderhub.server.domain.bo_comment.entity.BoComment;
 
 import java.util.List;
@@ -12,9 +13,9 @@ public interface BoardCommentMapper {
 
     BoComment boCommentPostAndPatchDtoToBoCommentEntity(BoCommentDto.PostAndPatch postDto);
 
-    default BoCommentDto.Response boCommentEntityToBoCommentResponseDto(BoComment boComment) {
+    default BoCommentResponseDto boCommentEntityToBoCommentResponseDto(BoComment boComment) {
         if(Objects.nonNull(boComment)) {
-            return BoCommentDto.Response.builder()
+            return BoCommentResponseDto.builder()
                     .boCommentId(boComment.getBoCommentId())
                     .boardId(boComment.getBoard().getBoardId())
                     .nickName(boComment.getNickName())
@@ -27,6 +28,6 @@ public interface BoardCommentMapper {
         return null;
     }
 
-    List<BoCommentDto.Response> boCommentEntityListToBoCommentResponseDtoList(List<BoComment> boComments);   // 댓글들을 리스트로 담아서 응답객체로 주기 위해.
+    List<BoCommentResponseDto> boCommentEntityListToBoCommentResponseDtoList(List<BoComment> boComments);   // 댓글들을 리스트로 담아서 응답객체로 주기 위해.
 }
 

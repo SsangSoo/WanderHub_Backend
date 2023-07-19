@@ -14,7 +14,7 @@ public class PageResponseDto<T> {
     private final boolean first;        // 첫 번째 페이지 여부
     private final boolean last;         // 마지막 페이지 여부
 
-    public PageResponseDto(List<T> data, long totalPage, long totalElements, long currentElements, long currentPage) {
+    private PageResponseDto(List<T> data, long totalPage, long totalElements, long currentElements, long currentPage) {
         this.data = data;
         this.totalPage = totalPage;
         this.totalElements = totalElements;
