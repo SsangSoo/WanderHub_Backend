@@ -40,7 +40,7 @@ public class RefreshTokenController {
         // principal에서 email 추출
         tokenService.logoutService(principal.getName(), accessToken);
         // 서비스에서 로그아웃 로직 수행.
-        return ResponseEntity.ok(new MessageResponseDto("Logout Success."));
+        return ResponseEntity.ok(new MessageResponseDto("Logout Success!"));
     }
 
 }

@@ -21,18 +21,5 @@ public class BoCommentDto {
         private String content;
     }
 
-    @Builder
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class Response {
-        private Long boCommentId;
-        private Long boardId;
-        private String nickName;
-        private String content;
-        private long likePoint;
-        private LocalDateTime createdAt;
-        private LocalDateTime modifiedAt;
-    }
 
 }

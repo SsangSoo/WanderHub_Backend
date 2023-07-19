@@ -2,6 +2,8 @@ package wanderhub.server.domain.mytrip_plan_detail.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +14,7 @@ import java.time.LocalTime;
 
 public class MyTripPlanDetailDto {
 
+    @Builder
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor

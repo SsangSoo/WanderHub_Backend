@@ -36,7 +36,7 @@ public class MemberController {
 
     // 회원 정보 수정
     @PatchMapping
-    public ResponseEntity update(HttpServletRequest request, Principal principal, @RequestBody MemberDto.Patch patch) {
+    public ResponseEntity updateMember(HttpServletRequest request, Principal principal, @RequestBody MemberDto.Patch patch) {
         tokenService.verificationLogOutToken(request);  // 블랙리스트 Token확인
         Member findMember = memberService.findMember(principal.getName());   // 이메일 정보로 사용자를 찾아온다.
         // memberService의 updateMember메서드를 통해 사용자의 정보를 수정한다.   // PatchDto를 mapper를 통해서 엔티티로 매핑한다.
@@ -44,6 +44,7 @@ public class MemberController {
         return ResponseEntity.ok(new SingleResponse<>(memberMapper.memberEntityToMemberResponseDto(updatedMember)));
     }
 
+    // 회원 정보 조회
     @GetMapping
     public ResponseEntity getMember(HttpServletRequest request, Principal principal) {
         tokenService.verificationLogOutToken(request);  // 블랙리스트 Token확인
@@ -61,7 +62,7 @@ public class MemberController {
 
 
     // 내가 만든 게시판
-    @GetMapping("/board/write")
+    @GetMapping("/board/myWriteBoard")
     public ResponseEntity getWriteBoardList(HttpServletRequest request, Principal principal) {
         tokenService.verificationLogOutToken(request);
         return ResponseEntity.ok(memberService.getWriteBoardList(principal.getName()));
@@ -69,7 +70,7 @@ public class MemberController {
 
 
     // 내가 좋아요 한 게시판
-    @GetMapping("/board/heart")
+    @GetMapping("/board/myHeart")
     public ResponseEntity getWriteBoardListWithHeart(HttpServletRequest request, Principal principal) {
         tokenService.verificationLogOutToken(request);
         return ResponseEntity.ok(memberService.getWriteBoardListWithHeart(principal.getName()));
@@ -77,28 +78,29 @@ public class MemberController {
 
 
     // 내가 댓글 달은 게시판
-    @GetMapping("/board/with-comment")
+    @GetMapping("/board/with-myComment")
     public ResponseEntity getBoardWithWriteMyBoardComment(HttpServletRequest request, Principal principal) {
         tokenService.verificationLogOutToken(request);
         return ResponseEntity.ok(memberService.getBoardWithWriteMyBoardComment(principal.getName()));
     }
 
+    // 내가 좋아요 한 댓글이 있는 게시판
+    @GetMapping("/board/with-myCommentAndHeart")
     // 내가 좋아요 달은 댓글이 있는 게시판
-    @GetMapping("/board/with-commentandheart")
     public ResponseEntity getBoardWithWriteHeartBoardComment(HttpServletRequest request, Principal principal) {
         tokenService.verificationLogOutToken(request);
         return ResponseEntity.ok(memberService.getBoardWithWriteHeartBoardComment(principal.getName()));
     }
 
     // 내가 만등 동행
-    @GetMapping("/accompany/wrtie")
+    @GetMapping("/accompany/myWrite")
     public ResponseEntity getWriteAccompanyList(HttpServletRequest request, Principal principal) {
         tokenService.verificationLogOutToken(request);
         return ResponseEntity.ok(memberService.getWriteAccompanList(principal.getName()));
     }
 
     // 내가 참여 중인 동행
-    @GetMapping("/accompany/joining")
+    @GetMapping("/accompany/JoinedMe")
     public ResponseEntity getWriteAccompanyJoined(HttpServletRequest request, Principal principal) {
         tokenService.verificationLogOutToken(request);
         return ResponseEntity.ok(memberService.getWriteAccompanyJoined(principal.getName()));

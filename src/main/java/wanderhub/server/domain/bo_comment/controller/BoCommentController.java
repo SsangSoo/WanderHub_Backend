@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import wanderhub.server.auth.jwt.refreshtoken.service.TokenService;
 import wanderhub.server.domain.bo_comment.dto.BoCommentDto;
+import wanderhub.server.domain.bo_comment.dto.BoCommentResponseDto;
 import wanderhub.server.domain.bo_comment.entity.BoComment;
 import wanderhub.server.domain.bo_comment.mapper.BoardCommentMapper;
 import wanderhub.server.domain.bo_comment.service.BoCommentService;
@@ -38,9 +39,7 @@ public class BoCommentController {
                                                @Validated @RequestBody BoCommentDto.PostAndPatch post) {
         tokenService.verificationLogOutToken(request); // 블랙리스트 Token확인
         BoComment createdBoCommentFromPostDto = boardCommentMapper.boCommentPostAndPatchDtoToBoCommentEntity(post);    // postDto로부터 생성된 객체
-        BoComment createdBoComment = boCommentService.createComment(boardId, createdBoCommentFromPostDto, principal.getName()); // 서비스계층에서 엔티티로 생성
-        BoCommentDto.Response response = boardCommentMapper.boCommentEntityToBoCommentResponseDto(createdBoComment);    // resposne로
-        return new ResponseEntity(new SingleResponse<>(response), HttpStatus.CREATED);      // 응답
+        return new ResponseEntity(new SingleResponse<>(boCommentService.createComment(boardId, createdBoCommentFromPostDto, principal.getName())), HttpStatus.CREATED);      // 응답
     }
 
     // 댓글 수정
@@ -52,9 +51,7 @@ public class BoCommentController {
                                                 Principal principal) {
         tokenService.verificationLogOutToken(request); // 블랙리스트 Token확인
         BoComment patchBoCommentFromPatchDto = boardCommentMapper.boCommentPostAndPatchDtoToBoCommentEntity(patch);   // patchDto로부터 생성된 객체
-        BoComment updatedComment = boCommentService.updateComment(boardId, commentId, patchBoCommentFromPatchDto, principal.getName()); // 서비스 계층에서 엔티티를 update
-        BoCommentDto.Response response = boardCommentMapper.boCommentEntityToBoCommentResponseDto(updatedComment);    // response로
-        return ResponseEntity.ok(new SingleResponse<>(response));           // 응답
+        return ResponseEntity.ok(boCommentService.updateComment(boardId, commentId, patchBoCommentFromPatchDto, principal.getName()));           // 응답
     }
 
     // 댓글 삭제
@@ -75,8 +72,6 @@ public class BoCommentController {
                                            @PathVariable("comment-id")Long commentId,
                                            Principal principal) {
         tokenService.verificationLogOutToken(request); // 블랙리스트 Token확인
-        BoComment likeBoComment = boCommentService.likeBoCommnet(boardId, commentId, principal.getName());
-        BoCommentDto.Response boCommentResponse = boardCommentMapper.boCommentEntityToBoCommentResponseDto(likeBoComment);
-        return ResponseEntity.ok(new SingleResponse<>(boCommentResponse));
+        return ResponseEntity.ok(boCommentService.likeBoCommnet(boardId, commentId, principal.getName()));
     }
 }

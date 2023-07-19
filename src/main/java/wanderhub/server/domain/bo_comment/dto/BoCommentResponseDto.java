@@ -16,7 +16,7 @@ public class BoCommentResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-
+    @Builder
     @QueryProjection
     public BoCommentResponseDto(Long boCommentId, Long boardId, String nickName, String content, long likePoint, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.boCommentId = boCommentId;

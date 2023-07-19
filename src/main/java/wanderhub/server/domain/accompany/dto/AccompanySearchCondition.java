@@ -16,17 +16,13 @@ import java.util.Objects;
 public class AccompanySearchCondition {
     private String local;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private String startDate;
+    private LocalDate startDate;
 
     public Local getLocal() {
         return this.local == null ? null : Local.findByLocal(this.local);
     }
 
     public LocalDate getDate() {
-        if(Objects.nonNull(startDate)) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            return LocalDate.parse(startDate, formatter);
-        }
-        return null;
+        return startDate;
     }
 }

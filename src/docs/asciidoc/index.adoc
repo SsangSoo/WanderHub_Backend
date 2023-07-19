@@ -1,0 +1,192 @@
+ = WanderHub 원더 허브
+:sectnums:
+:toc: left
+:toclevels: 4
+:toc-title: Table of Contents
+:source-highlighter: prettify
+
+김성수
+
+v1.0.0, 2022.01.10
+
+RequestParameter의 '_csrf' 참조하지 않으셔도 됩니다.
+
+Base url : https://localhost:8080
+
+***
+== AccompanyController
+
+=== 동행 생성
+
+.http-request
+include::{snippets}/post-accompany/http-request.adoc[]
+
+.request-headers
+include::{snippets}/post-accompany/request-headers.adoc[]
+
+.request-fields
+include::{snippets}/post-accompany/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-accompany/http-response.adoc[]
+
+.response-fields
+include::{snippets}/post-accompany/response-fields.adoc[]
+
+
+### 동행 수정
+
+.http-request
+include::{snippets}/patch-accompany/http-request.adoc[]
+
+.request-headers
+include::{snippets}/patch-accompany/request-headers.adoc[]
+
+.request-fields
+include::{snippets}/patch-accompany/request-fields.adoc[]
+
+.http-response
+include::{snippets}/patch-accompany/http-response.adoc[]
+
+.response-fields
+include::{snippets}/patch-accompany/response-fields.adoc[]
+
+
+### 동행 삭제
+
+.http-request
+include::{snippets}/delete-accompany/http-request.adoc[]
+
+.request-headers
+include::{snippets}/delete-accompany/request-headers.adoc[]
+
+.http-response
+include::{snippets}/delete-accompany/http-response.adoc[]
+
+
+### 동행 단일 조회
+
+.http-request
+include::{snippets}/getOnce-accompany/http-request.adoc[]
+
+.http-response
+include::{snippets}/getOnce-accompany/http-response.adoc[]
+
+.response-fields
+include::{snippets}/getOnce-accompany/response-fields.adoc[]
+
+
+### 동행 전체 조회
+
+.http-request.adoc
+include::{snippets}/get-AllAccompany/http-request.adoc[]
+
+.http-response.adoc
+include::{snippets}/get-AllAccompany/http-response.adoc[]
+
+.response-fields.adoc
+include::{snippets}/get-AllAccompany/response-fields.adoc[]
+
+
+### 동행 전체 조회(날짜 검색)
+
+.request-parameters.adoc
+include::{snippets}/get-AllAccompanyWithSearchByStartDate/request-parameters.adoc[]
+
+.http-request.adoc
+include::{snippets}/get-AllAccompanyWithSearchByStartDate/http-request.adoc[]
+
+.http-response.adoc
+include::{snippets}/get-AllAccompanyWithSearchByStartDate/http-response.adoc[]
+
+.response-fields.adoc
+include::{snippets}/get-AllAccompanyWithSearchByStartDate/response-fields.adoc[]
+
+
+### 동행 전체 조회(지역 검색)
+
+.request-parameters.adoc
+include::{snippets}/get-AllAccompanyWithSearchByLocal/request-parameters.adoc[]
+
+.http-request.adoc
+include::{snippets}/get-AllAccompanyWithSearchByLocal/http-request.adoc[]
+
+.http-response.adoc
+include::{snippets}/get-AllAccompanyWithSearchByLocal/http-response.adoc[]
+
+.response-fields.adoc
+include::{snippets}/get-AllAccompanyWithSearchByLocal/response-fields.adoc[]
+
+
+### 동행 전체 검색(날짜, 지역 검색)
+
+.request-parameters.adoc
+include::{snippets}/get-AllAccompanyWithSearchByLocalAndStartDate/request-parameters.adoc[]
+
+.http-request.adoc
+include::{snippets}/get-AllAccompanyWithSearchByLocalAndStartDate/http-request.adoc[]
+
+.http-response.adoc
+include::{snippets}/get-AllAccompanyWithSearchByLocalAndStartDate/http-response.adoc[]
+
+.response-fields.adoc
+include::{snippets}/get-AllAccompanyWithSearchByLocalAndStartDate/response-fields.adoc[]
+
+
+### 동행 참여
+
+.http-request.adoc
+include::{snippets}/patch-joinAccompany/http-request.adoc[]
+
+.request-headers.adoc
+include::{snippets}/patch-joinAccompany/request-headers.adoc[]
+
+.http-response.adoc
+include::{snippets}/patch-joinAccompany/http-response.adoc[]
+
+.response-fields.adoc
+include::{snippets}/patch-joinAccompany/response-fields.adoc[]
+
+
+### 동행 나가기
+.http-request.adoc
+include::{snippets}/patch-quitAccompany/http-request.adoc[]
+
+.request-headers.adoc
+include::{snippets}/patch-quitAccompany/request-headers.adoc[]
+
+.http-response.adoc
+include::{snippets}/patch-quitAccompany/http-response.adoc[]
+
+.response-fields.adoc
+include::{snippets}/patch-quitAccompany/response-fields.adoc[]
+
+
+### 동행 모집완료
+
+.http-request.adoc
+include::{snippets}/patch-recruitCompleteAccompany/http-request.adoc[]
+
+.request-headers.adoc
+include::{snippets}/patch-recruitCompleteAccompany/request-headers.adoc[]
+
+.http-response.adoc
+include::{snippets}/patch-recruitCompleteAccompany/http-response.adoc[]
+
+.response-fields.adoc
+include::{snippets}/patch-recruitCompleteAccompany/response-fields.adoc[]
+
+
+### 동행 모집완료 취소
+
+.http-request.adoc
+include::{snippets}/patch-cancleRecruitCompleteAccompany/http-request.adoc[]
+
+.request-headers.adoc
+include::{snippets}/patch-cancleRecruitCompleteAccompany/request-headers.adoc[]
+
+.http-response.adoc
+include::{snippets}/patch-cancleRecruitCompleteAccompany/http-response.adoc[]
+
+.response-fields.adoc
+include::{snippets}/patch-cancleRecruitCompleteAccompany/response-fields.adoc[]
