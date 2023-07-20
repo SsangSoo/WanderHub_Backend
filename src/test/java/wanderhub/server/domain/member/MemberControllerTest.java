@@ -530,7 +530,7 @@ public class MemberControllerTest {
         // then
         actions
                 .andExpect(status().isOk())
-                .andDo(document("getBoardWithWriteHeartBoardComment",
+                .andDo(document("getBoardWithBoardCommentWithMyHeart",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
                         requestHeaders(
@@ -624,6 +624,9 @@ public class MemberControllerTest {
                 .andDo(document("getWriteAccompanyList",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("Bearer Token")
+                        ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("[].accompanyId").type(JsonFieldType.NUMBER).description("동행 게시글 식별자"),
@@ -717,6 +720,9 @@ public class MemberControllerTest {
                 .andDo(document("getWriteAccompanyJoined",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("Bearer Token")
+                        ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("[].accompanyId").type(JsonFieldType.NUMBER).description("동행 게시글 식별자"),
@@ -734,4 +740,3 @@ public class MemberControllerTest {
                 ));
     }
 }
-

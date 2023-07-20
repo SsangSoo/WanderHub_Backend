@@ -23,8 +23,6 @@ import wanderhub.server.domain.mytrip_plan_detail.mapper.MyTripPlanDetailMapper;
 import wanderhub.server.domain.mytrip_plan_detail.service.MyTripPlanDetailService;
 import wanderhub.server.global.utils.GenerateMockToken;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Table;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
