@@ -17,6 +17,7 @@ import wanderhub.server.global.response.SingleResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.text.ParseException;
+import java.time.LocalDate;
 
 @Validated
 @RestController
@@ -37,6 +38,7 @@ public class AccompanyController {
     @PostMapping
     public ResponseEntity postAccompany(HttpServletRequest request, @Validated @RequestBody AccompanyDto.Post post, Principal principal) {
         tokenService.verificationLogOutToken(request); // 블랙리스트 Token확인
+
         Accompany accompanyEntityFromPostDto = accompanyMapper.accompanyPostDtoToAccompanyEntity(post);   // Mppaer로 Accompany Entity 생성
         return new ResponseEntity(new SingleResponse<>(accompanyService.createAccompany(accompanyEntityFromPostDto, principal.getName())), HttpStatus.CREATED);
     }
@@ -49,6 +51,7 @@ public class AccompanyController {
                                          @Validated @RequestBody AccompanyDto.Patch patch,
                                          Principal principal) {
         tokenService.verificationLogOutToken(request);  // 블랙리스트 Token 확인
+
         Accompany accompanyEntityFromPatchDto = accompanyMapper.accompanyPatchDtoToAccompanyEntity(patch);
         return ResponseEntity.ok(accompanyService.updateAccompany(accompanyId, principal.getName(), accompanyEntityFromPatchDto));
     }

@@ -38,7 +38,7 @@ public class TokenService {
         // RefreshToken 조회
         Optional<String> optionalMemberRefreshToken = Optional.ofNullable(redisUtils.getData(email + ":refreshToken"));
         // refreshToken 없으면 예외 발생.
-        String memberRefreshToken = optionalMemberRefreshToken.orElseThrow(() -> new CustomLogicException(ExceptionCode.REFRESH_TOKNE_WITHOUT));
+        String memberRefreshToken = optionalMemberRefreshToken.orElseThrow(() -> new CustomLogicException(ExceptionCode.REFRESH_TOKEN_WITHOUT));
         // 동일하면, 액세스 토큰 재발급
         if(memberRefreshToken.equals(refreshToken)) {
             List<String> authorities = customAuthorityUtils.createRoles(email);

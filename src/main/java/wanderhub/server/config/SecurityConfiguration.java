@@ -58,12 +58,26 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.PATCH, "/v1/**/heart").hasAnyRole("USER", "ADMIN")  // 좋아요(게시판, 댓글 다 적용)
                 .antMatchers(HttpMethod.GET, "/v1/members/**").hasAnyRole("USER", "ADMIN")  // 멤버
                 .antMatchers(HttpMethod.PATCH, "/v1/members/**").hasAnyRole("USER", "ADMIN")  // 멤버
-                .antMatchers(HttpMethod.POST, "/v1/board/comment/**").hasAnyRole("USER","ADMIN")
-                .antMatchers(HttpMethod.PATCH, "/v1/board/comment/**").hasAnyRole("USER","ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/v1/board/comment/**").hasAnyRole("USER","ADMIN")
-                .antMatchers(HttpMethod.POST, "/v1/board/**").hasAnyRole("USER","ADMIN")
+                .antMatchers(HttpMethod.PATCH, "/v1/accompany/*/join").hasAnyRole("USER", "ADMIN")  // 동행 참여
+                .antMatchers(HttpMethod.PATCH, "/v1/accompany/*/quit").hasAnyRole("USER", "ADMIN")  // 동행 나가기
+                .antMatchers(HttpMethod.PATCH, "/v1/accompany/*/recruitComplete").hasAnyRole("USER", "ADMIN")  // 동행 모집 완료
+                .antMatchers(HttpMethod.POST, "/v1/accompany/**").hasAnyRole("USER", "ADMIN")  // 동행
+                .antMatchers(HttpMethod.PATCH, "/v1/accompany/**").hasAnyRole("USER", "ADMIN")  // 동행
+                .antMatchers(HttpMethod.DELETE, "/v1/accompany/**").hasAnyRole("USER", "ADMIN")  // 동행
+                .antMatchers(HttpMethod.POST, "/v1/board/*/comment/**").hasAnyRole("USER","ADMIN")  // 게시판 댓글
+                .antMatchers(HttpMethod.PATCH, "/v1/board/*/comment/**").hasAnyRole("USER","ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/v1/board/*/comment/**").hasAnyRole("USER","ADMIN")
+                .antMatchers(HttpMethod.POST, "/v1/board/**").hasAnyRole("USER","ADMIN")    // 게시판
                 .antMatchers(HttpMethod.PATCH, "/v1/board/**").hasAnyRole("USER","ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/v1/board/**").hasAnyRole("USER","ADMIN")
+                .antMatchers(HttpMethod.POST, "/v1/mytrip/*/details").hasAnyRole("USER","ADMIN")  // 개인 일정 디테일
+                .antMatchers(HttpMethod.PATCH, "/v1/mytrip/*/details/**").hasAnyRole("USER","ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/v1/mytrip/*/details").hasAnyRole("USER","ADMIN")
+                .antMatchers(HttpMethod.GET, "/v1/mytrip/*/details").hasAnyRole("USER","ADMIN")
+                .antMatchers(HttpMethod.POST, "/v1/mytrip/*/details").hasAnyRole("USER","ADMIN")  // 개인 일정
+                .antMatchers(HttpMethod.PATCH, "/v1/mytrip/**").hasAnyRole("USER","ADMIN")
+                .antMatchers(HttpMethod.GET, "/v1/mytrip/**").hasAnyRole("USER","ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/v1/mytrip/**").hasAnyRole("USER","ADMIN")
                 .and()
                 .oauth2Login()  // OAuth2 로그인 인증 활성화
                 .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, authorityUtils, memberService, refreshTokenService)

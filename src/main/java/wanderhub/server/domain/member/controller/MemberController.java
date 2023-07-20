@@ -86,7 +86,6 @@ public class MemberController {
 
     // 내가 좋아요 한 댓글이 있는 게시판
     @GetMapping("/board/with-myCommentAndHeart")
-    // 내가 좋아요 달은 댓글이 있는 게시판
     public ResponseEntity getBoardWithWriteHeartBoardComment(HttpServletRequest request, Principal principal) {
         tokenService.verificationLogOutToken(request);
         return ResponseEntity.ok(memberService.getBoardWithWriteHeartBoardComment(principal.getName()));
