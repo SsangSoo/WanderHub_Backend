@@ -426,7 +426,7 @@ public class MyTripPlanControllerTest {
 
         // than
         actions.andExpect(status().isOk())
-                .andDo(document("get-allMyTrip",
+                .andDo(document("get-OnceMyTrip",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
                         requestHeaders(

@@ -208,6 +208,9 @@ public class BoardControllerTest {
                         requestHeaders(
                                 headerWithName("Authorization").description("Bearer Token")
                         ),
+                        pathParameters(
+                                parameterWithName("board-id").description("게시판 식별자")
+                        ),
                         requestFields(
                                 List.of(
                                         fieldWithPath("title").type(JsonFieldType.STRING).description("수정할 게시판 제목"),
@@ -568,8 +571,5 @@ public class BoardControllerTest {
                             )
                     ));
         }
-
-
-
 
 }

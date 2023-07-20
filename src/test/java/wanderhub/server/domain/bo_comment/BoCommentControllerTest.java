@@ -62,7 +62,8 @@ public class BoCommentControllerTest {
     @Autowired
     Gson gson;
 
-    private final static String BASE_URL = "/v1/board/1/comment";
+
+    private final static String BASE_URL = "/v1/board/{board-id}/comment";
 
     private final static LocalDateTime TIME = LocalDateTime.now();
 
@@ -72,6 +73,8 @@ public class BoCommentControllerTest {
     void boCommentCreateTest() throws Exception {
 
         // given
+        Long boardId = 1L;
+
         BoCommentDto.PostAndPatch boCommentPost =
                 BoCommentDto.PostAndPatch.builder()
                         .content("게시판 댓글 본문")
@@ -97,7 +100,8 @@ public class BoCommentControllerTest {
         // when
         ResultActions actions =
                 mockMvc.perform(
-                        post(BASE_URL)
+                        post(BASE_URL,boardId)
+
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .headers(GenerateMockToken.getMockHeaderToken())
@@ -115,6 +119,10 @@ public class BoCommentControllerTest {
                         requestHeaders(
                                 headerWithName("Authorization").description("Bearer Token")
                         ),
+                        pathParameters(
+                                parameterWithName("board-id").description("게시판 식별자")
+                        ),
+
                         requestFields(
                                 List.of(
                                         fieldWithPath("content").type(JsonFieldType.STRING).description("댓글 본문")
@@ -140,6 +148,7 @@ public class BoCommentControllerTest {
     @Test
     void updateBoardCommentTest() throws Exception {
         // given
+        Long boardId = 1L;
 
         Long commentId = 1L;
 
@@ -168,7 +177,8 @@ public class BoCommentControllerTest {
         // when
         ResultActions actions =
                 mockMvc.perform(
-                        patch(BASE_URL + "/{comment-id}", commentId)
+                        patch(BASE_URL + "/{comment-id}", boardId, commentId)
+
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .headers(GenerateMockToken.getMockHeaderToken())
@@ -187,6 +197,7 @@ public class BoCommentControllerTest {
                                 headerWithName("Authorization").description("Bearer Token")
                         ),
                         pathParameters(
+                                parameterWithName("board-id").description("게시판 식별자"),
                                 parameterWithName("comment-id").description("게시판 댓글 식별자")
                         ),
                         requestFields(
@@ -213,16 +224,16 @@ public class BoCommentControllerTest {
     @Test
     void deleteBoardCommentTest() throws Exception {
         // given
-
+        Long boardId = 1L;
         Long commentId = 1L;
-        
+
         willDoNothing().given(tokenService).verificationLogOutToken(Mockito.any(HttpServletRequest.class));
         willDoNothing().given(boCommentService).removeBoComment(Mockito.any(Long.class), Mockito.any(Long.class), Mockito.anyString());
 
         // when
         ResultActions actions =
                 mockMvc.perform(
-                        delete(BASE_URL + "/{comment-id}", commentId)
+                        delete(BASE_URL + "/{comment-id}", boardId, commentId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .headers(GenerateMockToken.getMockHeaderToken())
@@ -239,6 +250,7 @@ public class BoCommentControllerTest {
                                 headerWithName("Authorization").description("Bearer Token")
                         ),
                         pathParameters(
+                                parameterWithName("board-id").description("게시판 식별자"),
                                 parameterWithName("comment-id").description("게시판 댓글 식별자")
                         )
                 ));
@@ -249,6 +261,8 @@ public class BoCommentControllerTest {
     @Test
     void heartBoardCommentTest() throws Exception {
         // given
+        Long boardId = 1L;
+
         Long commentId = 1L;
 
         BoCommentResponseDto likedBoardCommentResponseDto = BoCommentResponseDto.builder()
@@ -268,7 +282,8 @@ public class BoCommentControllerTest {
         // when
         ResultActions actions =
                 mockMvc.perform(
-                        patch(BASE_URL + "/{comment-id}/heart", commentId)
+                        patch(BASE_URL + "/{comment-id}/heart", boardId, commentId)
+
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .headers(GenerateMockToken.getMockHeaderToken())
@@ -285,6 +300,7 @@ public class BoCommentControllerTest {
                                 headerWithName("Authorization").description("Bearer Token")
                         ),
                         pathParameters(
+                                parameterWithName("board-id").description("게시판 식별자"),
                                 parameterWithName("comment-id").description("게시판 댓글 식별자")
                         ),
                         responseFields(
@@ -308,6 +324,7 @@ public class BoCommentControllerTest {
     @Test
     void cancelHeartBoardCommentTest() throws Exception {
         // given
+        Long boardId = 1L;
         Long commentId = 1L;
 
         BoCommentResponseDto likedBoardCommentResponseDto = BoCommentResponseDto.builder()
@@ -327,7 +344,7 @@ public class BoCommentControllerTest {
         // when
         ResultActions actions =
                 mockMvc.perform(
-                        patch(BASE_URL + "/{comment-id}/heart", commentId)
+                        patch(BASE_URL + "/{comment-id}/heart",boardId , commentId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .headers(GenerateMockToken.getMockHeaderToken())
@@ -337,13 +354,14 @@ public class BoCommentControllerTest {
         // then
         actions
                 .andExpect(status().isOk())
-                .andDo(document("heart-board-comment",
+                .andDo(document("heart-cancel-board-comment",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
                         requestHeaders(
                                 headerWithName("Authorization").description("Bearer Token")
                         ),
                         pathParameters(
+                                parameterWithName("board-id").description("게시판 식별자"),
                                 parameterWithName("comment-id").description("게시판 댓글 식별자")
                         ),
                         responseFields(
