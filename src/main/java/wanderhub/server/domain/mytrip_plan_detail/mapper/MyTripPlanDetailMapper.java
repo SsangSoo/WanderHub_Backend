@@ -6,6 +6,7 @@ import wanderhub.server.domain.mytrip_plan_detail.entity.MyTripPlanDetail;
 import wanderhub.server.global.exception.CustomLogicException;
 import wanderhub.server.global.exception.ExceptionCode;
 
+
 import java.util.Objects;
 
 @Mapper(componentModel = "spring")

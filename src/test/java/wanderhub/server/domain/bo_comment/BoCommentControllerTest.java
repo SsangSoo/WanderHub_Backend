@@ -62,6 +62,7 @@ public class BoCommentControllerTest {
     @Autowired
     Gson gson;
 
+
     private final static String BASE_URL = "/v1/board/{board-id}/comment";
 
     private final static LocalDateTime TIME = LocalDateTime.now();
@@ -70,6 +71,7 @@ public class BoCommentControllerTest {
     @WithMockUser
     @Test
     void boCommentCreateTest() throws Exception {
+
         // given
         Long boardId = 1L;
 
@@ -99,6 +101,7 @@ public class BoCommentControllerTest {
         ResultActions actions =
                 mockMvc.perform(
                         post(BASE_URL,boardId)
+
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .headers(GenerateMockToken.getMockHeaderToken())
@@ -119,6 +122,7 @@ public class BoCommentControllerTest {
                         pathParameters(
                                 parameterWithName("board-id").description("게시판 식별자")
                         ),
+
                         requestFields(
                                 List.of(
                                         fieldWithPath("content").type(JsonFieldType.STRING).description("댓글 본문")
@@ -144,8 +148,8 @@ public class BoCommentControllerTest {
     @Test
     void updateBoardCommentTest() throws Exception {
         // given
-
         Long boardId = 1L;
+
         Long commentId = 1L;
 
         BoCommentDto.PostAndPatch boCommentPatch =
@@ -174,6 +178,7 @@ public class BoCommentControllerTest {
         ResultActions actions =
                 mockMvc.perform(
                         patch(BASE_URL + "/{comment-id}", boardId, commentId)
+
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .headers(GenerateMockToken.getMockHeaderToken())
@@ -219,7 +224,6 @@ public class BoCommentControllerTest {
     @Test
     void deleteBoardCommentTest() throws Exception {
         // given
-
         Long boardId = 1L;
         Long commentId = 1L;
 
@@ -258,6 +262,7 @@ public class BoCommentControllerTest {
     void heartBoardCommentTest() throws Exception {
         // given
         Long boardId = 1L;
+
         Long commentId = 1L;
 
         BoCommentResponseDto likedBoardCommentResponseDto = BoCommentResponseDto.builder()
@@ -278,6 +283,7 @@ public class BoCommentControllerTest {
         ResultActions actions =
                 mockMvc.perform(
                         patch(BASE_URL + "/{comment-id}/heart", boardId, commentId)
+
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .headers(GenerateMockToken.getMockHeaderToken())
@@ -318,7 +324,6 @@ public class BoCommentControllerTest {
     @Test
     void cancelHeartBoardCommentTest() throws Exception {
         // given
-
         Long boardId = 1L;
         Long commentId = 1L;
 

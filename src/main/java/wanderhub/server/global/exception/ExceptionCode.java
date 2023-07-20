@@ -47,7 +47,6 @@ public enum ExceptionCode {
     TIME_INVALID(404, "Check StartTime & EndTime");
 
 
-
     @Getter
     private final int status;
 

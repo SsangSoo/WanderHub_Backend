@@ -3,6 +3,7 @@ package wanderhub.server.domain.mytrip_plan.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
+
 import lombok.Getter;
 import lombok.Setter;
 import wanderhub.server.domain.mytrip_plan_detail.dto.MyTripPlanDetailListResponseDto;
