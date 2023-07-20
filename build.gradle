@@ -89,7 +89,7 @@ task copyDocument(type: Copy) {
     doFirst {
         delete file('src/main/resources/static/docs')
     }
-    from file("build/docs/asciidoc")
+    from file("${asciidoctor.outputDir}")
     into file("src/main/resources/static/docs")
 }
 
@@ -99,7 +99,7 @@ build {
 
 bootJar {
     enabled = true
-    dependsOn asciidoctor
+    dependsOn copyDocument
     from ("${asciidoctor.outputDir}") {
         into 'static/docs'
     }

@@ -2,7 +2,9 @@ package wanderhub.server.domain.accompany.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.querydsl.core.annotations.QueryProjection;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -10,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
 public class AccompanyResponseDto {
     private Long accompanyId;
     private String nickname;
@@ -30,6 +33,7 @@ public class AccompanyResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
+    @Builder
     @QueryProjection
     public AccompanyResponseDto(Long accompanyId, String nickname, String local, Long maxMemberNum, LocalDate accompanyStartDate, LocalDate accompanyEndDate, String title, String content, boolean recruitComplete, Double coordinateX, Double coordinateY, String placeName, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.accompanyId = accompanyId;

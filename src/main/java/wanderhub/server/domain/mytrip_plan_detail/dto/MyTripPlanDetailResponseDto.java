@@ -2,6 +2,8 @@ package wanderhub.server.domain.mytrip_plan_detail.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.querydsl.core.annotations.QueryProjection;
+import lombok.Builder;
+
 import lombok.Getter;
 
 import javax.persistence.Lob;
@@ -27,6 +29,7 @@ public class MyTripPlanDetailResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
+    @Builder
     @QueryProjection
     public MyTripPlanDetailResponseDto(Long myTripPlanDetailId, String subTitle, String content, Double coordinateX, Double coordinateY, String placeName, LocalDate whenDate, LocalTime timeStart, LocalTime timeEnd, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.myTripPlanDetailId = myTripPlanDetailId;

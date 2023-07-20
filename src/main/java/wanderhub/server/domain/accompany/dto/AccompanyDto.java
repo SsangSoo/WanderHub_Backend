@@ -7,8 +7,7 @@ import javax.persistence.Lob;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
+
 
 public class AccompanyDto {
 
@@ -16,6 +15,7 @@ public class AccompanyDto {
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
+    @Builder
     public static class Post {
         private String local;
         @NotNull
@@ -32,6 +32,7 @@ public class AccompanyDto {
         private Double coordinateX;
         private Double coordinateY;
         private String placeName;
+
     }
 
     // Accompany 수정

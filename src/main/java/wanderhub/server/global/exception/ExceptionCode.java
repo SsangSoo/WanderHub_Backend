@@ -35,14 +35,16 @@ public enum ExceptionCode {
     TOKEN_EXPIRED(401, "Token is expired"),
 
     REFRESH_TOKEN_INVALID(401, "RefreshToken is Invalid"),
-    REFRESH_TOKNE_WITHOUT(401, "RefreshToken is Without"),
+    REFRESH_TOKEN_WITHOUT(401, "RefreshToken is Without"),
     LOGOUT_TOKEN(401, "LogOuted Token!!"),
 
     TRIP_PLAN_NOT_FOUND(404, "TripPlan Not Found"),
     TRIP_PLAN_DIFFERENT_WRITER(404, "Writer is Different"),
 
-    TRIP_PLAN_DETAIL_NOT_FOUND(404, "TripPlanDetail Not Found");
+    TRIP_PLAN_DETAIL_NOT_FOUND(404, "TripPlanDetail Not Found"),
 
+    DATE_INVALID(404, "Check StartDate & EndDate"),
+    TIME_INVALID(404, "Check StartTime & EndTime");
 
     @Getter
     private final int status;

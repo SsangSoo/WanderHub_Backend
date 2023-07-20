@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 // 전체 조회용 Response
 @Getter
+@NoArgsConstructor
 public class AccompanyResponseListDto {
     private Long accompanyId;
     private String nickname;

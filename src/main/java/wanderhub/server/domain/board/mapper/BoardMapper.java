@@ -2,6 +2,7 @@ package wanderhub.server.domain.board.mapper;
 
 import org.mapstruct.Mapper;
 import wanderhub.server.domain.bo_comment.mapper.BoardCommentMapperImpl;
+import wanderhub.server.domain.board.dto.BoardDto;
 import wanderhub.server.domain.board.dto.BoardTempDto;
 import wanderhub.server.domain.board.entity.Board;
 import wanderhub.server.domain.bo_comment.mapper.BoardCommentMapper;
@@ -17,7 +18,7 @@ public interface BoardMapper {
 
     BoardCommentMapper boCommentMapper = new BoardCommentMapperImpl();
 
-    default Board boardPostDtoToBoardEntity(BoardTempDto.Post post) {
+    default Board boardPostDtoToBoardEntity(BoardDto.Post post) {
         if(Objects.nonNull(post)) {
             return Board.builder()
                     .title(post.getTitle())
@@ -28,7 +29,7 @@ public interface BoardMapper {
         return null;
     }
 
-    default Board boardPatchDtoToBoardEntity(BoardTempDto.Patch patch) {
+    default Board boardPatchDtoToBoardEntity(BoardDto.Patch patch) {
         if(Objects.nonNull(patch)) {
             return Board.builder()
                     .title(patch.getTitle())
@@ -38,6 +39,8 @@ public interface BoardMapper {
         }
         return null;
     }
+
+    /////////////---------------------아래로는 N + 1 발생----------------------------
 
     // 게시판 단일 조회 Response Mapper
     default BoardTempDto.Response boardEntityToBoardResponseDto(Board board) {

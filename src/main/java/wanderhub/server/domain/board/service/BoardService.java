@@ -4,13 +4,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import wanderhub.server.domain.bo_comment.dto.BoCommentResponseDto;
-import wanderhub.server.domain.bo_comment.service.BoCommentService;
 import wanderhub.server.domain.board.dto.BoardListResponseDto;
 import wanderhub.server.domain.board.dto.BoardResponseDto;
 import wanderhub.server.domain.board.entity.Board;
 import wanderhub.server.domain.board.repository.BoardRepository;
-import wanderhub.server.domain.board.repository.BoardSearchRepository;
+import wanderhub.server.domain.board.repository.BoardQueryDslRepository;
 import wanderhub.server.domain.board_heart.entity.BoardHeart;
 import wanderhub.server.domain.board_heart.service.BoardHeartService;
 import wanderhub.server.domain.member.entity.Member;
@@ -20,7 +18,6 @@ import wanderhub.server.global.exception.ExceptionCode;
 import wanderhub.server.global.response.PageResponseDto;
 import wanderhub.server.global.utils.CustomBeanUtils;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,33 +28,35 @@ public class BoardService {
     private final CustomBeanUtils<Board> customBeanUtils;
     private final MemberService memberService;
     private final BoardHeartService boardHeartService;
-    private final BoardSearchRepository boardSearchRepository;
-//    private final BoCommentService boCommentService;
+    private final BoardQueryDslRepository boardQueryDslRepository;
 
 
-    public BoardService(BoardRepository boardRepository, CustomBeanUtils<Board> customBeanUtils, MemberService memberService, BoardHeartService boardHeartService, BoardSearchRepository boardSearchRepository) {
+    public BoardService(BoardRepository boardRepository, CustomBeanUtils<Board> customBeanUtils, MemberService memberService, BoardHeartService boardHeartService, BoardQueryDslRepository boardQueryDslRepository) {
         this.boardRepository = boardRepository;
         this.customBeanUtils = customBeanUtils;
         this.memberService = memberService;
         this.boardHeartService = boardHeartService;
-        this.boardSearchRepository = boardSearchRepository;
+        this.boardQueryDslRepository = boardQueryDslRepository;
     }
 
-    public Board createBoard(Board board, String email) {   // 컨트롤러부터 매퍼로 매핑된 Board와 인증객체의 이메일을 찾아온다.
+    public BoardResponseDto createBoard(Board board, String email) {   // 컨트롤러부터 매퍼로 매핑된 Board와 인증객체의 이메일을 찾아온다.
         // 이메일을 통해서 사용자의 닉네임이 있는지 없는지 확인한다. // 즉, 사용자 검증을 해준다.
         Member findMember = memberService.findMember(email);
         memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
         board.setBoardInit(findMember);                     // 멤버와 닉네임 한 번에 설정
-        return boardRepository.save(board);
+        Board savedBoard = boardRepository.save(board);
+        return boardQueryDslRepository.getResultBoard(savedBoard.getBoardId());
+
     }
 
     // 게시판 수정
-    public Board updateBoard(Long boardId, Board patchBoard, String email) {
+    public BoardResponseDto updateBoard(Long boardId, Board patchBoard, String email) {
         Member findMember = memberService.findMember(email);
         memberService.verificationMember(findMember);         // 통과시 회원 검증 완료
         Board findBoard = verificationBoard(boardId);         // 게시판을 찾아온다. // 없으면 예외를 발생시킨다.
         verificationWriter(findBoard, findMember);            // 닉네임으로 게시판 수정을 시도하는 사용자가 작성자와 동일한지 검증
-        return customBeanUtils.copyNonNullProoerties(patchBoard, findBoard);
+        Board updatedBoard = customBeanUtils.copyNonNullProoerties(patchBoard, findBoard);
+        return boardQueryDslRepository.getResultBoard(updatedBoard.getBoardId());
     }
 
     // 게시판 삭제
@@ -95,9 +94,9 @@ public class BoardService {
         Optional<Board> board = boardRepository.findById(boardId);
         if(board.isPresent()) { // 게시판이 있으면
             Board findBoard = board.get();  // 실제 게시판 객체 추출
-            boardSearchRepository.updateViewPoint(findBoard.getBoardId());  // viewPoint 1 증가.
-            BoardResponseDto resultBoard = boardSearchRepository.getResultBoard(findBoard.getBoardId()); // Board Dto를 반환
-            resultBoard.setBoComments(boardSearchRepository.getBoardCommentList(findBoard.getBoardId()));
+            boardQueryDslRepository.updateViewPoint(findBoard.getBoardId());  // viewPoint 1 증가.
+            BoardResponseDto resultBoard = boardQueryDslRepository.getResultBoard(findBoard.getBoardId()); // Board Dto를 반환
+            resultBoard.setBoComments(boardQueryDslRepository.getBoardCommentList(findBoard.getBoardId()));
             return resultBoard;  // Board를 반환
         } else {
             throw new CustomLogicException(ExceptionCode.BOARD_NOT_FOUND);  // 없으면 예외던진다.
@@ -111,11 +110,11 @@ public class BoardService {
 
     // 게시판 전체 조회 N+1 해결
     public PageResponseDto<BoardListResponseDto> findAllBoards(Integer page) {
-        return boardSearchRepository.searchBoard(page);
+        return boardQueryDslRepository.searchBoard(page);
     }
 
     // 게시판 좋아요
-    public Board likeBoard(Long boardId, String email) {
+    public BoardResponseDto likeBoard(Long boardId, String email) {
         Member findMember = memberService.findMember(email);
         memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
         Board findBoard = verificationBoard(boardId);         // 게시판을 찾아온다. // 없으면 예외를 발생시킨다.
@@ -127,7 +126,7 @@ public class BoardService {
         } else {    // 있으면 삭제   // 회원 이메일과 게시판 Id를 명확하게 주고 찾아온 Heart Entity라 검증 로직 따로 X.
             boardHeartService.removeBoardHeart(findBoardHeart.get());
         }
-        return findBoard;
+        return boardQueryDslRepository.getResultBoard(findBoard.getBoardId());
     }
 
 

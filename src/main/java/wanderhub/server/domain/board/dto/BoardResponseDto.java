@@ -23,6 +23,7 @@ public class BoardResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
+    @Builder
     @QueryProjection
     public BoardResponseDto(Long boardId, String nickName, String title, String content, String local, long viewPoint, long likePoint, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.boardId = boardId;
