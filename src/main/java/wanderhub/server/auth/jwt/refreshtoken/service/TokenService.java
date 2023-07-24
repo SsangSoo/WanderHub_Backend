@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import wanderhub.server.auth.jwt.JwtTokenizer;
 import wanderhub.server.auth.utils.CustomAuthorityUtils;
 import wanderhub.server.auth.utils.RedisUtils;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Service
+@Transactional
 public class TokenService {
     private final CustomAuthorityUtils customAuthorityUtils;
     private final RedisUtils redisUtils;
