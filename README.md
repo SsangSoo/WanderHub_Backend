@@ -78,4 +78,4 @@
 - 동행 페이지의 동행 글, 커뮤니티 페이지의 커뮤니티 글 조회 시, 페이지네이션과 페이징, 개인 여행 일정
 - 10개씩 리스트로 보여줌
 
-### 📖 [API]
+### 📖 [API](https://SsangSoo.github.io/WanderHub_Backend/source)
