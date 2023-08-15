@@ -96,7 +96,6 @@ public class BoardService {
             Board findBoard = board.get();  // 실제 게시판 객체 추출
             boardQueryDslRepository.updateViewPoint(findBoard.getBoardId());  // viewPoint 1 증가.
             BoardResponseDto resultBoard = boardQueryDslRepository.getResultBoard(findBoard.getBoardId()); // Board Dto를 반환
-            resultBoard.setBoComments(boardQueryDslRepository.getBoardCommentList(findBoard.getBoardId()));
             return resultBoard;  // Board를 반환
         } else {
             throw new CustomLogicException(ExceptionCode.BOARD_NOT_FOUND);  // 없으면 예외던진다.

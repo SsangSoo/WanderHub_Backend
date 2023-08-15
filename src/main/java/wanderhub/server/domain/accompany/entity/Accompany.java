@@ -87,4 +87,6 @@ public class Accompany extends Auditable {
         this.coordinateY = coordinateY;
         this.placeName = placeName;
     }
+
+
 }

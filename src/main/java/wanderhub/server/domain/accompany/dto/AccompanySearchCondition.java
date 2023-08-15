@@ -12,7 +12,6 @@ import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
 public class AccompanySearchCondition {
     private String local;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
