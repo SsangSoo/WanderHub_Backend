@@ -5,6 +5,46 @@
 <p align='center'>
 <img src="https://velog.velcdn.com/images/tjdtn4484/post/cbb0bfe6-3ce0-47fc-83e0-d7114ee9e939/image.png" width="300px" height="300px" alt="SiteLogo"></img></p><br/>
 
+## 🌏 프로젝트 소개
+
+> "Wander"는 "배회하다"라는 의미로 여행의 특징을 잘 나타내며, "Hub"는 중심지나 중심으로서의 역할을 의미합니다.
+> 따라서 이 이름은 여행 커뮤니티가 모여 소통하고 정보를 공유하는 중심지라는 메시지를 전달할 수 있습니다.
+
+---
+## 🗣️ Project
+
+> ### 🗓️ 2022.06 ~ 2022.07
+
+
+### 🛠️ 기술 스택
+
+### BE
+<div align=center> 
+  <img src="https://img.shields.io/badge/JAVA-007396?style=for-the-badge&logo=java&logoColor=white">
+  <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> 
+  <img src="https://img.shields.io/badge/redis-D0271D?style=for-the-badge&logo=redis&logoColor=white">
+  <br>
+
+  <img src="https://img.shields.io/badge/spring Boot-6DB33F?style=for-the-badge&logo=springBoot&logoColor=white">
+  <img src="https://img.shields.io/badge/linux-FCC624?style=for-the-badge&logo=linux&logoColor=black"> 
+  <img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white">
+  <br>
+
+  <img src="https://img.shields.io/badge/nginx-006272?style=for-the-badge&logo=nginx&logoColor=green">
+  <img src="https://img.shields.io/badge/spring security-6DB33F?style=for-the-badge&logo=springSecurity&logoColor=white">
+  <img src="https://img.shields.io/badge/query dsl-008FC7?style=for-the-badge&logo=queryDsl&logoColor=white">
+  <br>
+</div>
+
+### :two_men_holding_hands: Cooperation tools
+<div align=center>
+  <img src="https://img.shields.io/badge/postman-FC4C02?style=for-the-badge&logo=postman&logoColor=white">
+  <img src="https://img.shields.io/badge/discord-283274?style=for-the-badge&logo=discord&logoColor=white">
+  <img src="https://img.shields.io/badge/notion-333333?style=for-the-badge&logo=notion&logoColor=white">
+  <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
+  <img src="https://img.shields.io/badge/git-F7931A?style=for-the-badge&logo=git&logoColor=white">
+  <br>
+</div>
 
 ## 🗺️ 팀 소개
 
@@ -46,21 +86,6 @@
 - **service 계층** **메서드**명 create, update, find, delete로 CRUD 통일(ex. createMember)
 - Test 클래스는 접미사로 Test 사용(ex. memberFindTest)
 
-## 🌏 프로젝트 소개
-
-> "Wander"는 "배회하다"라는 의미로 여행의 특징을 잘 나타내며, "Hub"는 중심지나 중심으로서의 역할을 의미합니다.
-> 따라서 이 이름은 여행 커뮤니티가 모여 소통하고 정보를 공유하는 중심지라는 메시지를 전달할 수 있습니다.
-
-### 🛠️ 기술 스택
-
-> **BE** <br>
-> <img src="https://img.shields.io/badge/Java-007396?style=flat&logo=Java&logoColor=white" />
-> <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySQL&logoColor=white" />
-> <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat&logo=Spring Boot&logoColor=white" />
-> <img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=flat&logo=Amazon AWS&logoColor=white" />
-> <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=flat&logo=Amazon EC2&logoColor=white" />
-> <img src="https://img.shields.io/badge/Amazon RDS-527FFF?style=flat&logo=Amazon RDS&logoColor=white" />
-
 ### ⚙️ 주요 기능
 
 #### 🔍 소셜 로그인, 로그아웃 기능
@@ -79,3 +104,10 @@
 - 10개씩 리스트로 보여줌
 
 ### 📖 [API](https://SsangSoo.github.io/WanderHub_Backend/source)
+
+### 📖 ERD
+
+<div align=center>
+  <img src="https://velog.velcdn.com/images/tjdtn4484/post/2ab6f347-d654-4cd2-89a6-210910f032f8/image.png">
+  <br>
+</div>
