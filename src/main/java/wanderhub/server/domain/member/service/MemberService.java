@@ -15,6 +15,7 @@ import wanderhub.server.global.exception.ExceptionCode;
 import wanderhub.server.global.utils.CustomBeanUtils;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -158,7 +159,7 @@ public class MemberService {
 
     // 닉네임이 없거나 휴면상태인 회원이 서비스를 시작하려할 때, 검증 메서드
     public void verificationMember(Member withoutNickNameOrHumanMember) {
-        if (withoutNickNameOrHumanMember.isNewbie() && withoutNickNameOrHumanMember.getNickName() == null) {          // 닉네임이 없는 사람인지 검증
+        if (withoutNickNameOrHumanMember.isNewbie() && Objects.isNull(withoutNickNameOrHumanMember.getNickName())) {    // 뉴비면서 닉네임이 없는 사람인지 검증
             throw new CustomLogicException(ExceptionCode.NICKNAME_REQUIRED);
         }
         verificationActiveMember(withoutNickNameOrHumanMember);   // 휴면상태 검증

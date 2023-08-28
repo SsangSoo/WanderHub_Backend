@@ -10,8 +10,5 @@ import java.util.List;
 
 public interface AccompanySearchRepository {
     PageResponseDto<AccompanyResponseListDto> searchByLocalAndDate(AccompanySearchCondition accompanySearchDto, Integer page) throws ParseException;
-
     AccompanyResponseDto getAccompany(Long accompanyId);
-
-    List<String> getAccompanyMemberList(Long accompanyId);
 }

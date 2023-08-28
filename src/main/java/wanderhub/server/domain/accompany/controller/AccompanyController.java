@@ -19,6 +19,7 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.time.LocalDate;
 
+@Slf4j
 @Validated
 @RestController
 @RequestMapping("/v1/accompany")
@@ -48,12 +49,13 @@ public class AccompanyController {
     @PatchMapping("/{accompany-id}")
     public ResponseEntity patchAccompany(HttpServletRequest request,
                                          @PathVariable("accompany-id")Long accompanyId,
-                                         @Validated @RequestBody AccompanyDto.Patch patch,
+                                         @Validated @RequestBody AccompanyDto.Patch accompanyPatchDto,
                                          Principal principal) {
         tokenService.verificationLogOutToken(request);  // 블랙리스트 Token 확인
 
-        Accompany accompanyEntityFromPatchDto = accompanyMapper.accompanyPatchDtoToAccompanyEntity(patch);
-        return ResponseEntity.ok(accompanyService.updateAccompany(accompanyId, principal.getName(), accompanyEntityFromPatchDto));
+//        Accompany accompanyEntityFromPatchDto = accompanyMapper.accompanyPatchDtoToAccompanyEntity(patch);
+        log.info("수정 mapper는 통과");
+        return ResponseEntity.ok(accompanyService.updateAccompany(accompanyId, principal.getName(), accompanyPatchDto));
     }
 
 

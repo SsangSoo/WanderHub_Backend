@@ -27,7 +27,8 @@ public class AccompanyMemberService {
                 .accompany(accompany)
                 .member(member)
                 .build();
-        accompany.getAccompanyMemberList().add(accompanyMemberRepository.save(createdAccomapnyMember));
+        AccompanyMember savedAccomapnyMember = accompanyMemberRepository.save(createdAccomapnyMember);
+        accompany.getAccompanyMemberList().add(savedAccomapnyMember);   // Accompany의 Member에 생성
 
     }
 

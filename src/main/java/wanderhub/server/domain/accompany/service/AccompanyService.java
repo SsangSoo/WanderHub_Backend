@@ -3,6 +3,7 @@ package wanderhub.server.domain.accompany.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import wanderhub.server.domain.accompany.dto.AccompanyDto;
 import wanderhub.server.domain.accompany.dto.AccompanyResponseDto;
 import wanderhub.server.domain.accompany.dto.AccompanyResponseListDto;
 import wanderhub.server.domain.accompany.dto.AccompanySearchCondition;
@@ -46,25 +47,23 @@ public class AccompanyService {
         Member findMember = memberService.findMember(email);
         memberService.verificationMember(findMember);               // 통과시 회원 검증 완료
         postAccompany.setAccompanyInit(findMember.getNickName());   // 동행 생성자 닉네임 설정
-        accompanyMemberService.createAccompanyMember(postAccompany, findMember);// 동행_멤버 생성
-        Accompany savedAcoompany = accompanyRepository.save(postAccompany);
+        Accompany savedAcoompany = accompanyRepository.save(postAccompany);     // 동행 생성
+        accompanyMemberService.createAccompanyMember(savedAcoompany, findMember);// 동행_멤버 생성
         AccompanyResponseDto accompanyResponseDto = accompanySearchRepository.getAccompany(savedAcoompany.getAccompanyId());
-        accompanyResponseDto.setMemberList(accompanySearchRepository.getAccompanyMemberList(savedAcoompany.getAccompanyId()));
         return accompanyResponseDto;
     }
     
     // 동행 수정
-    public AccompanyResponseDto updateAccompany(Long accompanyId, String email, Accompany accompanyEntityFromPatchDto) {
+    public AccompanyResponseDto updateAccompany(Long accompanyId, String email, AccompanyDto.Patch accompanyPatchDto) {
         // 이메일을 통해서 사용자의 닉네임이 있는지 없는지 확인한다. // 즉, 사용자 검증을 해준다.
         Member findMember = memberService.findMember(email);
         memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
-        // 동행이 있는지 확인, 
+        // 동행이 있는지 확인,
         Accompany willWriteAccompany = verificationAccompanyExists(accompanyId);    // 수정될 Accompany
         // 작성자도 같은 사람인지 확인
         verificationWriter(willWriteAccompany, findMember.getNickName());           // 닉네임 확인
-        customBeanUtils.copyNonNullProoerties(accompanyEntityFromPatchDto, willWriteAccompany);  // src -> dest로 업데이트
+        willWriteAccompany.updateAccompany(accompanyPatchDto);
         AccompanyResponseDto accompanyResponseDto = accompanySearchRepository.getAccompany(accompanyId);
-        accompanyResponseDto.setMemberList(accompanySearchRepository.getAccompanyMemberList(accompanyId));
         return accompanyResponseDto;
     }
 
@@ -86,7 +85,6 @@ public class AccompanyService {
     public AccompanyResponseDto getAccompany(Long accompanyId) {
         verificationAccompanyExists(accompanyId);  // 동행 유효성 검증
         AccompanyResponseDto accompanyResponseDto = accompanySearchRepository.getAccompany(accompanyId);
-        accompanyResponseDto.setMemberList(accompanySearchRepository.getAccompanyMemberList(accompanyId));
         return accompanyResponseDto;
     }
 
@@ -120,7 +118,6 @@ public class AccompanyService {
         // 위의 과정이 완료되면 참여가능
         accompanyMemberService.createAccompanyMember(findAccompany, findMember);
         AccompanyResponseDto accompanyResponseDto = accompanySearchRepository.getAccompany(accompanyId);
-        accompanyResponseDto.setMemberList(accompanySearchRepository.getAccompanyMemberList(accompanyId));
         return accompanyResponseDto;
     }
 
@@ -144,7 +141,6 @@ public class AccompanyService {
         // 위의 모든 검증 통과시
         accompanyMemberService.outAccompanyMember(accompanyId, findMember.getId());
         AccompanyResponseDto accompanyResponseDto = accompanySearchRepository.getAccompany(accompanyId);
-        accompanyResponseDto.setMemberList(accompanySearchRepository.getAccompanyMemberList(accompanyId));
         return accompanyResponseDto;
     }
 
@@ -159,7 +155,7 @@ public class AccompanyService {
         // 동행 모집 완료 조건
             // 작성자만 가능
         verificationWriter(findAccompany, findMember.getNickName());    // 다르면 예외처리 // 모집 완료 여부 결점 가능 조건 검증 완료
-        findAccompany.setRecruitComplete(!findAccompany.isRecruitComplete());
+        findAccompany.setRecruitComplete();
         return findAccompany.isRecruitComplete();
     }
 

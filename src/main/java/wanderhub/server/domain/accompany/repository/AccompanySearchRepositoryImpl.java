@@ -96,19 +96,18 @@ public class AccompanySearchRepositoryImpl implements AccompanySearchRepository 
                 .where(accompany.accompanyId.eq(accompanyId))
                 .fetchOne();
 
-        return accompanyResponseDto;
-    }
-
-    public List<String> getAccompanyMemberList(Long accompanyId) {
         List<String> accompanyMemberList;
         accompanyMemberList = queryFactory
                 .select(accompanyMember.member.nickName)
                 .from(accompanyMember)
                 .where(accompanyMember.accompany.accompanyId.eq(accompanyId))
                 .fetch();
-        return accompanyMemberList;
+
+        accompanyResponseDto.setMemberList(accompanyMemberList);
+        return accompanyResponseDto;
 
     }
+
 
     private BooleanExpression localEq(Local local) {
         return Objects.nonNull(local) ? accompany.local.eq(local) : null;
