@@ -52,9 +52,6 @@ public class AccompanyController {
                                          @Validated @RequestBody AccompanyDto.Patch accompanyPatchDto,
                                          Principal principal) {
         tokenService.verificationLogOutToken(request);  // 블랙리스트 Token 확인
-
-//        Accompany accompanyEntityFromPatchDto = accompanyMapper.accompanyPatchDtoToAccompanyEntity(patch);
-        log.info("수정 mapper는 통과");
         return ResponseEntity.ok(accompanyService.updateAccompany(accompanyId, principal.getName(), accompanyPatchDto));
     }
 

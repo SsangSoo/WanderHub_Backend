@@ -69,7 +69,6 @@ public class Accompany extends Auditable {
     public void setAccompanyInit(String nickname) {
         this.nickname = nickname;
     }
-    
 
     @Builder
     public Accompany(Local local, Long maxMemberNum, LocalDate accompanyStartDate, LocalDate accompanyEndDate, String title, String content, Double coordinateX, Double coordinateY, String placeName) {

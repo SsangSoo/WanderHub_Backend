@@ -1,5 +1,6 @@
 package wanderhub.server.domain.accompany.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,7 @@ import java.util.Optional;
 @Slf4j
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class AccompanyService {
 
     private final MemberService memberService;
@@ -33,13 +35,6 @@ public class AccompanyService {
     private final CustomBeanUtils<Accompany> customBeanUtils;
     private final AccompanySearchRepository accompanySearchRepository;
 
-    public AccompanyService(MemberService memberService, AccompanyMemberService accompanyMemberService, AccompanyRepository accompanyRepository, CustomBeanUtils<Accompany> customBeanUtils, AccompanySearchRepository accompanySearchRepository) {
-        this.memberService = memberService;
-        this.accompanyMemberService = accompanyMemberService;
-        this.accompanyRepository = accompanyRepository;
-        this.customBeanUtils = customBeanUtils;
-        this.accompanySearchRepository = accompanySearchRepository;
-    }
 
     // 동행 생성
     public AccompanyResponseDto createAccompany(Accompany postAccompany, String email) {
@@ -54,7 +49,7 @@ public class AccompanyService {
     }
     
     // 동행 수정
-    public AccompanyResponseDto updateAccompany(Long accompanyId, String email, AccompanyDto.Patch accompanyPatchDto) {
+    public AccompanyResponseDto updateAccompany(Long accompanyId, String email, AccompanyDto.Patch patchDto) {
         // 이메일을 통해서 사용자의 닉네임이 있는지 없는지 확인한다. // 즉, 사용자 검증을 해준다.
         Member findMember = memberService.findMember(email);
         memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
@@ -62,7 +57,7 @@ public class AccompanyService {
         Accompany willWriteAccompany = verificationAccompanyExists(accompanyId);    // 수정될 Accompany
         // 작성자도 같은 사람인지 확인
         verificationWriter(willWriteAccompany, findMember.getNickName());           // 닉네임 확인
-        willWriteAccompany.updateAccompany(accompanyPatchDto);
+        willWriteAccompany.updateAccompany(patchDto);
         AccompanyResponseDto accompanyResponseDto = accompanySearchRepository.getAccompany(accompanyId);
         return accompanyResponseDto;
     }
