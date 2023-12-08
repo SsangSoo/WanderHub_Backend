@@ -12,7 +12,6 @@ import java.util.Date;
 
 @Entity
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 public class MyTripPlanDetail extends Auditable {
 

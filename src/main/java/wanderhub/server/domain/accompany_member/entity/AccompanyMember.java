@@ -10,8 +10,6 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-@ToString
 public class AccompanyMember extends Auditable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

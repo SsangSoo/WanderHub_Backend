@@ -13,10 +13,8 @@ import java.util.Date;
 import java.util.List;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Entity
-@ToString
 public class MyTripPlan extends Auditable {
 
     @Id

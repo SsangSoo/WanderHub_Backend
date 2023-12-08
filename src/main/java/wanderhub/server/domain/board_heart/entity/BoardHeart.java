@@ -12,7 +12,6 @@ import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 public class BoardHeart extends Auditable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

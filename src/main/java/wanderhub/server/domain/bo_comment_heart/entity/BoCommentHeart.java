@@ -12,7 +12,6 @@ import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 public class BoCommentHeart extends Auditable {
 

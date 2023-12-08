@@ -13,7 +13,6 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 public class BoComment extends Auditable {
 
     @Id

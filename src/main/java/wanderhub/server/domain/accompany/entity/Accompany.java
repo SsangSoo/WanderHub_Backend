@@ -20,7 +20,6 @@ import java.util.Objects;
 @Getter
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 public class Accompany extends Auditable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
