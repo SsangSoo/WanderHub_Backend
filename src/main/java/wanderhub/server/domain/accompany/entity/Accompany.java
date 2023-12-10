@@ -10,12 +10,11 @@ import wanderhub.server.global.audit.Auditable;
 import wanderhub.server.global.utils.Local;
 
 import javax.persistence.*;
-import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+
 
 @Getter
 @Entity
