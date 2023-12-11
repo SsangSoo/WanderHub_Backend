@@ -52,7 +52,7 @@ public class MemberController {
         return ResponseEntity.ok(new SingleResponse<>(memberMapper.getMemberEntityToMemberResponseDto(member)));
     }
 
-    // 회원 탈퇴를 휴면 상태로 !
+    // 회원 탈퇴 -> 휴면 상태
     @PatchMapping("/quit")
     public ResponseEntity quitMember(HttpServletRequest request, Principal principal) {
         tokenService.verificationLogOutToken(request);  // 블랙리스트 Token확인

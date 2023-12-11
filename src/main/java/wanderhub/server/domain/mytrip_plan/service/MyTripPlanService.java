@@ -47,7 +47,7 @@ public class MyTripPlanService {
         Member findMember = memberService.findMember(email);
         memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
         // MyTrip 회원 확인
-        MyTripPlan destMyTripPlan = verificationMyTrip(myTripPlanId, findMember.getNickName());
+        MyTripPlan destMyTripPlan = verificationMyTrip(myTripPlanId, findMember.getNickname());
         MyTripPlan updatedMyTripPlan = customBeanUtils.copyNonNullProoerties(patchMyTripPlan, destMyTripPlan);
         return myTripPlanQueryDsl.getMyTripPlan(updatedMyTripPlan.getMyTripPlanId());
         // 추후 디테일 추가.
@@ -59,7 +59,7 @@ public class MyTripPlanService {
         Member findMember = memberService.findMember(email);
         memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
         // MyTrip 회원 확인
-        MyTripPlan removingMyTripPlan = verificationMyTrip(myTripPlanId, findMember.getNickName());
+        MyTripPlan removingMyTripPlan = verificationMyTrip(myTripPlanId, findMember.getNickname());
         myTripPlanRepository.delete(removingMyTripPlan);
         // 추후 디테일 삭제 같이 해야됨.
     }
@@ -76,7 +76,7 @@ public class MyTripPlanService {
         Member findMember = memberService.findMember(email);
         memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
         // MyTrip 회원 확인
-        verificationMyTrip(myTripPlanId, findMember.getNickName()); // 통과되면 유효섬 검증 완료
+        verificationMyTrip(myTripPlanId, findMember.getNickname()); // 통과되면 유효섬 검증 완료
         return myTripPlanQueryDsl.getOnceMyTripPlan(myTripPlanId);
     }
 
@@ -91,7 +91,7 @@ public class MyTripPlanService {
         }
         MyTripPlan myTripPlan = myTripPlanById.get();
         // 닉네임이 만약 다른 사람이라면,
-        if(!myTripPlan.getMember().getNickName().equals(nickName)) {
+        if(!myTripPlan.getMember().getNickname().equals(nickName)) {
             throw new CustomLogicException(ExceptionCode.TRIP_PLAN_DIFFERENT_WRITER);
         }
         return myTripPlan;

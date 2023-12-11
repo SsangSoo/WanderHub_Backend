@@ -2,11 +2,13 @@ package wanderhub.server.domain.member.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
-import wanderhub.server.domain.accompany.dto.AccompanyResponseListDto;
-import wanderhub.server.domain.accompany.dto.QAccompanyResponseListDto;
+import wanderhub.server.domain.accompany.dto.AccompanyListResponseDto;
+import wanderhub.server.domain.accompany.dto.QAccompanyListResponseDto;
 import wanderhub.server.domain.board.dto.BoardListResponseDto;
 import wanderhub.server.domain.board.dto.QBoardListResponseDto;
 import wanderhub.server.domain.board_heart.entity.QBoardHeart;
+import wanderhub.server.domain.member.entity.MemberStatus;
+import wanderhub.server.domain.member.entity.QMember;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -14,12 +16,14 @@ import java.util.List;
 import static  wanderhub.server.domain.board.dto.QBoardListResponseDto.*;
 import static wanderhub.server.domain.board.entity.QBoard.*;
 import static wanderhub.server.domain.board_heart.entity.QBoardHeart.*;
-import static wanderhub.server.domain.accompany.dto.QAccompanyResponseListDto.*;
+import static wanderhub.server.domain.accompany.dto.QAccompanyListResponseDto.*;
 import static wanderhub.server.domain.accompany.entity.QAccompany.*;
+import static wanderhub.server.domain.member.entity.QMember.member;
 
 
 @Repository
 public class MemberSearchQueryDsl {
+
     private final JPAQueryFactory queryFactory;
 
     public MemberSearchQueryDsl(EntityManager em) {
@@ -106,15 +110,15 @@ public class MemberSearchQueryDsl {
     }
 
     // 내가 만등 동행
-    public List<AccompanyResponseListDto> getWriteAccompanList(String nickname) {
-        List<AccompanyResponseListDto> accompanyListResponseDtoList;
+    public List<AccompanyListResponseDto> getWriteAccompanList(String nickname) {
+        List<AccompanyListResponseDto> accompanyListResponseDtoList;
         accompanyListResponseDtoList = queryFactory
-                .select(new QAccompanyResponseListDto(
+                .select(new QAccompanyListResponseDto(
                         accompany.accompanyId,
-                        accompany.nickname,
+                        accompany.accompanyMaker,
                         accompany.local.stringValue(),
-                        accompany.accompanyMemberList.size().longValue(),
-                        accompany.maxMemberNum,
+                        accompany.accompanyMemberList.size(),
+                        accompany.maxMemberCount,
                         accompany.accompanyStartDate,
                         accompany.accompanyEndDate,
                         accompany.title,
@@ -122,21 +126,21 @@ public class MemberSearchQueryDsl {
                         accompany.createdAt
                 ))
                 .from(accompany)
-                .where(accompany.nickname.eq(nickname))
+                .where(accompany.accompanyMaker.eq(nickname))
                 .fetch();
         return accompanyListResponseDtoList;
     }
 
     // 내가 참여 중인 동행
-    public List<AccompanyResponseListDto> getWriteAccompanyJoined(String nickName) {
-        List<AccompanyResponseListDto> accompanyListResponseDtoList;
+    public List<AccompanyListResponseDto> getWriteAccompanyJoined(String nickName) {
+        List<AccompanyListResponseDto> accompanyListResponseDtoList;
         accompanyListResponseDtoList = queryFactory
-                .select(new QAccompanyResponseListDto(
+                .select(new QAccompanyListResponseDto(
                         accompany.accompanyId,
-                        accompany.nickname,
+                        accompany.accompanyMaker,
                         accompany.local.stringValue(),
-                        accompany.accompanyMemberList.size().longValue(),
-                        accompany.maxMemberNum,
+                        accompany.accompanyMemberList.size(),
+                        accompany.maxMemberCount,
                         accompany.accompanyStartDate,
                         accompany.accompanyEndDate,
                         accompany.title,
@@ -144,9 +148,17 @@ public class MemberSearchQueryDsl {
                         accompany.createdAt
                 ))
                 .from(accompany)
-                .where(accompany.accompanyMemberList.any().member.nickName.eq(nickName))
+                .where(accompany.accompanyMemberList.any().member.nickname.eq(nickName))
                 .fetch();
         return accompanyListResponseDtoList;
+    }
+
+    public void quitMember(String nickname, Long memberId) {
+        queryFactory.update(member)
+                .set(member.memberStatus, MemberStatus.HUMAN)
+                .set(member.nickname, nickname)
+                .where(member.Id.eq(memberId))
+                .execute();
     }
 
 }

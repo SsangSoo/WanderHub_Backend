@@ -1,10 +1,13 @@
 package wanderhub.server.domain.member.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wanderhub.server.auth.utils.CustomAuthorityUtils;
-import wanderhub.server.domain.accompany.dto.AccompanyResponseListDto;
+import wanderhub.server.domain.accompany.dto.AccompanyListResponseDto;
+import wanderhub.server.domain.accompany.service.AccompanyService;
+import wanderhub.server.domain.accompany_member.service.AccompanyMemberService;
 import wanderhub.server.domain.board.dto.BoardListResponseDto;
 import wanderhub.server.domain.member.entity.Member;
 import wanderhub.server.domain.member.entity.MemberStatus;
@@ -20,6 +23,7 @@ import java.util.Optional;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class MemberService {
 
@@ -27,13 +31,8 @@ public class MemberService {
     private final CustomAuthorityUtils authorityUtils;
     private final CustomBeanUtils<Member> customBeanUtils;
     private final MemberSearchQueryDsl memberSearchQueryDsl;
+    private final AccompanyMemberService accompanyMemberService;
 
-    public MemberService(MemberRepository memberRepository, CustomAuthorityUtils authorityUtils, CustomBeanUtils<Member> customBeanUtils, MemberSearchQueryDsl memberSearchQueryDsl) {
-        this.memberRepository = memberRepository;
-        this.authorityUtils = authorityUtils;
-        this.customBeanUtils = customBeanUtils;
-        this.memberSearchQueryDsl = memberSearchQueryDsl;
-    }
 
     public Member createMember(Member createMember) {
         createMember.setMemberStatus(MemberStatus.ACTIVE);                    // 멤버 활동 중 변경
@@ -75,14 +74,19 @@ public class MemberService {
     public void quitMember(String email) {
         verificationMemberByEmail(email);
         Member member = findMember(email);
-        member.setMemberStatus(MemberStatus.HUMAN);
+        deleteMemberData(member);
+        memberSearchQueryDsl.quitMember(member.getNickname() + "_삭제된 회원", member.getId());
+    }
+
+    private void deleteMemberData(Member member) {
+        accompanyMemberService.outMember(member);
     }
 
     // 내가 작성한 게시판
     public List<BoardListResponseDto> getWriteBoardList(String email) {
         Member findMember = findMember(email);
         verificationMember(findMember);       // 통과시 회원 검증 완료
-        return memberSearchQueryDsl.getWriteBoardList(findMember.getNickName());
+        return memberSearchQueryDsl.getWriteBoardList(findMember.getNickname());
 
     }
 
@@ -97,7 +101,7 @@ public class MemberService {
     public List<BoardListResponseDto> getBoardWithWriteMyBoardComment(String email) {
         Member findMember = findMember(email);
         verificationMember(findMember);       // 통과시 회원 검증 완료
-        return memberSearchQueryDsl.getBoardWithWriteMyBoardComment(findMember.getNickName());
+        return memberSearchQueryDsl.getBoardWithWriteMyBoardComment(findMember.getNickname());
     }
 
     // 내가 좋아요 달은 댓글이 있는 게시판
@@ -107,18 +111,18 @@ public class MemberService {
         return memberSearchQueryDsl.getBoardWithWriteHeartBoardComment(findMember.getId());
     }
 
-    // 내가 만등 동행
-    public List<AccompanyResponseListDto> getWriteAccompanList(String email) {
+    // 내가 만든 동행
+    public List<AccompanyListResponseDto> getWriteAccompanList(String email) {
         Member findMember = findMember(email);
         verificationMember(findMember);       // 통과시 회원 검증 완료
-        return memberSearchQueryDsl.getWriteAccompanList(findMember.getNickName());
+        return memberSearchQueryDsl.getWriteAccompanList(findMember.getNickname());
     }
 
     // 내가 참여 중인 동행
-    public List<AccompanyResponseListDto> getWriteAccompanyJoined(String email) {
+    public List<AccompanyListResponseDto> getWriteAccompanyJoined(String email) {
         Member findMember = findMember(email);
         verificationMember(findMember);       // 통과시 회원 검증 완료
-        return memberSearchQueryDsl.getWriteAccompanyJoined(findMember.getNickName());
+        return memberSearchQueryDsl.getWriteAccompanyJoined(findMember.getNickname());
     }
 
     // --------------------------- 유효성 검증----------------------
@@ -139,10 +143,10 @@ public class MemberService {
     // 뉴비는 닉네임을 변경해야하는데, 변경이 없다면, 변경하라고 예외발생시켜야함.
     public void verificationNewbie(Member memberWithUpdateData) {
         // 뉴비인데, updateMember에도 닉네임정보가 없다면, 닉네임 변경을 해달라는 예외를 던진다.
-        if (memberWithUpdateData.getNickName() == null) {
+        if (memberWithUpdateData.getNickname() == null) {
             throw new CustomLogicException(ExceptionCode.NICKNAME_REQUIRED);
         } else {        // 닉네임이 있는데, 중복이 발생하면 이미 있다고 예외발생시켜야함.
-            Optional<Member> nickNameDuplicatedMember = memberRepository.findByNickName(memberWithUpdateData.getNickName());  // 닉네임을 가진 회원
+            Optional<Member> nickNameDuplicatedMember = memberRepository.findByNickName(memberWithUpdateData.getNickname());  // 닉네임을 가진 회원
             if (nickNameDuplicatedMember.isPresent()) {
                 throw new CustomLogicException(ExceptionCode.NICKNAME_DUPLICATED);  // 값이 있으면 이미 닉네임은 사용되는 사람이므로 예외발생시켜야함.
             }
@@ -152,14 +156,14 @@ public class MemberService {
 
     // 기존 회원은 닉네임을 변경하려고할 때 예외를 발생시킨다.
     public void verificationNotNewbie(Member memberWithUpdateData) {
-        if (memberWithUpdateData.getNickName() != null) { // 기존멤버가 닉네임을 변경하려고하면, 예외 발생
+        if (memberWithUpdateData.getNickname() != null) { // 기존멤버가 닉네임을 변경하려고하면, 예외 발생
             throw new CustomLogicException(ExceptionCode.NICKNAME_NOT_UPDATE);
         }
     }
 
     // 닉네임이 없거나 휴면상태인 회원이 서비스를 시작하려할 때, 검증 메서드
     public void verificationMember(Member withoutNickNameOrHumanMember) {
-        if (withoutNickNameOrHumanMember.isNewbie() && Objects.isNull(withoutNickNameOrHumanMember.getNickName())) {    // 뉴비면서 닉네임이 없는 사람인지 검증
+        if (withoutNickNameOrHumanMember.isNewbie() && Objects.isNull(withoutNickNameOrHumanMember.getNickname())) {    // 뉴비면서 닉네임이 없는 사람인지 검증
             throw new CustomLogicException(ExceptionCode.NICKNAME_REQUIRED);
         }
         verificationActiveMember(withoutNickNameOrHumanMember);   // 휴면상태 검증

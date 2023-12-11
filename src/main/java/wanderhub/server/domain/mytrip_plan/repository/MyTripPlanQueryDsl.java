@@ -2,8 +2,6 @@ package wanderhub.server.domain.mytrip_plan.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
-import wanderhub.server.domain.accompany.dto.AccompanyResponseDto;
-import wanderhub.server.domain.accompany.dto.QAccompanyResponseDto;
 import wanderhub.server.domain.mytrip_plan.dto.*;
 import wanderhub.server.domain.mytrip_plan_detail.dto.MyTripPlanDetailListResponseDto;
 import wanderhub.server.domain.mytrip_plan_detail.dto.QMyTripPlanDetailListResponseDto;

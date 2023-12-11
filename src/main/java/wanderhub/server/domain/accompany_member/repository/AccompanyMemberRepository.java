@@ -19,10 +19,19 @@ public interface AccompanyMemberRepository extends JpaRepository<AccompanyMember
     Optional<AccompanyMember> findByAccompany_AccompanyIdAndMemberId(Long accompanyId, Long memberId);
 
     @Modifying
+    @Query("delete from AccompanyMember am where am.member.Id =:memberId")
+    void deleteAccompanyMemberByMemberId(Long memberId);
+
+    @Modifying
+    @Query("delete from Accompany a where a.accompanyMaker =:memberNickname")
+    void deleteAccompanyByAccompanyMaker(String memberNickname);
+
+    @Modifying
     @Query("delete from AccompanyMember as am where am.accompany.accompanyId = :accompanyId")
     int deleteAccompanyMemberByAccompany_AccompanyId(Long accompanyId);
 
     @Modifying
     @Query("delete from AccompanyMember as am where am.accompany.accompanyId = :accompanyId and am.member.Id = :memberId")
     int deleteAccompanyMemberByAccompany_AccompanyIdAndMember_Id(Long accompanyId, Long memberId);
+
 }

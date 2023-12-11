@@ -138,7 +138,7 @@ public class BoardService {
 
     // 게시판 작성자와 수정하려는 사람이 같은 사람인지 확인해주는 메서드               // 닉네임으로 확인한다.
     public void verificationWriter(Board board, Member member) {
-        if (!board.getNickName().equals(member.getNickName())) {            // 찾은 게시판의 작성자와 게시판을 수정을 시도하려는 사용자의 닉네임이 다를 때
+        if (!board.getNickName().equals(member.getNickname())) {            // 찾은 게시판의 작성자와 게시판을 수정을 시도하려는 사용자의 닉네임이 다를 때
             throw new CustomLogicException(ExceptionCode.BOARD_WRITER_DIFFERENT);   // 멤버가 다르다는 예외 발생
         }
     }

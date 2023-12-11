@@ -24,7 +24,7 @@ public interface BoardMapper {
             return Board.builder()
                     .title(post.getTitle())
                     .content(post.getContent())
-                    .local(Local.findByLocal(post.getLocal()))
+                    .local(Local.getLocal(post.getLocal()))
                     .build();
         }
         return null;
@@ -35,7 +35,7 @@ public interface BoardMapper {
             return Board.builder()
                     .title(patch.getTitle())
                     .content(patch.getContent())
-                    .local(Local.findByLocal(patch.getLocal()))
+                    .local(Local.getLocal(patch.getLocal()))
                     .build();
         }
         return null;

@@ -1,5 +1,6 @@
 package wanderhub.server.domain.accompany.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import wanderhub.server.auth.jwt.refreshtoken.service.TokenService;
 import wanderhub.server.domain.accompany.dto.AccompanyDto;
 import wanderhub.server.domain.accompany.dto.AccompanySearchCondition;
+import wanderhub.server.domain.accompany.dto.AccompanySingleResponseVO;
 import wanderhub.server.domain.accompany.entity.Accompany;
 import wanderhub.server.domain.accompany.mapper.AccompanyMapper;
 import wanderhub.server.domain.accompany.service.AccompanyService;
@@ -20,6 +22,7 @@ import java.text.ParseException;
 import java.time.LocalDate;
 
 @Slf4j
+@RequiredArgsConstructor
 @Validated
 @RestController
 @RequestMapping("/v1/accompany")
@@ -29,19 +32,13 @@ public class AccompanyController {
     private final AccompanyMapper accompanyMapper;
     private final AccompanyService accompanyService;
 
-    public AccompanyController(TokenService tokenService, AccompanyMapper accompanyMapper, AccompanyService accompanyService) {
-        this.tokenService = tokenService;
-        this.accompanyMapper = accompanyMapper;
-        this.accompanyService = accompanyService;
-    }
 
     // 동행 생성
     @PostMapping
     public ResponseEntity postAccompany(HttpServletRequest request, @Validated @RequestBody AccompanyDto.Post post, Principal principal) {
-        tokenService.verificationLogOutToken(request); // 블랙리스트 Token확인
-
-        Accompany accompanyEntityFromPostDto = accompanyMapper.accompanyPostDtoToAccompanyEntity(post);   // Mppaer로 Accompany Entity 생성
-        return new ResponseEntity(new SingleResponse<>(accompanyService.createAccompany(accompanyEntityFromPostDto, principal.getName())), HttpStatus.CREATED);
+        tokenService.verificationLogOutToken(request); // 블랙리스트 JWT확인
+        accompanyService.createAccompany(post, principal.getName());
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
 

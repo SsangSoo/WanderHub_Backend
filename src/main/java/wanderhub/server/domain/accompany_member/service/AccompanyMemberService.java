@@ -40,6 +40,18 @@ public class AccompanyMemberService {
         return accompanyMemberRepository.findByAccompany_AccompanyIdAndMemberId(accompanyId, memberId);
     }
 
+    public void outMember(Member member) {
+        accompanyMemberRepository.deleteAccompanyMemberByMemberId(member.getId()); // AccompanyMember 테이블에서 memberId를 가지는 데이터 삭제
+        // 다른 회원이 있을 경우, 2번째 회원에게 방장을 양도한다. // 추후
+        //      List<AccompanyMember> accompanyMemberList = member.getAccompanyMemberList();
+            // 동행들 찾고,
+            // 멤버가 2명이상인 동행 거르고 방장 양도하는 bulk 연산을하고,
+            // 멤버가 1명이면, 동행에 참여한 다른 회원은 없으므로 연관된 동행은 삭제한다.
+            // 다른 회원이 없을 경우
+        accompanyMemberRepository.deleteAccompanyByAccompanyMaker(member.getNickname());
+
+    }
+
     public void outAccompanyMember(Long accompanyId, Long memberId) {
         accompanyMemberRepository.deleteAccompanyMemberByAccompany_AccompanyIdAndMember_Id(accompanyId, memberId);
     }

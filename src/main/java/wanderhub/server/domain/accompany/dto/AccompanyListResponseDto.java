@@ -12,11 +12,11 @@ import java.time.LocalDateTime;
 // 전체 조회용 Response
 @Getter
 @NoArgsConstructor
-public class AccompanyResponseListDto {
+public class AccompanyListResponseDto {
     private Long accompanyId;
     private String nickname;
     private String local;
-    private long currentMemberNum;
+    private Integer currentMemberNum;
     private Long maxMemberNum;
     @JsonFormat(pattern = "yyyy-MM-dd") // 2022-10-02
     private LocalDate accompanyStartDate;
@@ -28,7 +28,7 @@ public class AccompanyResponseListDto {
 
     @Builder
     @QueryProjection
-    public AccompanyResponseListDto(Long accompanyId, String nickname, String local, long currentMemberNum, Long maxMemberNum, LocalDate accompanyStartDate, LocalDate accompanyEndDate, String title, boolean recruitComplete, LocalDateTime createdAt) {
+    public AccompanyListResponseDto(Long accompanyId, String nickname, String local, Integer currentMemberNum, Long maxMemberNum, LocalDate accompanyStartDate, LocalDate accompanyEndDate, String title, boolean recruitComplete, LocalDateTime createdAt) {
         this.accompanyId = accompanyId;
         this.nickname = nickname;
         this.local = local;

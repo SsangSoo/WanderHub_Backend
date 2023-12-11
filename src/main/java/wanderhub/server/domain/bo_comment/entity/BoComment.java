@@ -41,7 +41,7 @@ public class BoComment extends Auditable {
 
     public void setBoardInit(Board board, Member writer) {
         this.board = board;
-        this.nickName = writer.getNickName();
+        this.nickName = writer.getNickname();
         this.member = writer;
     }
 }

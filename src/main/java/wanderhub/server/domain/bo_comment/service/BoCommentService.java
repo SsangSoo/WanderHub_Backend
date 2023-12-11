@@ -102,7 +102,7 @@ public class BoCommentService {
     }
 
     public void verficationBoCommentWriter(BoComment boComment, Member member) {    // 댓글의 작성자를 비교한다.
-        if(!boComment.getNickName().equals(member.getNickName()))  {    // 같은 사람이 아니면,
+        if(!boComment.getNickName().equals(member.getNickname()))  {    // 같은 사람이 아니면,
             throw new CustomLogicException(ExceptionCode.BOARD_COMMENT_WRITER_DIFFERENT);
         } // 맞으면 수정 가능.
     }

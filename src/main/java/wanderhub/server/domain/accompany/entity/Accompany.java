@@ -25,15 +25,15 @@ public class Accompany extends Auditable {
     @Column(name = "ACCOMPANY_ID", updatable = false)
     private Long accompanyId;
 
-    @Column(name = "NICKNAME",length = 50, updatable = false)
-    private String nickname;
+    @Column(name = "ACCOMPANY_MAKER",length = 50, updatable = false)
+    private String accompanyMaker;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "LOCAL", length = 16)    // ERD상 Not Null이지만, 기본 X(선택없음)로 들어가므로 nullable 표시 안함.
     private Local local;
 
-    @Column(name = "MAX_MEMBER_NUM", nullable = false)      // 최대인원
-    private Long maxMemberNum;
+    @Column(name = "MAX_MEMBER_COUNT", nullable = false)      // 최대인원
+    private Long maxMemberCount;
 
     @Column(name = "ACCOMPANY_START_DATE")
     private LocalDate accompanyStartDate;        // 동행 시작 날짜
@@ -64,14 +64,13 @@ public class Accompany extends Auditable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accompany", orphanRemoval = true) // orphanRemoval 연관관계가 끊어지면 자동으로 삭제
     private List<AccompanyMember> accompanyMemberList = new ArrayList<>();
 
-    public void setAccompanyInit(String nickname) {
-        this.nickname = nickname;
-    }
+
 
     @Builder
-    public Accompany(Local local, Long maxMemberNum, LocalDate accompanyStartDate, LocalDate accompanyEndDate, String title, String content, Double coordinateX, Double coordinateY, String placeName) {
+    public Accompany(String accompanyMaker, Local local, Long maxMemberCount, LocalDate accompanyStartDate, LocalDate accompanyEndDate, String title, String content, Double coordinateX, Double coordinateY, String placeName) {
+        this.accompanyMaker = accompanyMaker;
         this.local = local;
-        this.maxMemberNum = maxMemberNum;
+        this.maxMemberCount = maxMemberCount;
         this.accompanyStartDate = accompanyStartDate;
         this.accompanyEndDate = accompanyEndDate;
         this.title = title;
@@ -82,8 +81,8 @@ public class Accompany extends Auditable {
     }
 
     public void updateAccompany(AccompanyDto.Patch accpmpanyPatchDto) {
-        if(Objects.nonNull(accpmpanyPatchDto.getLocal())) this.local = Local.valueOf(accpmpanyPatchDto.getLocal());
-        if(Objects.nonNull(accpmpanyPatchDto.getMaxMemberNum())) this.maxMemberNum = accpmpanyPatchDto.getMaxMemberNum();
+        if(Objects.nonNull(accpmpanyPatchDto.getLocal())) this.local = Local.getLocal(accpmpanyPatchDto.getLocal());
+        if(Objects.nonNull(accpmpanyPatchDto.getMaxMemberCount())) this.maxMemberCount = accpmpanyPatchDto.getMaxMemberCount();
         if(Objects.nonNull(accpmpanyPatchDto.getAccompanyStartDate())) this.accompanyStartDate = accpmpanyPatchDto.getAccompanyStartDate();
         if(Objects.nonNull(accpmpanyPatchDto.getAccompanyEndDate())) this.accompanyEndDate = accpmpanyPatchDto.getAccompanyEndDate();
         if(Objects.nonNull(accpmpanyPatchDto.getTitle())) this.title = accpmpanyPatchDto.getTitle();
@@ -93,7 +92,5 @@ public class Accompany extends Auditable {
         if(Objects.nonNull(accpmpanyPatchDto.getPlaceName())) this.placeName = accpmpanyPatchDto.getPlaceName();
     }
 
-    public void setRecruitComplete() {
-        this.recruitComplete = !this.recruitComplete;
-    }
+
 }

@@ -38,7 +38,7 @@ public class MyTripPlanDetailService {
     public MyTripPlanDetailResponseDto createTripPlanDetail(String email, Long myTripPlanId, MyTripPlanDetail myTripPlanDetail) {
         Member findMember = memberService.findMember(email);
         memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
-        MyTripPlan myTripPlan = myTripPlanService.verificationMyTrip(myTripPlanId, findMember.getNickName());
+        MyTripPlan myTripPlan = myTripPlanService.verificationMyTrip(myTripPlanId, findMember.getNickname());
         myTripPlanDetail.setMyTripPlan(myTripPlan);
         MyTripPlanDetail createdTripPlanDetail = myTripPlanDetailRepository.save(myTripPlanDetail);
         return myTripPlanDetailQueryDsl.getMyTripPlanDetail(createdTripPlanDetail.getMyTripPlanDetailId());
@@ -48,7 +48,7 @@ public class MyTripPlanDetailService {
     public MyTripPlanDetailResponseDto updateTripPlanDetail(String email, Long myTripPlanId, Long myTripPlanDetailId, MyTripPlanDetail patchToMyTripPlanDetail) {
         Member findMember = memberService.findMember(email);
         memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
-        myTripPlanService.verificationMyTrip(myTripPlanId, findMember.getNickName()); // MyTripPlan 확인
+        myTripPlanService.verificationMyTrip(myTripPlanId, findMember.getNickname()); // MyTripPlan 확인
         // 부모와 자식 Id가 맞는 MyTripPlanDetail 확인
         MyTripPlanDetail byMyTripPlanDetailId = findByMyTripPlanDetailId(myTripPlanDetailId, myTripPlanId);
         MyTripPlanDetail updatedMyTripPlanDetail = customBeanUtils.copyNonNullProoerties(patchToMyTripPlanDetail, byMyTripPlanDetailId);
@@ -59,7 +59,7 @@ public class MyTripPlanDetailService {
     public void removeMyTripPlanDetail(String email, Long myTripPlanId, Long myTripPlanDetailId) {
         Member findMember = memberService.findMember(email);
         memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
-        myTripPlanService.verificationMyTrip(myTripPlanId, findMember.getNickName()); // MyTripPlan 확인
+        myTripPlanService.verificationMyTrip(myTripPlanId, findMember.getNickname()); // MyTripPlan 확인
         // 부모와 자식 Id가 맞는 MyTripPlanDetail 확인
         MyTripPlanDetail byMyTripPlanDetailId = findByMyTripPlanDetailId(myTripPlanDetailId, myTripPlanId);
         myTripPlanDetailRepository.delete(byMyTripPlanDetailId);
@@ -69,7 +69,7 @@ public class MyTripPlanDetailService {
     public MyTripPlanDetailResponseDto getOnceMyTripPlanDetail(String email, Long myTripPlanId, Long myTripPlanDetailId) {
         Member findMember = memberService.findMember(email);
         memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
-        myTripPlanService.verificationMyTrip(myTripPlanId, findMember.getNickName()); // MyTripPlan 확인
+        myTripPlanService.verificationMyTrip(myTripPlanId, findMember.getNickname()); // MyTripPlan 확인
         // 부모와 자식 Id가 맞는 MyTripPlanDetail 확인
         findByMyTripPlanDetailId(myTripPlanDetailId, myTripPlanId); // 여기서 통과 되면 유효성 검증 끝
         return myTripPlanDetailQueryDsl.getMyTripPlanDetail(myTripPlanDetailId);

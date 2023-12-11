@@ -18,7 +18,7 @@ public class AccompanySearchCondition {
     private LocalDate startDate;
 
     public Local getLocal() {
-        return this.local == null ? null : Local.findByLocal(this.local);
+        return this.local == null ? null : Local.getLocal(this.local);
     }
 
     public LocalDate getDate() {

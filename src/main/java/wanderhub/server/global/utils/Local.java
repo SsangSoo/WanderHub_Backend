@@ -3,38 +3,38 @@ package wanderhub.server.global.utils;
 import lombok.Getter;
 
 public enum Local {
-    Seoul("Seoul"),
-    Jeju("Jeju"),
-    Gyeonggi("Gyeonggi"),
-    Gangwon("Gangwon"),
-    Busan("Busan"),
-    Ulsan("Ulsan"),
-    Pohang("Pohang"),
-    Daegu("Daegu"),
-    Daejeon("Daejeon"),
-    Gwangju("Gwangju"),
-    Sejong("Sejong"),
-    Incheon("Incheon"),
-    Chungcheongnam("Chungcheongnam"),
-    Chungcheongbuk("Chungcheongbuk"),
-    Gyeongsangnam("Gyeongsangnam"),
-    Gyeongsangbuk("Gyeongsangbuk"),
-    Jeollanam("Jeollanam"),
-    Jeollabuk("Jeollabuk"),
+    Seoul("서울"),
+    Jeju("제주"),
+    Gyeonggi("경기"),
+    Gangwon("강원"),
+    Busan("부산"),
+    Ulsan("울산"),
+    Pohang("포항"),
+    Daegu("대구"),
+    Daejeon("대전"),
+    Gwangju("광주"),
+    Sejong("세종"),
+    Incheon("인천"),
+    Chungcheongnam("충청남도"),
+    Chungcheongbuk("충청북도"),
+    Gyeongsangnam("경상남도"),
+    Gyeongsangbuk("경상북도"),
+    Jeollanam("전라남도"),
+    Jeollabuk("전라북도"),
     NotSelected("Not selected");
 
 
     @Getter
     private String localString;
 
-    Local(String local) {
-        this.localString = local;
+    Local(String localString) {
+        this.localString = localString;
     }
 
-    public static Local findByLocal(String local) {
-        for (Local status : values()) {
-            if (local.equals(status.getLocalString())) {
-                return status;
+    public static Local getLocal(String localString) {
+        for (Local local : values()) {
+            if (localString.equals(local.getLocalString())) {
+                return local;
             }
         } return NotSelected;
     }

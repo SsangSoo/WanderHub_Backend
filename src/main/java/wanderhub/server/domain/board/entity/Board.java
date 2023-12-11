@@ -63,6 +63,6 @@ public class Board extends Auditable {
 
     public void setBoardInit(Member member) {
         this.member = member;
-        this.nickName = member.getNickName();
+        this.nickName = member.getNickname();
     }
 }

@@ -51,7 +51,7 @@ public class BoardQueryDslRepository {
         // 마지막 페이지보다 작으면 10 아니라면, 총 요소갯수에서 % 10(페이지 사이즈)
         Long currentPageElements = page < totalPage ? 10 : totalElements % 10;
 
-        return PageResponseDto.of(boardDtoList, totalPage, totalElements, currentPageElements, page);
+        return PageResponseDto.of(boardDtoList, totalPage, page);
     }
 
     // 게시판 단일 조회시 viewPoint 증가.

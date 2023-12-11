@@ -21,9 +21,9 @@ public interface MemberMapper {
         if(Objects.nonNull(memberDtoPatch)) {
             Member patchMember = Member.builder()
                     .name(memberDtoPatch.getName())
-                    .nickName(memberDtoPatch.getNickName())
+                    .nickname(memberDtoPatch.getNickName())
                     .imgUrl(memberDtoPatch.getImgUrl())
-                    .local(Local.findByLocal(memberDtoPatch.getLocal()))
+                    .local(Local.getLocal(memberDtoPatch.getLocal()))
                     .build();
             return patchMember;
         }
@@ -36,7 +36,7 @@ public interface MemberMapper {
             MemberDto.Response.ResponseBuilder response = MemberDto.Response.builder();
             response.email(member.getEmail());
             response.name(member.getName());
-            response.nickName(member.getNickName());
+            response.nickName(member.getNickname());
             response.imgUrl(member.getImgUrl());
             response.local(member.getLocal().getLocalString());
             response.memberStatus(member.getMemberStatus());
@@ -55,7 +55,7 @@ public interface MemberMapper {
             MemberDto.GetResponse response = MemberDto.GetResponse.builder()
                     .name(member.getName())
                     .email(member.getEmail())
-                    .nickName(member.getNickName())
+                    .nickName(member.getNickname())
                     .imgUrl(member.getImgUrl())
                     .local(member.getLocal().getLocalString())
                     .memberStatus(member.getMemberStatus())

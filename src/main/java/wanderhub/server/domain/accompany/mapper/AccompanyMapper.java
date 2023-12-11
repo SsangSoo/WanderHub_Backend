@@ -7,6 +7,7 @@ import wanderhub.server.global.exception.CustomLogicException;
 import wanderhub.server.global.exception.ExceptionCode;
 import wanderhub.server.global.utils.Local;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 
@@ -15,14 +16,15 @@ public interface AccompanyMapper {
 
     // 생성 mapper
     default Accompany accompanyPostDtoToAccompanyEntity(AccompanyDto.Post accompanyPost) {
-        if(accompanyPost.getAccompanyEndDate().compareTo(accompanyPost.getAccompanyStartDate())<0) {
+        LocalDate accompanyStartDate = accompanyPost.getAccompanyStartDate();
+        LocalDate accompanyEndDate = accompanyPost.getAccompanyEndDate();
+        if(accompanyEndDate.compareTo(accompanyStartDate) < 0) {
             throw new CustomLogicException(ExceptionCode.DATE_INVALID);
         }
-
         if(Objects.nonNull(accompanyPost)) {
                return Accompany.builder()
-                   .local(Local.findByLocal(accompanyPost.getLocal()))
-                   .maxMemberNum(accompanyPost.getMaxMemberNum())
+                   .local(Local.getLocal(accompanyPost.getLocal()))
+                   .maxMemberCount(accompanyPost.getMaxMemberCount())
                    .accompanyStartDate(accompanyPost.getAccompanyStartDate())
                    .accompanyEndDate(accompanyPost.getAccompanyEndDate())
                    .title(accompanyPost.getTitle())
@@ -42,8 +44,8 @@ public interface AccompanyMapper {
         }
         if(Objects.nonNull(accompanyPatch)) {
             return Accompany.builder()
-                    .local(Local.findByLocal(accompanyPatch.getLocal()))
-                    .maxMemberNum(accompanyPatch.getMaxMemberNum())
+                    .local(Local.getLocal(accompanyPatch.getLocal()))
+                    .maxMemberCount(accompanyPatch.getMaxMemberCount())
                     .accompanyStartDate(accompanyPatch.getAccompanyStartDate())
                     .accompanyEndDate(accompanyPatch.getAccompanyEndDate())
                     .title(accompanyPatch.getTitle())

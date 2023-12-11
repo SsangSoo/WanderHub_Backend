@@ -37,7 +37,7 @@ public class Member extends Auditable {
 
     @Setter
     @Column(name = "NICKNAME", length = 50)
-    private String nickName;
+    private String nickname;
 
     @Lob
     @Column(name = "IMG_URL")
@@ -62,23 +62,22 @@ public class Member extends Auditable {
     @Column(name = "NEWBIE")
     private boolean newbie;     // boolean 기본값 false
 
-
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member")
     private List<Board> boardList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member")
     private List<BoComment> boCommentList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member")
     private List<BoardHeart> boardHeartList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member")
     private List<BoCommentHeart> boCommentHeartList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member")
     private List<AccompanyMember> accompanyMemberList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member")
     private List<MyTripPlan> myTripPlanList = new ArrayList<>();
 
 
@@ -88,9 +87,9 @@ public class Member extends Auditable {
     }
 
     @Builder
-    public Member(String name, String nickName, String imgUrl, Local local) {
+    public Member(String name, String nickname, String imgUrl, Local local) {
         this.name = name;
-        this.nickName = nickName;
+        this.nickname = nickname;
         this.imgUrl = imgUrl;
         this.local = local;
     }

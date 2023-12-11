@@ -16,7 +16,8 @@ public class AccompanyMember extends Auditable {
     @Column(name = "ACCOMPANY_MEMBER_ID")
     private Long accompanyMemberId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    // Accompany가 삭제되면, AccompanyMember도 없어져야 함.
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "ACCOMPANY_ID")
     private Accompany accompany;
 

@@ -39,7 +39,7 @@ public class MyTripPlan extends Auditable {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "myTripPlan", orphanRemoval = true) // orphanRemoval 연관관계가 끊어지면 자동으로 삭제
+    @OneToMany(mappedBy = "myTripPlan", cascade = CascadeType.ALL, orphanRemoval = true) // orphanRemoval 연관관계가 끊어지면 자동으로 삭제
     private List<MyTripPlanDetail> myTripPlanDetailList = new ArrayList<>();
 
     @Builder

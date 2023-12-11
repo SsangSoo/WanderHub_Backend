@@ -19,7 +19,7 @@ public class AccompanyDto {
     public static class Post {
         private String local;
         @NotNull
-        private Long maxMemberNum;
+        private Long maxMemberCount;
         @JsonFormat(pattern = "yyyy-MM-dd") // 2022-10-02
         private LocalDate accompanyStartDate;
         @JsonFormat(pattern = "yyyy-MM-dd") // 2022-10-02
@@ -41,7 +41,7 @@ public class AccompanyDto {
     @NoArgsConstructor
     public static class Patch {
         private String local;
-        private Long maxMemberNum;
+        private Long maxMemberCount;
         @JsonFormat(pattern = "yyyy-MM-dd") // 2022-10-02
         private LocalDate accompanyStartDate;
         @JsonFormat(pattern = "yyyy-MM-dd") // 2022-10-02
