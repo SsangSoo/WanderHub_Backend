@@ -32,25 +32,6 @@ public class AccompanySingleResponseDTO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime modifiedAt;   //
 
-    @Override
-    public String toString() {
-        return "AccompanySingleResponseDTO{" +
-                "accompanyId=" + accompanyId +
-                ", accompanyMaker='" + accompanyMaker + '\'' +
-                ", local=" + local +
-                ", maxMemberCount=" + maxMemberCount +
-                ", accompanyStartDate=" + accompanyStartDate +
-                ", accompanyEndDate=" + accompanyEndDate +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", recruitComplete=" + recruitComplete +
-                ", coordinateX=" + coordinateX +
-                ", coordinateY=" + coordinateY +
-                ", placeName='" + placeName + '\'' +
-                ", createdAt=" + createdAt +
-                ", modifiedAt=" + modifiedAt +
-                '}';
-    }
 
     @Builder
     @QueryProjection
