@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import wanderhub.server.auth.jwt.refreshtoken.service.TokenService;
 import wanderhub.server.domain.accompany.controller.AccompanyController;
-import wanderhub.server.domain.accompany.dto.AccompanyDto;
+import wanderhub.server.domain.accompany.dto.AccompanyPostDto;
 import wanderhub.server.domain.accompany.dto.AccompanyResponseDto;
 import wanderhub.server.domain.accompany.dto.AccompanyResponseListDto;
 import wanderhub.server.domain.accompany.dto.AccompanySearchCondition;
@@ -117,7 +117,7 @@ public class AccompanyControllerTest {
         accompanyResponseDto.setMemberList(memberList);
 
         willDoNothing().given(tokenService).verificationLogOutToken(Mockito.any(HttpServletRequest.class));
-        given(accompanyMapper.accompanyPostDtoToAccompanyEntity(Mockito.any(AccompanyDto.Post.class))).willReturn(new Accompany());
+        given(accompanyMapper.accompanyPostDtoToAccompanyEntity(Mockito.any(AccompanyPostDto.Post.class))).willReturn(new Accompany());
         given(accompanyService.createAccompany(Mockito.any(Accompany.class), Mockito.anyString())).willReturn(accompanyResponseDto);
 
         // when
@@ -229,7 +229,7 @@ public class AccompanyControllerTest {
         accompanyResponseDto.setMemberList(memberList);
 
         willDoNothing().given(tokenService).verificationLogOutToken(Mockito.any(HttpServletRequest.class));
-        given(accompanyMapper.accompanyPatchDtoToAccompanyEntity(Mockito.any(AccompanyDto.Patch.class))).willReturn(new Accompany());
+        given(accompanyMapper.accompanyPatchDtoToAccompanyEntity(Mockito.any(AccompanyPostDto.Patch.class))).willReturn(new Accompany());
         given(accompanyService.updateAccompany(Mockito.any(Long.class), Mockito.anyString(), Mockito.any(Accompany.class))).willReturn(accompanyResponseDto);
 
         // when

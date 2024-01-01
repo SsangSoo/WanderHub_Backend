@@ -1,5 +1,6 @@
 package wanderhub.server.domain.accompany_member.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,14 +14,12 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-@Transactional
+@Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class AccompanyMemberService {
 
     private final AccompanyMemberRepository accompanyMemberRepository;
 
-    public AccompanyMemberService(AccompanyMemberRepository accompanyMemberRepository) {
-        this.accompanyMemberRepository = accompanyMemberRepository;
-    }
 
     public void createAccompanyMember(Accompany accompany, Member member) {
         AccompanyMember createdAccomapnyMember = AccompanyMember.builder()
@@ -30,6 +29,11 @@ public class AccompanyMemberService {
         AccompanyMember savedAccomapnyMember = accompanyMemberRepository.save(createdAccomapnyMember);
         accompany.getAccompanyMemberList().add(savedAccomapnyMember);   // Accompany의 Member에 생성
 
+    }
+
+    @Transactional
+    public void createAccompanyMemberRefactoring(Accompany accompany, Member member) {
+        AccompanyMember.createAccompanyMember(accompany, member);
     }
 
     public void removeAccompanyMemberByAccompanyId(Long accompanyId) {

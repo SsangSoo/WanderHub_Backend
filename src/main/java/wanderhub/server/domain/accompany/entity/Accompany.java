@@ -1,10 +1,8 @@
 package wanderhub.server.domain.accompany.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
-import org.springframework.beans.BeanWrapperImpl;
-import wanderhub.server.domain.accompany.dto.AccompanyDto;
+import wanderhub.server.domain.accompany.dto.AccompanyPostDto;
 import wanderhub.server.domain.accompany_member.entity.AccompanyMember;
 import wanderhub.server.global.audit.Auditable;
 import wanderhub.server.global.utils.Local;
@@ -15,10 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static lombok.AccessLevel.*;
+
 
 @Getter
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = PROTECTED)
 public class Accompany extends Auditable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,6 +65,22 @@ public class Accompany extends Auditable {
     private List<AccompanyMember> accompanyMemberList = new ArrayList<>();
 
 
+    // 생성자 Domain Model Pattern 적용
+    public static Accompany createAccompany(String accompanyMaker, AccompanyPostDto accompanyPostDto) {
+        Accompany accompany = new Accompany();
+        accompany.accompanyMaker = accompanyMaker;
+        accompany.local = Local.getLocal(accompanyPostDto.getLocal());
+        accompany.maxMemberCount = accompanyPostDto.getMaxMemberCount();
+        accompany.accompanyStartDate = accompanyPostDto.getAccompanyStartDate();
+        accompany.accompanyEndDate = accompanyPostDto.getAccompanyEndDate();
+        accompany.title = accompanyPostDto.getTitle();
+        accompany.content = accompanyPostDto.getContent();
+        accompany.coordinateX = accompanyPostDto.getCoordinateX();
+        accompany.coordinateY = accompanyPostDto.getCoordinateY();
+        accompany.placeName = accompanyPostDto.getPlaceName();
+
+        return accompany;
+    }
 
     @Builder
     public Accompany(String accompanyMaker, Local local, Long maxMemberCount, LocalDate accompanyStartDate, LocalDate accompanyEndDate, String title, String content, Double coordinateX, Double coordinateY, String placeName) {
@@ -80,7 +96,8 @@ public class Accompany extends Auditable {
         this.placeName = placeName;
     }
 
-    public void updateAccompany(AccompanyDto.Patch accpmpanyPatchDto) {
+
+    public void updateAccompany(AccompanyPostDto accpmpanyPatchDto) {
         if(Objects.nonNull(accpmpanyPatchDto.getLocal())) this.local = Local.getLocal(accpmpanyPatchDto.getLocal());
         if(Objects.nonNull(accpmpanyPatchDto.getMaxMemberCount())) this.maxMemberCount = accpmpanyPatchDto.getMaxMemberCount();
         if(Objects.nonNull(accpmpanyPatchDto.getAccompanyStartDate())) this.accompanyStartDate = accpmpanyPatchDto.getAccompanyStartDate();

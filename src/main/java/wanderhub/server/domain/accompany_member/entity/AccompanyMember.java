@@ -9,7 +9,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AccompanyMember extends Auditable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,5 +29,12 @@ public class AccompanyMember extends Auditable {
     public AccompanyMember(Accompany accompany, Member member) {
         this.accompany = accompany;
         this.member = member;
+    }
+
+    public static void createAccompanyMember(Accompany accompany, Member member) {
+        AccompanyMember accompanyMember = new AccompanyMember();
+        accompanyMember.accompany = accompany;
+        accompanyMember.member = member;                
+        accompany.getAccompanyMemberList().add(accompanyMember); // AccompanyMember 생성 + Accompany와의 연관관계 메서드
     }
 }

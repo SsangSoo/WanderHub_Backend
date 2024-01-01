@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import wanderhub.server.domain.accompany.dto.AccompanyDto;
-import wanderhub.server.domain.accompany.dto.AccompanyListResponseDto;
-import wanderhub.server.domain.accompany.dto.AccompanySearchCondition;
-import wanderhub.server.domain.accompany.dto.AccompanySingleResponseVO;
+import wanderhub.server.domain.accompany.dto.*;
 import wanderhub.server.domain.accompany.entity.Accompany;
 import wanderhub.server.domain.accompany.repository.AccompanyRepository;
 import wanderhub.server.domain.accompany.repository.AccompanySearchRepository;
@@ -18,16 +15,14 @@ import wanderhub.server.domain.member.service.MemberService;
 import wanderhub.server.global.exception.CustomLogicException;
 import wanderhub.server.global.exception.ExceptionCode;
 import wanderhub.server.global.response.PageResponseDto;
-import wanderhub.server.global.utils.CustomBeanUtils;
 import wanderhub.server.global.utils.Local;
 
 import java.text.ParseException;
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AccompanyService {
 
@@ -35,7 +30,6 @@ public class AccompanyService {
     private final AccompanyMemberService accompanyMemberService;
     private final AccompanyRepository accompanyRepository;
     private final AccompanySearchRepository accompanySearchRepository;
-
 
     // 동행 생성
     public void createAccompany(AccompanyDto.Post postAccompany, String email) {
@@ -59,19 +53,32 @@ public class AccompanyService {
         accompanyMemberService.createAccompanyMember(initAccompany, findMember);// 동행_멤버 생성
         accompanyRepository.save(initAccompany);
     }
+
+
+
+    // 동행 생성 - 리팩
+    @Transactional // 생성
+    public void createAccompanyRefactoring(AccompanyPostDto accompanyPostDto, String email) {
+        // 이메일을 통해서 사용자의 닉네임이 있는지 없는지 확인한다. // 즉, 사용자 검증을 해준다.
+        Member findMember = memberService.findMember(email);        // 회원찾기 // 회원 있는지 확인 & 회원 닉네임 & 회원 활동중 => JPQL로
+        memberService.verificationMember(findMember);               // 통과시 회원 검증 완료
+        Accompany createdAccompaney = Accompany.createAccompany(findMember.getNickname(), accompanyPostDto);
+        accompanyMemberService.createAccompanyMemberRefactoring(createdAccompaney, findMember);// 동행_멤버 생성
+        accompanyRepository.save(createdAccompaney);
+    }
     
     // 동행 수정
-    public AccompanySingleResponseVO updateAccompany(Long accompanyId, String email, AccompanyDto.Patch patchDto) {
+    public AccompanySingleResponseVO updateAccompany(Long accompanyId, String email, AccompanyPostDto accompanyPostDto) {
         // 이메일을 통해서 사용자의 닉네임이 있는지 없는지 확인한다. // 즉, 사용자 검증을 해준다.
         Member findMember = memberService.findMember(email);
         memberService.verificationMember(findMember);       // 통과시 회원 검증 완료
         // 동행이 있는지 확인,
-        Accompany findAccompany = verificationAccompanyExists(accompanyId);// 수정될 Accompany
+        Accompany findAccompany = verificationAccompanyExists(accompanyId); // 수정될 Accompany
         log.info("동행 존재 여부 확인");
         // 작성자도 같은 사람인지 확인
-        verificationWriter(findAccompany, findMember.getNickname());           // 닉네임 확인
+        verificationWriter(findAccompany, findMember.getNickname());        // 닉네임 확인
         log.info("작성자와 같은 회원인지 확인");
-        findAccompany.updateAccompany(patchDto);
+        findAccompany.updateAccompany(accompanyPostDto);
 
         return accompanySearchRepository.getAccompany(findAccompany.getAccompanyId());
     }

@@ -1,6 +1,7 @@
 package wanderhub.server.domain.member.controller;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,21 +18,16 @@ import wanderhub.server.global.response.SingleResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
-@RestController
-@RequestMapping("/v1/members")
+
 @Slf4j
+@RestController
+@RequestMapping("/api/members")
+@RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
     private final MemberMapper memberMapper;
     private final TokenService tokenService;
-
-    public MemberController(MemberService memberService, MemberMapper memberMapper, TokenService tokenService) {
-        this.memberService = memberService;
-        this.memberMapper = memberMapper;
-        this.tokenService = tokenService;
-    }
-
 
 
     // 회원 정보 수정

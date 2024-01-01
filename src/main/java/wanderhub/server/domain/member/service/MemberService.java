@@ -146,7 +146,7 @@ public class MemberService {
         if (memberWithUpdateData.getNickname() == null) {
             throw new CustomLogicException(ExceptionCode.NICKNAME_REQUIRED);
         } else {        // 닉네임이 있는데, 중복이 발생하면 이미 있다고 예외발생시켜야함.
-            Optional<Member> nickNameDuplicatedMember = memberRepository.findByNickName(memberWithUpdateData.getNickname());  // 닉네임을 가진 회원
+            Optional<Member> nickNameDuplicatedMember = memberRepository.findByNickname(memberWithUpdateData.getNickname());  // 닉네임을 가진 회원
             if (nickNameDuplicatedMember.isPresent()) {
                 throw new CustomLogicException(ExceptionCode.NICKNAME_DUPLICATED);  // 값이 있으면 이미 닉네임은 사용되는 사람이므로 예외발생시켜야함.
             }
